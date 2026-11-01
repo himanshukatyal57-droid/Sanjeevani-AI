@@ -1,0 +1,773 @@
+
+/* ==============================
+   1. GLOBAL STYLES
+================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --navy: #102a43;
+    --navy-dark: #091d32;
+    --teal: #16b8a6;
+    --teal-light: #e4f8f5;
+    --white: #ffffff;
+    --background: #f6fafb;
+    --text: #243b53;
+    --muted: #627d98;
+    --border: #e4edf0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text);
+    background: var(--background);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+/* ==============================
+   2. NAVIGATION
+================================ */
+
+.navbar {
+    height: 82px;
+    padding: 0 8%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--navy);
+}
+
+.logo-icon {
+    display: grid;
+    place-items: center;
+    width: 35px;
+    height: 35px;
+    color: white;
+    background: var(--teal);
+    border-radius: 10px;
+    font-size: 24px;
+}
+
+.logo-highlight {
+    color: var(--teal);
+}
+
+.nav-links {
+    display: flex;
+    gap: 35px;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: var(--teal);
+}
+
+.nav-button {
+    padding: 11px 20px;
+    background: var(--navy);
+    color: white;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: 0.25s;
+}
+
+.nav-button:hover {
+    background: var(--teal);
+}
+
+/* ==============================
+   3. HERO SECTION
+================================ */
+
+.hero {
+    min-height: 620px;
+    padding: 85px 10%;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    align-items: center;
+    gap: 60px;
+    background:
+        radial-gradient(circle at 85% 40%, #d9f5f1 0%, transparent 35%),
+        linear-gradient(120deg, #ffffff, #f0f9fa);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--teal);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+}
+
+.hero h1 {
+    margin-top: 22px;
+    max-width: 650px;
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(40px, 5vw, 62px);
+    line-height: 1.15;
+    letter-spacing: -2px;
+    color: var(--navy);
+}
+
+.hero h1 span {
+    color: var(--teal);
+}
+
+.hero-description {
+    margin-top: 22px;
+    max-width: 510px;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.9;
+}
+
+.hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 32px;
+}
+
+.primary-button,
+.secondary-button {
+    display: inline-block;
+    padding: 14px 22px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    transition: 0.25s;
+}
+
+.primary-button {
+    background: var(--teal);
+    color: white;
+}
+
+.primary-button:hover:not(:disabled) {
+    background: #0e9c8d;
+    transform: translateY(-2px);
+}
+
+.primary-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.secondary-button {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--navy);
+}
+
+.secondary-button:hover {
+    border-color: var(--teal);
+}
+
+.hero-note {
+    margin-top: 35px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.hero-note span {
+    color: var(--teal);
+}
+
+/* ==============================
+   4. HERO VISUAL CARD
+================================ */
+
+.hero-visual {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 400px;
+}
+
+.visual-glow {
+    position: absolute;
+    width: 330px;
+    height: 330px;
+    background: #c6eee8;
+    border-radius: 50%;
+    filter: blur(30px);
+}
+
+.medical-card {
+    position: relative;
+    z-index: 1;
+    width: 340px;
+    padding: 27px;
+    background: white;
+    border: 1px solid #e7f1f1;
+    border-radius: 18px;
+    box-shadow: 0 25px 65px rgba(16, 42, 67, 0.12);
+}
+
+.medical-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.card-label {
+    color: var(--navy);
+}
+
+.live-indicator {
+    color: var(--teal);
+    font-size: 8px;
+}
+
+.medical-symbol {
+    display: grid;
+    place-items: center;
+    width: 75px;
+    height: 75px;
+    margin: 35px auto 20px;
+    border-radius: 22px;
+    background: var(--teal-light);
+    color: var(--teal);
+    font-size: 50px;
+}
+
+.medical-card h2 {
+    text-align: center;
+    font-family: 'Manrope', sans-serif;
+    color: var(--navy);
+    font-size: 23px;
+}
+
+.medical-card > p {
+    margin-top: 7px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.card-divider {
+    height: 1px;
+    margin: 25px 0 17px;
+    background: var(--border);
+}
+
+.system-status {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 13px;
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.status-active {
+    color: var(--teal);
+    font-weight: 700;
+}
+
+.floating-tag {
+    position: absolute;
+    z-index: 2;
+    padding: 12px 17px;
+    background: white;
+    border-radius: 9px;
+    box-shadow: 0 10px 30px rgba(16, 42, 67, 0.1);
+    color: var(--navy);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.tag-one {
+    top: 60px;
+    right: -10px;
+}
+
+.tag-two {
+    bottom: 55px;
+    left: -15px;
+}
+
+/* ==============================
+   5. COMMON SECTIONS
+================================ */
+
+.section {
+    padding: 95px 10%;
+}
+
+.section-heading {
+    max-width: 650px;
+    margin: 0 auto 50px;
+    text-align: center;
+}
+
+.section-heading h2,
+.checker-cta h2 {
+    margin-top: 13px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 34px;
+    line-height: 1.3;
+    color: var(--navy);
+}
+
+.section-heading > p,
+.checker-cta > p {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+/* ==============================
+   6. FEATURE CARDS
+================================ */
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.feature-card {
+    padding: 28px 23px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    transition: 0.25s;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--teal);
+    box-shadow: 0 15px 35px rgba(16, 42, 67, 0.07);
+}
+
+.feature-icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 23px;
+    background: var(--teal-light);
+    border-radius: 12px;
+    color: var(--teal);
+    font-size: 25px;
+}
+
+.feature-card h3 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 16px;
+    color: var(--navy);
+}
+
+.feature-card p {
+    margin-top: 11px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+/* ==============================
+   7. HOW IT WORKS
+================================ */
+
+.how-section {
+    background: white;
+}
+
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.process-step {
+    padding: 25px 20px;
+    border-left: 2px solid var(--teal);
+    background: var(--background);
+}
+
+.process-step > span {
+    color: var(--teal);
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.process-step h3 {
+    margin-top: 13px;
+    color: var(--navy);
+    font-family: 'Manrope', sans-serif;
+}
+
+.process-step p {
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* ==============================
+   8. CALL TO ACTION
+================================ */
+
+.checker-cta {
+    margin: 80px 10%;
+    padding: 65px 25px;
+    border-radius: 18px;
+    background: var(--navy);
+    text-align: center;
+}
+
+.checker-cta h2 {
+    color: white;
+}
+
+.checker-cta > p {
+    margin-bottom: 25px;
+    color: #b8c9d6;
+}
+
+/* ==============================
+   9. FOOTER
+================================ */
+
+.footer {
+    padding: 40px 10%;
+    background: var(--navy-dark);
+    color: #b8c9d6;
+    text-align: center;
+}
+
+.footer .logo {
+    justify-content: center;
+    color: white;
+}
+
+.footer > p {
+    margin-top: 13px;
+    font-size: 12px;
+}
+
+.footer .disclaimer {
+    max-width: 650px;
+    margin: 20px auto;
+    line-height: 1.8;
+    color: #91a9bb;
+}
+
+.copyright {
+    padding-top: 18px;
+    border-top: 1px solid #294156;
+}
+
+/* ==============================
+   10. RESPONSIVE DESIGN
+================================ */
+
+@media (max-width: 1000px) {
+    .hero {
+        padding: 70px 6%;
+        gap: 25px;
+    }
+
+    .feature-grid,
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .tag-one {
+        right: 0;
+    }
+
+    .tag-two {
+        left: 0;
+    }
+}
+
+@media (max-width: 700px) {
+    .navbar {
+        height: auto;
+        min-height: 75px;
+        padding: 15px 5%;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        gap: 22px;
+        font-size: 12px;
+    }
+
+    .nav-button {
+        padding: 9px 13px;
+        font-size: 12px;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        padding: 65px 7%;
+        text-align: center;
+    }
+
+    .hero-description {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-actions {
+        justify-content: center;
+    }
+
+    .hero-visual {
+        min-height: 370px;
+    }
+
+    .medical-card {
+        width: min(340px, 90%);
+    }
+
+    .floating-tag {
+        font-size: 10px;
+    }
+
+    .section {
+        padding: 70px 7%;
+    }
+
+    .section-heading h2,
+    .checker-cta h2 {
+        font-size: 27px;
+    }
+
+    .feature-grid,
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .checker-cta {
+        margin: 50px 5%;
+        padding: 50px 20px;
+    }
+
+    .footer {
+        padding: 35px 7%;
+    }
+}
+
+/* Navigation scroll enhancement */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    transition: box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    box-shadow: 0 5px 20px rgba(16, 42, 67, 0.08);
+}
+
+/* ==============================
+   SYMPTOM CHECKER
+================================ */
+
+.symptom-section {
+    padding: 90px 10%;
+    background: #f0f8f8;
+}
+
+.symptom-container {
+    max-width: 700px;
+    margin: auto;
+    padding: 38px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(16, 42, 67, 0.06);
+}
+
+.form-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.form-label {
+    color: var(--teal);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.form-header h3 {
+    margin-top: 8px;
+    color: var(--navy);
+    font-family: 'Manrope', sans-serif;
+    font-size: 23px;
+}
+
+.form-icon {
+    display: grid;
+    place-items: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: var(--teal-light);
+    color: var(--teal);
+    font-size: 27px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #dce7ec;
+    border-radius: 8px;
+    outline: none;
+    background: #fbfdfe;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(22, 184, 166, 0.1);
+}
+
+.input-hint {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.emergency-notice {
+    display: flex;
+    gap: 13px;
+    padding: 17px;
+    margin: 25px 0;
+    background: #fff8ed;
+    border: 1px solid #f4dfbd;
+    border-radius: 9px;
+    color: #9a5b13;
+}
+
+.emergency-notice > span {
+    font-size: 22px;
+}
+
+.emergency-notice strong {
+    font-size: 13px;
+}
+
+.emergency-notice p {
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+.submit-button {
+    width: 100%;
+}
+
+.privacy-note {
+    margin-top: 15px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.result-container {
+    margin-top: 25px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--background);
+}
+
+.result-container h3 {
+    color: var(--navy);
+}
+
+.result-container p {
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+@media (max-width: 700px) {
+    .symptom-section {
+        padding: 65px 7%;
+    }
+
+    .symptom-container {
+        padding: 23px;
+    }
+}

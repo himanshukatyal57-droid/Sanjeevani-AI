@@ -1,0 +1,211 @@
+
+/* ===================================
+   SANJEEVANI AI - RESULTS DASHBOARD
+=================================== */
+
+.results-section {
+    padding: 80px 8%;
+    background: #f4f8fb;
+}
+
+.results-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.results-header h2 {
+    color: #102a43;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.results-header p {
+    color: #627d98;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+}
+
+.result-card {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 14px;
+    border: 1px solid #dce6ed;
+    box-shadow: 0 4px 14px rgba(16, 42, 67, 0.05);
+}
+
+.result-card h3 {
+    color: #102a43;
+    margin-bottom: 14px;
+}
+
+.result-card p {
+    color: #486581;
+    line-height: 1.6;
+}
+
+.result-status {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 20px;
+    background: #e8f1f8;
+    color: #334e68;
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+}
+
+.emergency-notice {
+    background: #fff1f0;
+    border: 1px solid #f5b7b1;
+    border-left: 5px solid #d64545;
+    padding: 18px;
+    border-radius: 10px;
+    margin-bottom: 24px;
+}
+
+.emergency-notice h3 {
+    color: #b42318;
+    margin-bottom: 8px;
+}
+
+.emergency-notice p {
+    color: #7a271a;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .results-section {
+        padding: 60px 5%;
+    }
+}
+
+/* ===================================
+   INTERACTIVE SYMPTOM SUGGESTIONS
+=================================== */
+
+.symptom-helper {
+    margin-top: 18px;
+    padding: 18px;
+    background: #f4f8fb;
+    border: 1px solid #dce6ed;
+    border-radius: 12px;
+}
+
+.helper-heading {
+    color: #102a43;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.helper-description {
+    color: #627d98;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+
+.symptom-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 14px 0;
+}
+
+.symptom-chip {
+    padding: 9px 15px;
+    border: 1px solid #b8cbd9;
+    border-radius: 25px;
+    background: #ffffff;
+    color: #334e68;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.symptom-chip:hover {
+    background: #e6f4f1;
+    border-color: #159b85;
+    color: #087f6b;
+    transform: translateY(-2px);
+}
+
+.symptom-chip.selected {
+    background: #d8f3ed;
+    border-color: #159b85;
+    color: #087f6b;
+    font-weight: 600;
+}
+
+.symptom-chip:focus-visible {
+    outline: 3px solid #159b85;
+    outline-offset: 3px;
+}
+
+/* ===================================
+   RELATED KEYWORD SUGGESTIONS
+=================================== */
+
+.related-suggestions {
+    margin-top: 18px;
+    padding-top: 15px;
+    border-top: 1px solid #dce6ed;
+}
+
+.related-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.related-chip {
+    padding: 9px 14px;
+    border: 1px solid #b8d9d1;
+    border-radius: 25px;
+    background: #ffffff;
+    color: #087f6b;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.related-chip:hover {
+    background: #e6f4f1;
+    border-color: #159b85;
+    transform: translateY(-2px);
+}
+
+.related-chip.selected {
+    background: #d8f3ed;
+    border-color: #159b85;
+    color: #075e50;
+    font-weight: 600;
+}
+
+.related-chip:focus-visible {
+    outline: 3px solid #159b85;
+    outline-offset: 3px;
+}
+
+/* Smooth appearance */
+.related-suggestions:not([hidden]) {
+    animation: suggestionFade 0.25s ease;
+}
+
+@keyframes suggestionFade {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

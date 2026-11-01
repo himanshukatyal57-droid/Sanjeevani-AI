@@ -1,0 +1,373 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sanjeevani AI - An academic healthcare decision-support prototype.">
+    <title>Sanjeevani AI | Smarter Health Assistance</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/results.css">
+
+</head>
+<body>
+
+    <header class="navbar">
+        <a href="#" class="logo">
+            <span class="logo-icon">✚</span>
+            <span>Sanjeevani<span class="logo-highlight">AI</span></span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How it works</a>
+        </nav>
+
+        <a href="#checker" class="nav-button">Get Started ↗</a>
+    </header>
+
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    AI-POWERED HEALTHCARE PROJECT
+                </div>
+
+                <h1>
+                    Your health deserves
+                    <span>smarter attention.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Explore an intelligent healthcare decision-support
+                    system that combines AI, rule-based reasoning and
+                    smart hospital routing.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="#checker" class="primary-button">
+                        Explore Symptom Checker →
+                    </a>
+                    <a href="#how-it-works" class="secondary-button">
+                        Discover how it works
+                    </a>
+                </div>
+
+                <div class="hero-note">
+                    <span>✦</span>
+                    Built with AI, machine learning and intelligent algorithms
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="visual-glow"></div>
+
+                <div class="medical-card">
+                    <div class="medical-card-top">
+                        <span class="card-label">SANJEEVANI AI</span>
+                        <span class="live-indicator">● SYSTEM ONLINE</span>
+                    </div>
+
+                    <div class="medical-symbol">✚</div>
+
+                    <h2>Intelligent Care</h2>
+                    <p>Connecting symptoms, insights and healthcare access.</p>
+
+                    <div class="card-divider"></div>
+
+                    <div class="system-status">
+                        <span>Decision Support</span>
+                        <span class="status-active">Ready</span>
+                    </div>
+
+                    <div class="system-status">
+                        <span>AI Analysis</span>
+                        <span class="status-active">Ready</span>
+                    </div>
+
+                    <div class="system-status">
+                        <span>Hospital Routing</span>
+                        <span class="status-active">Ready</span>
+                    </div>
+                </div>
+
+                <div class="floating-tag tag-one">✦ AI Insights</div>
+                <div class="floating-tag tag-two">⌖ Smart Routing</div>
+            </div>
+        </section>
+
+        <section class="features section" id="features">
+            <div class="section-heading">
+                <span class="eyebrow">WHAT WE OFFER</span>
+                <h2>One platform. Multiple intelligent systems.</h2>
+                <p>Explore the core capabilities of Sanjeevani AI.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <div class="feature-icon">⌕</div>
+                    <h3>Symptom Analysis</h3>
+                    <p>Convert user-described symptoms into structured information using NLP.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">⚕</div>
+                    <h3>Emergency Triage</h3>
+                    <p>Apply predefined safety rules to identify cases requiring urgent attention.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">✧</div>
+                    <h3>AI Prediction</h3>
+                    <p>Explore possible conditions through a machine-learning demonstration.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">⌖</div>
+                    <h3>Hospital Routing</h3>
+                    <p>Explore graph-based routing to identify a suitable hospital destination.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="how-section section" id="how-it-works">
+            <div class="section-heading">
+                <span class="eyebrow">THE PROCESS</span>
+                <h2>How Sanjeevani AI works</h2>
+                <p>A connected pipeline combining multiple technologies.</p>
+            </div>
+
+            <div class="process-grid">
+                <div class="process-step">
+                    <span>01</span>
+                    <h3>Describe</h3>
+                    <p>Enter symptoms in plain English.</p>
+                </div>
+                <div class="process-step">
+                    <span>02</span>
+                    <h3>Analyze</h3>
+                    <p>Extract relevant symptoms using NLP.</p>
+                </div>
+                <div class="process-step">
+                    <span>03</span>
+                    <h3>Evaluate</h3>
+                    <p>Apply emergency rules before any prediction.</p>
+                </div>
+                <div class="process-step">
+                    <span>04</span>
+                    <h3>Navigate</h3>
+                    <p>Explore hospital routing recommendations.</p>
+                </div>
+            </div>
+        </section>
+
+        
+<section class="symptom-section" id="checker">
+    <div class="section-heading">
+        <span class="eyebrow">AI-POWERED SYMPTOM CHECKER</span>
+        <h2>Tell us how you're feeling.</h2>
+        <p>Describe your symptoms to explore our healthcare decision-support demonstration.</p>
+    </div>
+
+    <div class="symptom-container">
+        <form id="symptomForm">
+
+            <div class="form-header">
+                <div>
+                    <span class="form-label">STEP 01 / SYMPTOM DETAILS</span>
+                    <h3>Describe your symptoms</h3>
+                </div>
+                <span class="form-icon">✚</span>
+            </div>
+
+            <div class="form-group">
+                <label for="symptoms">What symptoms are you experiencing?</label>
+                <textarea
+                    id="symptoms"
+                    name="symptoms"
+                    placeholder="Example: I have been experiencing a headache and mild fever since yesterday..."
+                    rows="5"
+                    required
+                    minlength="5"
+                    maxlength="1000"
+                ></textarea>
+                
+                <div class="symptom-helper">
+
+                 <p class="helper-heading">Not sure how to describe it?</p>
+                 <p class="helper-description">
+                     Select any symptoms that you are experiencing.
+                 </p>
+
+                    <div class="symptom-chips" id="symptomChips">
+
+                        <button type="button" class="symptom-chip" data-symptom="Fever">
+                           + Fever
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Headache">
+                           + Headache
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Cough">
+                          + Cough
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Fatigue">
+                          + Fatigue
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Body pain">
+                         + Body pain
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Nausea">
+                          + Nausea
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Dizziness">
+                          + Dizziness
+                        </button>
+
+                        <button type="button" class="symptom-chip" data-symptom="Sore throat">
+                         + Sore throat
+                        </button>
+
+                    </div>
+                    
+                    <div class="related-suggestions" id="relatedSuggestions" hidden>
+
+                      <p class="helper-heading">Related suggestions</p>
+
+                      <div class="related-chips" id="relatedChips">
+                        
+                      </div>
+
+                    </div>
+
+
+                    <p class="helper-description">
+                      You can also type your symptoms in your own words.
+                    </p>
+
+                </div>
+
+                <div class="input-hint">Describe your symptoms in plain English (5–1000 characters).</div>
+            </div>
+
+            <div class="form-group">
+                <label for="duration">How long have you been experiencing them?</label>
+                <select id="duration" name="duration" required>
+                    <option value="">Select duration</option>
+                    <option value="Less than 24 hours">Less than 24 hours</option>
+                    <option value="1–3 days">1–3 days</option>
+                    <option value="4–7 days">4–7 days</option>
+                    <option value="More than a week">More than a week</option>
+                </select>
+            </div>
+
+            <div class="emergency-notice">
+                <span>⚠</span>
+                <div>
+                    <strong>Important safety notice</strong>
+                    <p>If you are experiencing severe breathing difficulty, chest pain, loss of consciousness, or another medical emergency, contact emergency services immediately. Do not wait for this tool.</p>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-button submit-button">
+                Analyze Symptoms →
+            </button>
+
+            <p class="privacy-note">
+                Academic demonstration only. Do not enter real personal or medical information.
+            </p>
+
+        </form>
+
+        <div id="resultContainer" class="result-container" hidden>
+            <h3>Analysis Result</h3>
+            <p id="resultMessage"></p>
+        </div>
+    </div>
+</section>
+
+<!-- ===================================
+     RESULTS DASHBOARD
+=================================== -->
+
+<section class="results-section" id="results" hidden>
+
+    <div class="results-header">
+        <h2>Your Analysis Dashboard</h2>
+        <p>Overview of the system's processing results.</p>
+    </div>
+
+    <div class="emergency-notice" id="emergencyNotice" hidden>
+        <h3>Emergency Warning</h3>
+        <p id="emergencyMessage"></p>
+    </div>
+
+    <div class="results-grid">
+
+        <!-- NLP Results -->
+        <div class="result-card">
+            <span class="result-status">Demo / Not Connected</span>
+            <h3>1. Symptom Extraction (Python NLP)</h3>
+            <p id="nlpResult">
+                Extracted symptoms will appear here.
+            </p>
+        </div>
+
+        <!-- Java Triage Results -->
+        <div class="result-card">
+            <span class="result-status">Demo / Not Connected</span>
+            <h3>2. Emergency Triage (Java)</h3>
+            <p id="triageResult">
+                Emergency assessment will appear here.
+            </p>
+        </div>
+
+        <!-- Decision Tree Results -->
+        <div class="result-card">
+            <span class="result-status">Demo / Not Connected</span>
+            <h3>3. Disease Prediction (Python)</h3>
+            <p id="predictionResult">
+                Prediction results will appear here.
+            </p>
+        </div>
+
+        <!-- A* Routing Results -->
+        <div class="result-card">
+            <span class="result-status">Demo / Not Connected</span>
+            <h3>4. Hospital Route (Java A*)</h3>
+            <p id="routeResult">
+                Recommended hospital and route will appear here.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+    </main>
+
+    <footer class="footer">
+        <a href="#" class="logo">
+            <span class="logo-icon">✚</span>
+            <span>Sanjeevani<span class="logo-highlight">AI</span></span>
+        </a>
+        <p>Academic project · Built for learning and demonstration</p>
+        <p class="disclaimer">
+            This prototype is not a medical device and does not provide
+            medical diagnoses. Never delay emergency care based on its output.
+        </p>
+        <p class="copyright">© 2026 Sanjeevani AI</p>
+    </footer>
+
+    <script src="js/index.js"></script>
+</body>
+</html>
+
