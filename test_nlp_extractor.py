@@ -1,5 +1,5 @@
 """Run with: python -m unittest -v"""
-import csv
+import json
 import re
 import unittest
 from pathlib import Path
@@ -11,12 +11,12 @@ from nlp_extractor import (
 )
 
 ROOT = Path(__file__).parent
-DATA_PATH = ROOT / "data" / "cleaned_disease_symptom.csv"
+METADATA_PATH = ROOT / "models" / "sanjeevani_model_metadata.json"
 
 
 def load_features():
-    with open(DATA_PATH, encoding="utf-8") as f:
-        return next(csv.reader(f))[1:]
+    with open(METADATA_PATH, encoding="utf-8") as f:
+        return json.load(f)["feature_names"]
 
 
 class ExtractorTestCase(unittest.TestCase):

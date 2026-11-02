@@ -5,9 +5,9 @@ node_modules/
 data/*.csv
 sanjeevani_cleaned_dataset.csv
 
-# Trained models are regenerated with train_model.py
+# The demo model is committed so teammates don't need the dataset to run the project
 *.pkl
-models/sanjeevani_model_metadata.json
+!models/sanjeevani_model.pkl
 
 # Python
 __pycache__/

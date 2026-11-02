@@ -1,7 +1,10 @@
-pandas>=2.0.0
-numpy>=1.24.0
-scikit-learn>=1.2.0
-joblib>=1.2.0
+# Pinned to the versions models/sanjeevani_model.pkl was trained with.
+# A saved scikit-learn model may fail or misbehave on other versions.
+scikit-learn==1.7.1
+numpy==2.1.3
+pandas==2.3.0
+joblib==1.5.1
+
 fastapi>=0.95.0
 uvicorn>=0.21.0
 nltk>=3.8.1

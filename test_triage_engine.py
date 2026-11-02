@@ -1,4 +1,4 @@
-import csv
+import json
 import time
 import unittest
 from pathlib import Path
@@ -17,12 +17,12 @@ from triage_engine import (
     triage,
 )
 
-DATA_PATH = Path(__file__).parent / "data" / "cleaned_disease_symptom.csv"
+METADATA_PATH = Path(__file__).parent / "models" / "sanjeevani_model_metadata.json"
 
 
 def load_features():
-    with open(DATA_PATH, encoding="utf-8") as f:
-        return next(csv.reader(f))[1:]
+    with open(METADATA_PATH, encoding="utf-8") as f:
+        return json.load(f)["feature_names"]
 
 
 class TestRuleBase(unittest.TestCase):

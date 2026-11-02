@@ -110,25 +110,37 @@
                 <article class="feature-card">
                     <div class="feature-icon">⌕</div>
                     <h3>Symptom Analysis</h3>
-                    <p>Convert user-described symptoms into structured information using NLP.</p>
+                    <p>Describe how you feel in plain English. NLP finds the symptoms, and understands what you say you don't have.</p>
                 </article>
 
                 <article class="feature-card">
                     <div class="feature-icon">⚕</div>
                     <h3>Emergency Triage</h3>
-                    <p>Apply predefined safety rules to identify cases requiring urgent attention.</p>
+                    <p>Forward chaining IF-THEN rules check for emergencies first, in under a second, and skip the machine learning when they find one.</p>
                 </article>
 
                 <article class="feature-card">
                     <div class="feature-icon">✧</div>
-                    <h3>AI Prediction</h3>
-                    <p>Explore possible conditions through a machine-learning demonstration.</p>
+                    <h3>Disease Prediction</h3>
+                    <p>A Decision Tree suggests possible conditions for non-emergency cases, with a confidence score for each.</p>
                 </article>
 
                 <article class="feature-card">
                     <div class="feature-icon">⌖</div>
                     <h3>Hospital Routing</h3>
-                    <p>Explore graph-based routing to identify a suitable hospital destination.</p>
+                    <p>A* search, built from scratch on a Delhi NCR graph, finds the fastest hospital offering the care you need.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">⑂</div>
+                    <h3>Explainable Decisions</h3>
+                    <p>See the exact symptom checks behind a prediction, instead of a black-box answer.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">⚙</div>
+                    <h3>Academic Debug Mode</h3>
+                    <p>One toggle reveals the rules firing, the Decision Tree path and every A* search step.</p>
                 </article>
             </div>
         </section>
@@ -154,12 +166,22 @@
                 <div class="process-step">
                     <span>03</span>
                     <h3>Evaluate</h3>
-                    <p>Apply emergency rules before any prediction.</p>
+                    <p>Forward chaining rules check for emergencies before any prediction.</p>
                 </div>
                 <div class="process-step">
                     <span>04</span>
+                    <h3>Predict</h3>
+                    <p>If it isn't an emergency, a Decision Tree suggests possible conditions.</p>
+                </div>
+                <div class="process-step">
+                    <span>05</span>
                     <h3>Navigate</h3>
-                    <p>Explore hospital routing recommendations.</p>
+                    <p>A* search finds the fastest hospital offering the care you need.</p>
+                </div>
+                <div class="process-step">
+                    <span>06</span>
+                    <h3>Review</h3>
+                    <p>The dashboard brings the urgency, prediction and route map together.</p>
                 </div>
             </div>
         </section>
@@ -177,7 +199,7 @@
 
             <div class="form-header">
                 <div>
-                    <span class="form-label">STEP 01 / SYMPTOM DETAILS</span>
+                    <span class="form-label">SYMPTOM DETAILS</span>
                     <h3>Describe your symptoms</h3>
                 </div>
                 <span class="form-icon">✚</span>
