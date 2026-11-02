@@ -1,6 +1,6 @@
 {
   "model_version": "0.1.0-prototype",
-  "trained_at_utc": "2026-11-02T02:14:11+00:00",
+  "trained_at_utc": "2026-11-02T14:15:56+00:00",
   "status": "development prototype - not clinically validated",
   "disclaimer": "Development prototype. Output is a ranked list of candidate condition categories for intake support only - NOT a diagnosis, NOT a treatment or medication recommendation, and NOT a measure of clinical urgency. Scores are uncalibrated. A human clinician must review all cases; emergency recognition must be handled by a separate, clinically validated mechanism.",
   "target_column": "diseases",
@@ -1228,12 +1228,12 @@
       "min_samples_leaf": 2
     },
     "best_validation_metrics": {
-      "accuracy": 0.7779437076035234,
-      "balanced_accuracy": 0.7728446685193389,
-      "macro_precision": 0.8036001818658414,
-      "macro_recall": 0.7728446685193389,
-      "macro_f1": 0.7804935762507428,
-      "weighted_f1": 0.7777032409515504
+      "accuracy": 0.7721474131821403,
+      "balanced_accuracy": 0.7648157928849425,
+      "macro_precision": 0.8000718934365193,
+      "macro_recall": 0.7648157928849425,
+      "macro_f1": 0.7749731692768783,
+      "weighted_f1": 0.7721016717107198
     },
     "leaderboard": [
       {
@@ -1241,45 +1241,45 @@
         "params": {
           "min_samples_leaf": 2
         },
-        "fit_seconds": 41.34,
-        "selection_score": 0.7077887894107358,
-        "few_symptom_macro_f1": 0.6350840025707288,
-        "accuracy": 0.7779437076035234,
-        "balanced_accuracy": 0.7728446685193389,
-        "macro_precision": 0.8036001818658414,
-        "macro_recall": 0.7728446685193389,
-        "macro_f1": 0.7804935762507428,
-        "weighted_f1": 0.7777032409515504
+        "fit_seconds": 179.73,
+        "selection_score": 0.6999148037273905,
+        "few_symptom_macro_f1": 0.6248564381779026,
+        "accuracy": 0.7721474131821403,
+        "balanced_accuracy": 0.7648157928849425,
+        "macro_precision": 0.8000718934365193,
+        "macro_recall": 0.7648157928849425,
+        "macro_f1": 0.7749731692768783,
+        "weighted_f1": 0.7721016717107198
       },
       {
         "model": "decision_tree",
         "params": {
           "min_samples_leaf": 3
         },
-        "fit_seconds": 38.34,
-        "selection_score": 0.6946156505824245,
-        "few_symptom_macro_f1": 0.6215597411313716,
-        "accuracy": 0.7620228814417334,
-        "balanced_accuracy": 0.7603471213767583,
-        "macro_precision": 0.7916152797938174,
-        "macro_recall": 0.7603471213767583,
-        "macro_f1": 0.7676715600334774,
-        "weighted_f1": 0.762099715564429
+        "fit_seconds": 82.69,
+        "selection_score": 0.6822145567307016,
+        "few_symptom_macro_f1": 0.6050930544717236,
+        "accuracy": 0.7544547939657791,
+        "balanced_accuracy": 0.7488054993818942,
+        "macro_precision": 0.7868967550866756,
+        "macro_recall": 0.7488054993818942,
+        "macro_f1": 0.7593360589896796,
+        "weighted_f1": 0.7544171868033254
       },
       {
         "model": "decision_tree",
         "params": {
           "min_samples_leaf": 5
         },
-        "fit_seconds": 37.56,
-        "selection_score": 0.6594254687061305,
-        "few_symptom_macro_f1": 0.5858052884365222,
-        "accuracy": 0.7300040498126962,
-        "balanced_accuracy": 0.7245079457896186,
-        "macro_precision": 0.7619650720310704,
-        "macro_recall": 0.7245079457896186,
-        "macro_f1": 0.7330456489757388,
-        "weighted_f1": 0.7296995996897012
+        "fit_seconds": 82.41,
+        "selection_score": 0.6441382351273928,
+        "few_symptom_macro_f1": 0.5647846573227927,
+        "accuracy": 0.7205123013060646,
+        "balanced_accuracy": 0.7104183649079481,
+        "macro_precision": 0.7570570471813058,
+        "macro_recall": 0.7104183649079481,
+        "macro_f1": 0.7234918129319929,
+        "weighted_f1": 0.7203232873260722
       }
     ],
     "validation_split": {
@@ -1312,7 +1312,7 @@
       "n_train": 158051,
       "n_test": 39508
     },
-    "final_fit_seconds": 54.31,
+    "final_fit_seconds": 154.94,
     "tuning_rows_cap": null
   },
   "data_validation": {
@@ -1401,36 +1401,42 @@
   },
   "evaluation": {
     "test_metrics": {
-      "accuracy": 0.7928765237111732,
-      "balanced_accuracy": 0.7833339403091495,
-      "macro_precision": 0.8075681254160157,
-      "macro_recall": 0.7833339403091495,
-      "macro_f1": 0.7873924863570111,
-      "weighted_f1": 0.7921034511632093
+      "accuracy": 0.7894342526222006,
+      "balanced_accuracy": 0.7748781358273812,
+      "macro_precision": 0.8063126001397796,
+      "macro_recall": 0.7748781358273812,
+      "macro_f1": 0.7819673727864503,
+      "weighted_f1": 0.7889362735011101
     },
     "top_k": {
-      "top_1_accuracy": 0.7919653343052687,
-      "top_3_accuracy": 0.9101769732312801,
-      "top_5_accuracy": 0.9329162110719638
+      "top_1_accuracy": 0.7892520147410197,
+      "top_3_accuracy": 0.9068561940630948,
+      "top_5_accuracy": 0.9292309561414166
     },
     "few_symptoms": {
       "4_symptoms": {
-        "top_1_accuracy": 0.7115579313975621,
-        "top_3_accuracy": 0.8970760944397198,
-        "top_5_accuracy": 0.9440529704774633,
-        "mean_top_score": 0.772984575506026
+        "top_1_accuracy": 0.6963916899526181,
+        "top_3_accuracy": 0.8869517677074474,
+        "top_5_accuracy": 0.9347588385372373,
+        "mean_top_score": 0.7662930861227477
       },
       "3_symptoms": {
-        "top_1_accuracy": 0.5933462924715507,
-        "top_3_accuracy": 0.8307617543433362,
-        "top_5_accuracy": 0.9067347021423076,
-        "mean_top_score": 0.6499972934507208
+        "top_1_accuracy": 0.587858907382659,
+        "top_3_accuracy": 0.8262058073138137,
+        "top_5_accuracy": 0.903555663548374,
+        "mean_top_score": 0.6508677006975894
       },
       "2_symptoms": {
-        "top_1_accuracy": 0.3672903251933746,
-        "top_3_accuracy": 0.6372656218361479,
-        "top_5_accuracy": 0.76100514315798,
-        "mean_top_score": 0.395309533125255
+        "top_1_accuracy": 0.3648604867776293,
+        "top_3_accuracy": 0.6343093184303243,
+        "top_5_accuracy": 0.7579273478313692,
+        "mean_top_score": 0.3968095409439553
+      },
+      "1_symptoms": {
+        "top_1_accuracy": 0.10747985258980278,
+        "top_3_accuracy": 0.26321224638561536,
+        "top_5_accuracy": 0.383104523549184,
+        "mean_top_score": 0.11217674298806528
       }
     },
     "score_type": "predict_proba (uncalibrated)",
@@ -1440,42 +1446,140 @@
     "share_test_rows_with_pattern_seen_in_train": 0.43751265540841533,
     "novel_pattern_test_rows": 27779,
     "novel_pattern_metrics": {
-      "accuracy": 0.8412829835487239,
-      "balanced_accuracy": 0.7747730695335829,
-      "macro_precision": 0.7348848168216819,
-      "macro_recall": 0.748554014727032,
-      "macro_f1": 0.7291959560269111,
-      "weighted_f1": 0.8437330834992447,
-      "top_1_accuracy": 0.8413549803808632,
-      "top_3_accuracy": 0.9497102127506389,
-      "top_5_accuracy": 0.964361568091004
+      "accuracy": 0.8360632132186184,
+      "balanced_accuracy": 0.7554568323362161,
+      "macro_precision": 0.7254479191765075,
+      "macro_recall": 0.7348651639931506,
+      "macro_f1": 0.7180637395063473,
+      "weighted_f1": 0.838585737110552,
+      "top_1_accuracy": 0.836927175204291,
+      "top_3_accuracy": 0.944202455091976,
+      "top_5_accuracy": 0.9594297850894561
     }
   },
   "generalization": {
     "train_sample_metrics": {
-      "accuracy": 0.88815,
-      "balanced_accuracy": 0.8751730808766393,
-      "macro_precision": 0.8787701031314219,
-      "macro_recall": 0.8675518348893244,
-      "macro_f1": 0.8683600220455326,
-      "weighted_f1": 0.8872148463653439
+      "accuracy": 0.89065,
+      "balanced_accuracy": 0.8739866908974369,
+      "macro_precision": 0.8861033177354538,
+      "macro_recall": 0.8688979765399555,
+      "macro_f1": 0.871779494587713,
+      "weighted_f1": 0.8896617875471354
     },
     "findings": [
-      "No major red flag from this check - still validate on external data."
+      "Possible overfitting (train-test gap: acc 0.10, macro-F1 0.09). Consider stronger regularisation, simpler models, or more data for rare classes."
     ]
   },
-  "schema_check": {
-    "path": "symptom_schema.json",
-    "status": "mismatch",
-    "structure": "list of 377 items (first item: str)",
-    "feature_list_source": "top-level list",
-    "n_schema_features": 377,
-    "missing_in_schema": [
-      "neck_weakness"
-    ],
-    "extra_in_schema": [
-      "diseases"
-    ],
-    "order_matches": false
-  }
+  "model_comparison": [
+    {
+      "model": "DecisionTreeClassifier",
+      "symptoms_given": "all",
+      "top_1_accuracy": 0.7892520147410197,
+      "top_3_accuracy": 0.9068561940630948,
+      "top_5_accuracy": 0.9292309561414166,
+      "mean_top_score": 0.85314852378051,
+      "macro_f1": 0.7819673727864503,
+      "fit_seconds": 154.9,
+      "explainable": true
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "symptoms_given": "4",
+      "top_1_accuracy": 0.6963916899526181,
+      "top_3_accuracy": 0.8869517677074474,
+      "top_5_accuracy": 0.9347588385372373,
+      "mean_top_score": 0.7662930861227477,
+      "macro_f1": null,
+      "fit_seconds": 154.9,
+      "explainable": true
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "symptoms_given": "3",
+      "top_1_accuracy": 0.587858907382659,
+      "top_3_accuracy": 0.8262058073138137,
+      "top_5_accuracy": 0.903555663548374,
+      "mean_top_score": 0.6508677006975894,
+      "macro_f1": null,
+      "fit_seconds": 154.9,
+      "explainable": true
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "symptoms_given": "2",
+      "top_1_accuracy": 0.3648604867776293,
+      "top_3_accuracy": 0.6343093184303243,
+      "top_5_accuracy": 0.7579273478313692,
+      "mean_top_score": 0.3968095409439553,
+      "macro_f1": null,
+      "fit_seconds": 154.9,
+      "explainable": true
+    },
+    {
+      "model": "DecisionTreeClassifier",
+      "symptoms_given": "1",
+      "top_1_accuracy": 0.10747985258980278,
+      "top_3_accuracy": 0.26321224638561536,
+      "top_5_accuracy": 0.383104523549184,
+      "mean_top_score": 0.11217674298806528,
+      "macro_f1": null,
+      "fit_seconds": 154.9,
+      "explainable": true
+    },
+    {
+      "model": "BernoulliNB",
+      "symptoms_given": "all",
+      "top_1_accuracy": 0.8688494715101446,
+      "top_3_accuracy": 0.9623577532094115,
+      "top_5_accuracy": 0.9810270117037218,
+      "mean_top_score": 0.8597638273167684,
+      "macro_f1": 0.8408187275683409,
+      "fit_seconds": 88.5,
+      "explainable": false
+    },
+    {
+      "model": "BernoulliNB",
+      "symptoms_given": "4",
+      "top_1_accuracy": 0.7578058559105819,
+      "top_3_accuracy": 0.9245130198841777,
+      "top_5_accuracy": 0.9645041104766533,
+      "mean_top_score": 0.7597233671760961,
+      "macro_f1": null,
+      "fit_seconds": 88.5,
+      "explainable": false
+    },
+    {
+      "model": "BernoulliNB",
+      "symptoms_given": "3",
+      "top_1_accuracy": 0.6163892601142024,
+      "top_3_accuracy": 0.8471024176892237,
+      "top_5_accuracy": 0.917608229052768,
+      "mean_top_score": 0.6229886966192945,
+      "macro_f1": null,
+      "fit_seconds": 88.5,
+      "explainable": false
+    },
+    {
+      "model": "BernoulliNB",
+      "symptoms_given": "2",
+      "top_1_accuracy": 0.37425586198517796,
+      "top_3_accuracy": 0.6453650832219657,
+      "top_5_accuracy": 0.7692665937715142,
+      "mean_top_score": 0.3838237351061394,
+      "macro_f1": null,
+      "fit_seconds": 88.5,
+      "explainable": false
+    },
+    {
+      "model": "BernoulliNB",
+      "symptoms_given": "1",
+      "top_1_accuracy": 0.10565747377799377,
+      "top_3_accuracy": 0.2653991009597862,
+      "top_5_accuracy": 0.3862025675292593,
+      "mean_top_score": 0.10907435515810619,
+      "macro_f1": null,
+      "fit_seconds": 88.5,
+      "explainable": false
+    }
+  ]
 }

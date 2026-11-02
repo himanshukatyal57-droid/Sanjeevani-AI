@@ -58,7 +58,7 @@ function buildRoute(result, location) {
         };
     }
 
-    return { status: "complete", ...result.route };
+    return { status: "complete", ...result.route, basis: result.route_basis };
 }
 
 // Translates the Python response into the shape the dashboard displays

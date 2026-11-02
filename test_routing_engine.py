@@ -168,5 +168,39 @@ class TestRoute(unittest.TestCase):
         self.assertIsNone(self.engine.route("saket", "dentistry"))
 
 
+class TestSharedData(unittest.TestCase):
+    """Files that must stay in step with the trained model."""
+
+    @classmethod
+    def setUpClass(cls):
+        root = GRAPH_PATH.parent.parent
+        cls.metadata = json.loads((root / "models" / "sanjeevani_model_metadata.json").read_text(encoding="utf-8"))
+        cls.schema = json.loads((root / "models" / "symptom_schema.json").read_text(encoding="utf-8"))
+        cls.specialties = json.loads((root / "data" / "disease_specialties.json").read_text(encoding="utf-8"))["specialties"]
+
+    def test_every_disease_has_a_specialty_the_map_can_serve(self):
+        self.assertEqual(set(self.specialties), set(self.metadata["class_labels"]))
+        engine = RoutingEngine(load_graph())
+        for disease, care in self.specialties.items():
+            self.assertTrue(engine.hospitals_for(care), f"{disease}: {care}")
+
+    def test_specialties_make_sense_for_well_known_diseases(self):
+        expected = {
+            "heart attack": "cardiac", "atrial fibrillation": "cardiac", "stroke": "neuro", "migraine": "neuro",
+            "epilepsy": "neuro", "asthma": "respiratory", "pneumonia": "respiratory", "tuberculosis": "respiratory",
+            "fracture of the arm": "trauma", "open wound of the head": "trauma", "dislocation of the knee": "trauma",
+            "poisoning due to opioids": "toxicology", "insulin overdose": "toxicology", "depression": "mental_health",
+            "schizophrenia": "mental_health", "common cold": "general", "kidney stone": "general", "eczema": "general",
+        }
+        for disease, care in expected.items():
+            self.assertEqual(self.specialties[disease], care, disease)
+
+    def test_schema_matches_the_model_exactly(self):
+        self.assertEqual(self.schema, self.metadata["feature_names"])
+        self.assertEqual(len(self.schema), 377)
+        self.assertNotIn("diseases", self.schema)
+        self.assertIn("neck_weakness", self.schema)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -406,6 +406,20 @@ function renderPrediction(prediction) {
     }
 }
 
+function describeRouteReason(route) {
+    const careName = CARE_NAMES[route.care];
+
+    if (route.basis.source === "triage") {
+        return `Going to ${careName} because of the triage rules.`;
+    }
+
+    if (route.basis.source === "prediction") {
+        return `Going to ${careName} because the most likely condition is ${readableName(route.basis.disease).toLowerCase()}.`;
+    }
+
+    return "Going to general care because the system isn't confident enough to choose a specialty.";
+}
+
 function renderRoute(route) {
     if (route.status === "no_location") {
         routeStatus.textContent = "Not run";
@@ -429,6 +443,8 @@ function renderRoute(route) {
     } else {
         routeResult.appendChild(createElement("p", "route-stats", "In your area"));
     }
+
+    routeResult.appendChild(createElement("p", "route-reason", describeRouteReason(route)));
 
     const comparison = route.comparison;
     const notes = createElement("ul", "result-list");

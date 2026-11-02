@@ -140,6 +140,67 @@ class TestPredict(unittest.TestCase):
         fever_steps = [s for s in body["decision_path"]["steps"] if s["symptom"] == "fever"]
         self.assertTrue(all(s["present"] for s in fever_steps))
 
+    def routed_care(self, text, tree):
+        service.router = RoutingEngine.from_file(GRAPH_PATH)
+        service.model = tree
+        return self.client.post("/predict", json={"user_text": text, "location": "saket"}).json()
+
+    def asthma_tree(self):
+        X = pd.DataFrame([[0, 1, 0]] * 5 + [[0, 0, 1]] * 5, columns=FEATURES, dtype=np.uint8)
+        return DecisionTreeClassifier(random_state=0).fit(X, ["asthma"] * 5 + ["flu"] * 5)
+
+    def test_confident_prediction_chooses_the_specialty(self):
+        service.disease_specialties = {"asthma": "respiratory", "flu": "general"}
+        self.addCleanup(setattr, service, "disease_specialties", {})
+        body = self.routed_care("I have a cough", self.asthma_tree())
+        self.assertEqual(body["route"]["care"], "respiratory")
+        self.assertIn("respiratory", body["route"]["hospital"]["specialties"])
+        self.assertEqual(body["route_basis"], {"source": "prediction", "disease": "asthma"})
+
+    def test_weak_prediction_never_chooses_the_hospital(self):
+        service.disease_specialties = {str(i): "cardiac" for i in range(8)}
+        self.addCleanup(setattr, service, "disease_specialties", {})
+        body = self.routed_care("I have a cough", self.cough_tree())
+        self.assertTrue(body["low_confidence"])
+        self.assertEqual(body["route"]["care"], "general")
+        self.assertEqual(body["route_basis"]["source"], "default")
+
+    def test_specific_triage_care_outranks_the_prediction(self):
+        features = FEATURES + ["sharp_chest_pain"]
+        service.feature_names = features
+        service.extractor = SymptomExtractor(features)
+        service.disease_specialties = {"a": "respiratory"}
+        self.addCleanup(setattr, service, "disease_specialties", {})
+        X = pd.DataFrame([[0, 0, 0, 1]] * 5 + [[0, 1, 0, 0]] * 5, columns=features, dtype=np.uint8)
+        tree = DecisionTreeClassifier(random_state=0).fit(X, ["a"] * 5 + ["b"] * 5)
+        body = self.routed_care("I have chest pain", tree)
+        self.assertEqual(body["triage"]["level"], "URGENT")
+        self.assertEqual(body["route"]["care"], "cardiac")
+        self.assertEqual(body["route_basis"]["source"], "triage")
+
+    def test_emergency_route_never_uses_a_prediction(self):
+        service.disease_specialties = {"asthma": "respiratory"}
+        self.addCleanup(setattr, service, "disease_specialties", {})
+        body = self.routed_care("I am bleeding heavily and have a cough", self.asthma_tree())
+        self.assertEqual(body["route"]["care"], "trauma")
+        self.assertEqual(body["route_basis"], {"source": "triage", "disease": None})
+        self.assertEqual(body["predictions"], [])
+
+    def test_disease_missing_from_the_mapping_uses_general_care(self):
+        service.disease_specialties = {}
+        body = self.routed_care("I have a cough", self.asthma_tree())
+        self.assertEqual(body["route"]["care"], "general")
+
+    def test_route_works_when_nothing_is_recognized_or_the_model_is_missing(self):
+        service.router = RoutingEngine.from_file(GRAPH_PATH)
+        body = self.client.post("/predict", json={"user_text": "hello there", "location": "saket"}).json()
+        self.assertEqual(body["route_basis"]["source"], "default")
+        self.assertEqual(body["route"]["care"], "general")
+        service.model = None
+        body = self.client.post("/predict", json={"user_text": "I have a cough", "location": "saket"}).json()
+        self.assertEqual(body["status"], "model_unavailable")
+        self.assertEqual(body["route"]["care"], "general")
+
     def test_low_scores_are_flagged_and_ask_a_question(self):
         # Cough alone is shared by 8 diseases, and only "fever" separates them from a ninth
         service.model = self.cough_tree()

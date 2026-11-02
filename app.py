@@ -23,11 +23,12 @@ model = None
 feature_names = []
 extractor = None
 router = None
+disease_specialties = {}
 
 # Not the working directory, so the service loads its files wherever it's started from
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-# Measured on test rows with 2-4 symptoms: below 25% the top answer was right at most 14%
+# Measured on test rows with 1-4 symptoms: below 25% the top answer was right at most 20%
 # of the time, and above 75% it was right 96% of the time, so asking more adds little.
 LOW_CONFIDENCE_BELOW = 0.25
 FOLLOW_UP_BELOW = 0.75
@@ -40,7 +41,7 @@ class SymptomRequest(BaseModel):
 
 @app.on_event("startup")
 def load_artifacts():
-    global model, feature_names, extractor, router
+    global model, feature_names, extractor, router, disease_specialties
 
     # Load the Delhi NCR map for hospital routing
     graph_path = os.path.join(BASE_DIR, "data", "delhi_ncr_graph.json")
@@ -49,6 +50,14 @@ def load_artifacts():
         print(f"Loaded map with {len(router.locations)} locations.")
     else:
         print("Warning: delhi_ncr_graph.json not found! Hospital routing is unavailable.")
+
+    # Load the care each disease needs, used to route non-emergency cases
+    specialties_path = os.path.join(BASE_DIR, "data", "disease_specialties.json")
+    if os.path.exists(specialties_path):
+        with open(specialties_path, "r", encoding="utf-8") as f:
+            disease_specialties = json.load(f)["specialties"]
+    else:
+        print("Warning: disease_specialties.json not found! Predictions will route to general care.")
 
     # Load the exact feature order the model was trained with
     metadata_path = os.path.join(BASE_DIR, "models", "sanjeevani_model_metadata.json")
@@ -101,6 +110,10 @@ def find_route(location, care):
     except UnknownLocationError:
         return None, f"Unknown location: {location}"
 
+def add_route(response, location, care, source, disease=None):
+    response["route"], response["route_error"] = find_route(location, care)
+    response["route_basis"] = {"source": source, "disease": disease}
+
 @app.post("/predict")
 def predict_disease(request: SymptomRequest):
     # The model is checked later: emergency rules must work without it
@@ -128,20 +141,23 @@ def predict_disease(request: SymptomRequest):
     triage_result = triage(extracted, extraction["clinical_flags"], request.duration)
     response["triage"] = triage_result
 
-    # 3. A* Search for the fastest hospital offering the required care
-    response["route"], response["route_error"] = find_route(request.location, triage_result["primary_care"])
+    triage_care = triage_result["primary_care"]
 
+    # 3. A* Search for an emergency, so routing never waits on a prediction
     if triage_result["emergency"]:
         response["status"] = "emergency"
+        add_route(response, request.location, triage_care, "triage")
         return response
 
     # An all-zero input would still yield a confident-looking disease, so don't predict
     if not extracted:
         response["status"] = "no_symptoms_recognized"
+        add_route(response, request.location, triage_care, "triage" if triage_care else "default")
         return response
 
     if model is None:
         response["status"] = "model_unavailable"
+        add_route(response, request.location, triage_care, "triage" if triage_care else "default")
         return response
 
     # 4. Build Binary Feature Vector (named columns, in training order)
@@ -167,5 +183,15 @@ def predict_disease(request: SymptomRequest):
     response["low_confidence"] = top_score < LOW_CONFIDENCE_BELOW
     if response["decision_path"] and top_score < FOLLOW_UP_BELOW:
         response["follow_up"] = choose_follow_up(response["decision_path"], extraction["negated_symptoms"])
+
+    # 6. A* Search for non-emergencies. A specific rule outranks a prediction, so chest pain
+    # stays with cardiac care, and a weak guess must not choose the hospital.
+    top_disease = str(classes[top_indices[0]])
+    if triage_care and triage_care != "general":
+        add_route(response, request.location, triage_care, "triage")
+    elif response["low_confidence"]:
+        add_route(response, request.location, triage_care, "triage" if triage_care else "default")
+    else:
+        add_route(response, request.location, disease_specialties.get(top_disease, "general"), "prediction", top_disease)
 
     return response

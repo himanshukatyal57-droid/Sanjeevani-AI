@@ -42,7 +42,7 @@ def choose_follow_up(path: dict, already_answered: Collection[str]) -> Optional[
     """
     The first unanswered split after the last "yes": the tree's own best next question,
     given what the patient has confirmed. In simulated patients with 2 symptoms, 3 such
-    questions took correct-first accuracy from 37% to 47%, against about 41% for random ones.
+    questions took correct-first accuracy from 35% to 46%.
     """
     steps = path["steps"]
     last_yes = max((i for i, step in enumerate(steps) if step["present"]), default=-1)

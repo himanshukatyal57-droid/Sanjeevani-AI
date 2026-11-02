@@ -104,7 +104,7 @@ SYMPTOM_PHRASES = {
     "heartburn": ["acid reflux"],
     "blood_in_stool": ["bloody stool"],
     "blood_in_urine": ["bloody urine", "peeing blood"],
-    "painful_urination": ["burning when urinating", "burning while urinating", "burning sensation while urinating",
+    "painful_urination": ["burning urination", "burning when urinating", "burning while urinating", "burning sensation while urinating",
                           "burning when peeing", "pain when urinating", "pain while urinating", "hurts to pee"],
     "frequent_urination": ["peeing a lot", "urinating frequently"],
     "palpitations": ["heart racing", "racing heart", "heart pounding", "heart fluttering"],

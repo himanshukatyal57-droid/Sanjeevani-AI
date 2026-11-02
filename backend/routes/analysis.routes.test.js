@@ -125,6 +125,13 @@ test("low confidence and the follow-up question reach the dashboard", async () =
     assert.strictEqual(pipeline.prediction.followUp, "ear_pain");
 });
 
+test("the reason for the chosen care reaches the dashboard", async () => {
+    const basis = { source: "prediction", disease: "asthma" };
+    pythonHandler = (req, res) => res.json(pythonResponse({ route: ROUTE, route_basis: basis }));
+    const { pipeline } = (await (await post({ ...VALID, location: "saket" })).json()).data;
+    assert.deepStrictEqual(pipeline.route.basis, basis);
+});
+
 test("short input like 'help' reaches the rules", async () => {
     const response = await post({ symptoms: "help", duration: "1–3 days" });
     assert.strictEqual(response.status, 200);

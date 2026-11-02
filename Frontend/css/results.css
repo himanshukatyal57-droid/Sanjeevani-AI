@@ -236,7 +236,12 @@
     font-weight: 700;
 }
 
-.route-stats + p + .result-list {
+.route-reason {
+    margin: 8px 0;
+    font-weight: 600;
+}
+
+.route-stats + p + .route-reason + .result-list {
     margin-top: 10px;
 }
 

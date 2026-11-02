@@ -40,10 +40,11 @@ EXPECTED_N_CLASSES = 773  # expected specification - verified at runtime
  
 MODEL_FILENAME = "sanjeevani_model.pkl"
 METADATA_FILENAME = "sanjeevani_model_metadata.json"
+SCHEMA_FILENAME = "symptom_schema.json"
 MODEL_VERSION = "0.1.0-prototype"
 TOP_K_VALUES = (1, 3, 5)
-DROPOUT_KEEP_RANGE = (2, 4)  # dropout copies keep this many symptoms per row (inclusive)
-FEW_SYMPTOM_COUNTS = (4, 3, 2)  # users describe fewer symptoms than dataset rows contain
+DROPOUT_KEEP_RANGE = (1, 4)  # dropout copies keep this many symptoms per row (inclusive)
+FEW_SYMPTOM_COUNTS = (4, 3, 2, 1)  # users describe fewer symptoms than dataset rows contain
 SELECTION_FEW_SYMPTOMS = 3
 
 DISCLAIMER = (
@@ -430,8 +431,8 @@ def random_symptom_subset(values: np.ndarray, keep_counts, rng) -> sparse.csr_ma
 def add_symptom_dropout(X: pd.DataFrame, y: pd.Series, copies: int, random_state: int):
     """
     Stack the rows with copies that keep only a few symptoms each. Dataset rows have about
-    5 symptoms but users often type 2 or 3, and a tree trained only on full rows fails on
-    those. Sparse output keeps memory small. Apply to training data only, after splitting.
+    5 symptoms but users often type 1 to 3, and a tree trained only on full rows fails on
+    those. Without one-symptom copies it was right 5% of the time while claiming 57%. Sparse output keeps memory small. Apply to training data only, after splitting.
     """
     rng = np.random.default_rng(random_state)
     values = X.to_numpy()
@@ -512,6 +513,13 @@ def top_k_accuracy(model, X, y_true, ks=TOP_K_VALUES, batch_size=5000):
     return {f"top_{k}_accuracy": hits[k] / len(X) for k in ks}
 
 
+def mean_top_score(model, X, batch_size=5000) -> float:
+    """Compare with top_1_accuracy: a much higher score means overconfidence."""
+    top_scores = [model.predict_proba(X.iloc[start:start + batch_size]).max(axis=1).sum()
+                  for start in range(0, len(X), batch_size)]
+    return float(sum(top_scores) / len(X))
+ 
+ 
 def few_symptom_metrics(model, X, y_true, random_state, batch_size=5000) -> dict:
     """Ranking quality when only a few symptoms are given, as with free-text input."""
     results = {}
@@ -519,10 +527,7 @@ def few_symptom_metrics(model, X, y_true, random_state, batch_size=5000) -> dict
         reduced = keep_few_symptoms(X, k, random_state)
         row = top_k_accuracy(model, reduced, y_true) or {}
         if hasattr(model, "predict_proba"):
-            # Compare with top_1_accuracy: a much higher score means overconfidence
-            top_scores = [model.predict_proba(reduced.iloc[start:start + batch_size]).max(axis=1).sum()
-                          for start in range(0, len(reduced), batch_size)]
-            row["mean_top_score"] = float(sum(top_scores) / len(reduced))
+            row["mean_top_score"] = mean_top_score(model, reduced, batch_size)
         results[f"{k}_symptoms"] = row
     return results
 
@@ -745,89 +750,43 @@ def check_generalization(model, X_train, y_train, selection, test_metrics, rando
  
  
 # --------------------------------------------------------------------------- #
-# STEP 10 - Schema check + export
+# STEP 10 - Model comparison + export
 # --------------------------------------------------------------------------- #
-SCHEMA_ITEM_KEYS = ("name", "feature", "symptom", "column", "feature_name")
-SCHEMA_LIST_KEYS = ("feature_names", "features", "symptoms", "columns",
-                    "symptom_columns", "feature_order", "feature_columns")
- 
- 
-def _names_from_container(obj):
-    if isinstance(obj, list):
-        if obj and all(isinstance(i, str) for i in obj):
-            return list(obj)
-        if obj and all(isinstance(i, dict) for i in obj):
-            for key in SCHEMA_ITEM_KEYS:
-                if all(isinstance(i.get(key), str) for i in obj):
-                    return [i[key] for i in obj]
-    if isinstance(obj, dict) and obj and all(isinstance(k, str) for k in obj):
-        return list(obj.keys())  # only used when nested under a recognised key
-    return None
- 
- 
-def extract_schema_feature_names(schema):
-    """Best-effort extraction. Returns (names | None, description of where they came from)."""
-    if isinstance(schema, list):
-        names = _names_from_container(schema)
-        return names, "top-level list" if names else None
-    if isinstance(schema, dict):
-        for key in SCHEMA_LIST_KEYS:
-            if key in schema:
-                names = _names_from_container(schema[key])
-                if names:
-                    return names, f"key '{key}'"
-    return None, None
- 
- 
-def describe_structure(schema) -> str:
-    if isinstance(schema, dict):
-        return f"dict with keys {list(schema.keys())[:15]}"
-    if isinstance(schema, list):
-        first = type(schema[0]).__name__ if schema else "n/a"
-        return f"list of {len(schema)} items (first item: {first})"
-    return type(schema).__name__
- 
- 
-def check_schema(schema_arg, feature_names):
-    """Compare symptom_schema.json with the training features. Never edits the schema."""
-    candidates = [schema_arg] if schema_arg else ["symptom_schema.json", "data/symptom_schema.json"]
-    path = next((Path(p) for p in candidates if Path(p).is_file()), None)
-    report = {"path": str(path) if path else None, "status": "not_found"}
-    if path is None:
-        print(f"symptom_schema.json not found (looked in {candidates}). Schema cross-check skipped; "
-              "the exported metadata JSON carries the training feature order.")
-        return report
-    try:
-        schema = json.loads(path.read_text(encoding="utf-8"))
-    except (json.JSONDecodeError, OSError) as exc:
-        report.update(status="invalid_json", error=str(exc))
-        print(f"WARNING: could not read '{path}': {exc}")
-        return report
- 
-    report["structure"] = describe_structure(schema)
-    print(f"Schema file: {path} -> {report['structure']}")
-    names, source = extract_schema_feature_names(schema)
-    if names is None:
-        report["status"] = "unrecognized_structure"
-        print("WARNING: could not identify the feature list inside the schema. Not guessing - "
-              "please inspect it manually and align it with the metadata JSON.")
-        return report
- 
-    in_train, in_schema = set(feature_names), set(names)
-    report.update(
-        status="match", feature_list_source=source, n_schema_features=len(names),
-        missing_in_schema=sorted(in_train - in_schema), extra_in_schema=sorted(in_schema - in_train),
-        order_matches=names == list(feature_names),
-    )
-    if report["missing_in_schema"] or report["extra_in_schema"] or not report["order_matches"]:
-        report["status"] = "mismatch"
-        print("WARNING: schema and training data DISAGREE (schema was NOT modified):")
-        print(f"  missing in schema: {len(report['missing_in_schema'])} | "
-              f"extra in schema: {len(report['extra_in_schema'])} | "
-              f"order identical: {report['order_matches']}")
-    else:
-        print(f"Schema OK: {len(names)} features, identical names and order (read from {source}).")
-    return report
+def compare_models(model, selection, evaluation, X_train, y_train, X_test, y_test,
+                   dropout_copies, random_state, reports_dir: Path) -> list:
+    """
+    Reports the exported model against Naive Bayes on the same training and test data.
+    This never changes which model is exported: the tree is kept because every prediction
+    can be traced to its splits, which Debug Mode and the follow-up questions rely on.
+    alpha is fixed rather than tuned, using a value that did well in earlier experiments.
+    """
+    X_aug, y_aug = add_symptom_dropout(X_train, y_train, dropout_copies, random_state)
+    baseline = BernoulliNB(alpha=0.01, binarize=None)
+    start = time.perf_counter()
+    fit_on_dropout_data(baseline, X_aug, y_aug, list(X_train.columns))
+    baseline_seconds = time.perf_counter() - start
+
+    def rows_for(name, explainable, fit_seconds, macro_f1, all_symptoms, few_symptoms, mean_score):
+        rows = [{"model": name, "symptoms_given": "all", **all_symptoms, "mean_top_score": mean_score,
+                 "macro_f1": macro_f1, "fit_seconds": round(fit_seconds, 1), "explainable": explainable}]
+        for key, metrics in few_symptoms.items():
+            rows.append({"model": name, "symptoms_given": key.split("_")[0], **metrics, "macro_f1": None,
+                         "fit_seconds": round(fit_seconds, 1), "explainable": explainable})
+        return rows
+
+    rows = rows_for(type(model).__name__, hasattr(model, "tree_"), selection["final_fit_seconds"],
+                    evaluation["test_metrics"]["macro_f1"], evaluation["top_k"], evaluation["few_symptoms"],
+                    mean_top_score(model, X_test))
+    rows += rows_for(type(baseline).__name__, False, baseline_seconds,
+                     compute_metrics(y_test, baseline.predict(X_test))["macro_f1"],
+                     top_k_accuracy(baseline, X_test, y_test),
+                     few_symptom_metrics(baseline, X_test, y_test, random_state),
+                     mean_top_score(baseline, X_test))
+
+    table = pd.DataFrame(rows)
+    table.to_csv(reports_dir / "model_comparison.csv", index=False)
+    print(table.round(3).to_string(index=False))
+    return rows
  
  
 def _json_default(obj):
@@ -871,6 +830,10 @@ def save_model(model, feature_names, metadata_extras: dict, output_dir: Path):
     metadata_path.write_text(json.dumps(metadata, indent=2, default=_json_default), encoding="utf-8")
     print(f"Saved model    -> {model_path} ({model_path.stat().st_size / 1e6:.2f} MB)")
     print(f"Saved metadata -> {metadata_path}")
+    # Written from the training columns on every run, so it can't drift from the model
+    schema_path = output_dir / SCHEMA_FILENAME
+    schema_path.write_text(json.dumps(list(feature_names), indent=2) + "\n", encoding="utf-8")
+    print(f"Saved schema   -> {schema_path}")
     return model_path, metadata_path
  
  
@@ -944,7 +907,6 @@ def smoke_test_export(model_path: Path, metadata_path: Path, X_test: pd.DataFram
 def parse_args():
     parser = argparse.ArgumentParser(description="Train the Sanjeevani AI multiclass model (prototype).")
     parser.add_argument("--data", default=DEFAULT_DATA_PATH)
-    parser.add_argument("--schema", default=None, help="Path to symptom_schema.json (auto-detected if omitted).")
     parser.add_argument("--output-dir", default="models", help="Where the model + metadata are written.")
     parser.add_argument("--reports-dir", default="reports", help="Where CSV/TXT reports are written.")
     parser.add_argument("--models", default=DEFAULT_MODELS,
@@ -1006,8 +968,11 @@ def main():
             model, X_train, y_train, selection, evaluation["test_metrics"], args.random_state
         )
  
-        section("STEP 10 - SCHEMA CHECK & MODEL EXPORT")
-        schema_report = check_schema(args.schema, feature_names)
+        section("STEP 10 - MODEL COMPARISON & EXPORT")
+        comparison = compare_models(
+            model, selection, evaluation, X_train, y_train, X_test, y_test,
+            args.dropout_copies, args.random_state, reports_dir,
+        )
         extras = {
             "dataset": {"path": args.data, "sha256": dataset_sha256},
             "training_config": {
@@ -1024,7 +989,7 @@ def main():
             "class_distribution": class_summary,
             "evaluation": evaluation,
             "generalization": generalization,
-            "schema_check": schema_report,
+            "model_comparison": comparison,
         }
         model_path, metadata_path = save_model(model, feature_names, extras, output_dir)
         smoke_test_export(model_path, metadata_path, X_test)
@@ -1035,8 +1000,6 @@ def main():
               f"accuracy: {evaluation['test_metrics']['accuracy']:.4f}")
         print("Reminder: prototype only. Not a diagnosis; scores are uncalibrated; "
               "clinician escalation and emergency detection must be handled separately.")
-        if schema_report["status"] in ("mismatch", "unrecognized_structure"):
-            print("ACTION NEEDED: symptom_schema.json does not line up with the training features.")
  
     except (DataValidationError, FileNotFoundError) as exc:
         print(f"\n[STOPPED] {exc}", file=sys.stderr)

@@ -1,9 +1,20 @@
+import tempfile
 import unittest
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
+from sklearn.tree import DecisionTreeClassifier
 
-from train_model import add_symptom_dropout, keep_few_symptoms, random_symptom_subset
+from train_model import (
+    add_symptom_dropout,
+    compare_models,
+    few_symptom_metrics,
+    fit_on_dropout_data,
+    keep_few_symptoms,
+    random_symptom_subset,
+    top_k_accuracy,
+)
 
 
 class TestSymptomDropout(unittest.TestCase):
@@ -50,6 +61,31 @@ class TestSymptomDropout(unittest.TestCase):
         reduced = keep_few_symptoms(self.X, 2, 0)
         self.assertEqual(list(reduced.columns), list("abcdef"))
         self.assertEqual(reduced.sum(axis=1).tolist(), [2, 1, 0, 2])
+
+
+class TestModelComparison(unittest.TestCase):
+    def test_report_compares_both_models_at_every_symptom_count(self):
+        rng = np.random.default_rng(0)
+        X = pd.DataFrame(rng.integers(0, 2, size=(300, 8)), columns=[f"s{i}" for i in range(8)], dtype=np.uint8)
+        y = (X["s0"] * 2 + X["s1"]).astype(str)
+        X_train, X_test, y_train, y_test = X[:240], X[240:], y[:240], y[240:]
+        tree = fit_on_dropout_data(DecisionTreeClassifier(random_state=0), *add_symptom_dropout(X_train, y_train, 1, 0),
+                                   list(X.columns))
+        evaluation = {
+            "test_metrics": {"macro_f1": 0.5},
+            "top_k": top_k_accuracy(tree, X_test, y_test),
+            "few_symptoms": few_symptom_metrics(tree, X_test, y_test, 0),
+        }
+        with tempfile.TemporaryDirectory() as folder:
+            rows = compare_models(tree, {"final_fit_seconds": 1.0}, evaluation, X_train, y_train, X_test, y_test,
+                                  1, 0, Path(folder))
+            table = pd.read_csv(Path(folder) / "model_comparison.csv")
+        self.assertEqual(len(rows), 10)
+        self.assertEqual(set(table["model"]), {"DecisionTreeClassifier", "BernoulliNB"})
+        self.assertEqual(sorted(set(table["symptoms_given"].astype(str))), ["1", "2", "3", "4", "all"])
+        self.assertTrue(table[table["model"] == "DecisionTreeClassifier"]["explainable"].all())
+        self.assertFalse(table[table["model"] == "BernoulliNB"]["explainable"].any())
+        self.assertTrue(table["top_1_accuracy"].between(0, 1).all())
 
 
 if __name__ == "__main__":

@@ -68,15 +68,37 @@ From `models/sanjeevani_model_metadata.json`, measured on a held-out test set. T
 | Symptoms given | Correct first | In top 3 |
 |---|---|---|
 | All (about 5) | 79% | 91% |
-| 4 | 71% | 90% |
+| 4 | 70% | 89% |
 | 3 | 59% | 83% |
-| 2 | 37% | 64% |
+| 2 | 36% | 63% |
+| 1 | 11% | 26% |
 
-Macro-F1 is 0.79 and accuracy is 79% with all symptoms given. People often describe fewer symptoms than the dataset rows contain, so the tree is also trained on copies of rows with symptoms removed.
+Macro-F1 is 0.78 and accuracy is 79% with all symptoms given. People often describe fewer symptoms than the dataset rows contain, so the tree is also trained on copies of rows reduced to 1–4 symptoms. Its scores stay honest as a result: with one symptom it averages an 11% score and is right 11% of the time.
 
-When the result is uncertain, the site asks a follow-up question chosen by the tree: the first unanswered split after the last confirmed symptom. In a simulation on 3,000 held-out test rows starting from 2 symptoms, 3 such questions raised correct-first accuracy from 37% to 47% and top-3 from 63% to 71%, against about 41% correct first for random questions. Simulated patients answer truthfully from the data, so real users may differ. Sex-specific and intimate symptoms are never asked, because the form doesn't ask the patient's sex, but people can still type them.
+When the result is uncertain, the site asks a follow-up question chosen by the tree: the first unanswered split after the last confirmed symptom. In a simulation on 3,000 held-out test rows starting from 2 symptoms, 3 such questions raised correct-first accuracy from 35% to 46% and top-3 from 61% to 70%. Simulated patients answer truthfully from the data, so real users may differ. Sex-specific and intimate symptoms are never asked, because the form doesn't ask the patient's sex, but people can still type them.
 
-Below a 25% top score, the site says there isn't enough information, because the top answer was right at most 14% of the time at those scores.
+Below a 25% top score, the site says there isn't enough information, because the top answer was right at most 20% of the time at those scores.
+
+`python train_model.py` also writes `reports/model_comparison.csv`, comparing the Decision Tree with Naive Bayes on the same training and test data:
+
+| Symptoms given | Decision Tree: correct first / in top 3 | Naive Bayes: correct first / in top 3 |
+|---|---|---|
+| All (about 5) | 79% / 91% | 87% / 96% |
+| 4 | 70% / 89% | 76% / 92% |
+| 3 | 59% / 83% | 62% / 85% |
+| 2 | 36% / 63% | 37% / 65% |
+| 1 | 11% / 26% | 11% / 27% |
+
+Naive Bayes is ahead overall, by the most when all symptoms are given and by very little with 1 or 2. The tree is kept deliberately, because only it can show the exact checks behind a prediction, which Debug Mode and the follow-up questions rely on.
+
+## How a hospital is chosen
+
+1. **Emergency:** the triage rules choose the care straight away, without waiting for a prediction.
+2. **A specific triage rule:** for example, chest pain stays with cardiac care whatever the prediction says.
+3. **Confident prediction:** the top disease's care comes from `data/disease_specialties.json`.
+4. **Weak prediction, under a 25% score:** general care, so an uncertain guess doesn't choose the hospital.
+
+All 773 diseases are mapped by name to the 7 care types on the map. Most use general care, because the map has no specialty such as oncology or nephrology.
 
 Across every starting point and care type on the map (210 combinations), A* matched an independent Dijkstra check every time, and explored about 18% fewer locations than Dijkstra.
 
@@ -86,6 +108,7 @@ Across every starting point and care type on the map (210 combinations), A* matc
 - **Symptom extraction** uses a fixed English vocabulary, so unusual wording, Hindi and Hinglish can be missed. It can't tell who has a symptom, so "my father had a stroke" still flags a stroke, which could be happening now. A stated past time, like "in 2010" or "last year", does rule a symptom out.
 - **Choosing "More than a week"** lowers speech and one-sided weakness signs from `EMERGENCY` to `URGENT`, unless the text says something like "suddenly". A real stroke reported that way would be `URGENT`.
 - **Predictions** with only a few symptoms are often uncertain. Scores are model confidence, not medical certainty. Some diseases have very little data, and 19 have only one row.
+- **Disease-to-specialty mapping** was assigned from the disease names and hasn't been clinically reviewed.
 - **The map** uses real Delhi NCR area names with approximate coordinates, but road distances and traffic are estimates, and all hospitals are fictional. Lines show connections, not road shapes.
 
 ## Tests
@@ -101,7 +124,7 @@ This needs the 190 MB Kaggle dataset, which is too large for GitHub:
 
 1. Put `Final_Augmented_dataset_Diseases_and_Symptoms.csv` in `data/`.
 2. Run `python eda_and_schema.py` to create the cleaned dataset.
-3. Run `python train_model.py`, which overwrites the model in `models/`.
+3. Run `python train_model.py`, which overwrites the model, `models/symptom_schema.json` and the reports. The schema is generated from the training columns, so it can't drift from the model.
 
 If you upgrade scikit-learn or NumPy, retrain and update the pinned versions in `requirements.txt`.
 
