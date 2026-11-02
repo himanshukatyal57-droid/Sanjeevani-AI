@@ -26,14 +26,18 @@ async function callPython(path, options = {}) {
 
 function buildPrediction(result) {
     if (result.triage.emergency) {
-        return { status: "skipped_emergency", predictions: [] };
+        return { status: "skipped_emergency", predictions: [], decisionPath: null };
     }
 
     if (result.predictions.length === 0) {
-        return { status: "not_run", predictions: [] };
+        return { status: "not_run", predictions: [], decisionPath: null };
     }
 
-    return { status: "complete", predictions: result.predictions };
+    return {
+        status: "complete",
+        predictions: result.predictions,
+        decisionPath: result.decision_path
+    };
 }
 
 function buildRoute(result, location) {
@@ -67,7 +71,9 @@ function buildPipeline(result, location) {
             emergency: result.triage.emergency,
             primaryCare: result.triage.primary_care,
             careNeeded: result.triage.care_needed,
-            rulesFired: result.triage.rules_fired
+            initialFacts: result.triage.initial_facts,
+            rulesFired: result.triage.rules_fired,
+            rulesTotal: result.triage.rules_total
         },
 
         prediction: buildPrediction(result),

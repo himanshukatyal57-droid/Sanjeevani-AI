@@ -9,6 +9,7 @@ from typing import Optional
 
 from nlp_extractor import SymptomExtractor
 from routing_engine import RoutingEngine, UnknownLocationError
+from tree_explainer import explain_tree_prediction
 from triage_engine import triage
 
 app = FastAPI(
@@ -108,7 +109,8 @@ def predict_disease(request: SymptomRequest):
         "negated_symptoms": extraction["negated_symptoms"],
         "clinical_flags": extraction["clinical_flags"],
         "negated_flags": extraction["negated_flags"],
-        "predictions": []
+        "predictions": [],
+        "decision_path": None
     }
 
     # 2. Forward Chaining Triage: a detected emergency bypasses the ML model
@@ -144,5 +146,6 @@ def predict_disease(request: SymptomRequest):
         }
         for idx in top_indices if probabilities[idx] > 0
     ]
+    response["decision_path"] = explain_tree_prediction(model, feature_names, feature_vector)
 
     return response

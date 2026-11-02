@@ -3,7 +3,9 @@ import os
 import unittest
 
 import numpy as np
+import pandas as pd
 from fastapi.testclient import TestClient
+from sklearn.tree import DecisionTreeClassifier
 
 import app as service
 from nlp_extractor import SymptomExtractor
@@ -121,6 +123,19 @@ class TestPredict(unittest.TestCase):
         service.router = RoutingEngine.from_file(GRAPH_PATH)
         names = [loc["name"] for loc in self.client.get("/locations").json()]
         self.assertIn("Saket", names)
+
+    def test_real_tree_returns_its_path(self):
+        X = np.array([[0, 0, 0], [0, 0, 1], [1, 0, 0], [0, 1, 1]])
+        service.model = DecisionTreeClassifier(random_state=0).fit(
+            pd.DataFrame(X, columns=FEATURES, dtype=np.uint8), ["a", "b", "c", "d"])
+        body = self.post("I have a fever").json()
+        self.assertTrue(body["decision_path"]["steps"])
+        fever_steps = [s for s in body["decision_path"]["steps"] if s["symptom"] == "fever"]
+        self.assertTrue(all(s["present"] for s in fever_steps))
+
+    def test_no_path_when_the_model_is_skipped(self):
+        self.assertIsNone(self.post("I am bleeding heavily").json()["decision_path"])
+        self.assertIsNone(self.post("hello there").json()["decision_path"])
 
     def test_map_endpoint(self):
         service.router = RoutingEngine.from_file(GRAPH_PATH)

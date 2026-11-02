@@ -103,6 +103,21 @@ test("translates a routine result for the dashboard", async () => {
     assert.ok(body.data.disclaimer);
 });
 
+test("debug data reaches the dashboard", async () => {
+    const decisionPath = { steps: [{ symptom: "cough", present: true, samples: 10 }], leaf_samples: 2, leaf_node: 5, tree_nodes: 9 };
+    pythonHandler = (req, res) => res.json(pythonResponse({
+        decision_path: decisionPath,
+        triage: {
+            level: "ROUTINE", emergency: false, primary_care: null, care_needed: [],
+            initial_facts: ["cough"], rules_fired: [], rules_total: 31
+        }
+    }));
+    const { pipeline } = (await (await post(VALID)).json()).data;
+    assert.deepStrictEqual(pipeline.prediction.decisionPath, decisionPath);
+    assert.deepStrictEqual(pipeline.triage.initialFacts, ["cough"]);
+    assert.strictEqual(pipeline.triage.rulesTotal, 31);
+});
+
 test("an emergency is marked as skipping the prediction", async () => {
     pythonHandler = (req, res) => res.json(pythonResponse({
         status: "emergency",

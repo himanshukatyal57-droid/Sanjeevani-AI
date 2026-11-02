@@ -44,6 +44,13 @@ class TestRuleBase(unittest.TestCase):
         used = {fact for rule in RULES for fact in rule.all_of + rule.any_of}
         self.assertEqual(set(CLINICAL_FLAG_PHRASES) - used, set())
 
+    def test_descriptions_do_not_claim_an_absence_the_rule_never_checks(self):
+        # Debug Mode shows these beside the facts, so a wrong claim is visible to evaluators
+        for rule in RULES:
+            if not rule.none_of:
+                self.assertNotRegex(rule.description.lower(), r"\b(without|no|not reported)\b",
+                                    f"{rule.name} describes an absence but has no none_of condition")
+
     def test_rule_names_are_unique(self):
         names = [rule.name for rule in RULES]
         self.assertEqual(len(names), len(set(names)))
@@ -158,6 +165,11 @@ class TestDuration(unittest.TestCase):
     def test_duration_alone_is_not_a_symptom(self):
         self.assertEqual(triage([], duration=self.LONG)["level"], UNKNOWN)
         self.assertEqual(triage(["cough"], duration=self.LONG)["level"], ROUTINE)
+
+    def test_result_lists_the_starting_facts(self):
+        result = triage(["slurring_words"], ["sudden_onset"], self.LONG)
+        self.assertEqual(result["initial_facts"], sorted(["slurring_words", "sudden_onset", LONG_STANDING_FACT]))
+        self.assertEqual(result["rules_total"], len(RULES))
 
     def test_trace_shows_what_had_to_be_absent(self):
         step = next(s for s in triage(["slurring_words"])["rules_fired"] if s["rule"] == "E5")

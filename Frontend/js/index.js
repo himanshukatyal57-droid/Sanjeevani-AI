@@ -312,12 +312,18 @@ function renderTriage(triage) {
         triageResult.appendChild(createElement("p", "result-label", "Care needed"));
         triageResult.appendChild(createElement("p", "", readableName(CARE_NAMES[triage.primaryCare])));
     }
+
+    triageResult.appendChild(createRuleTrace(triage));
 }
 
 function renderPrediction(prediction) {
     if (prediction.status === "skipped_emergency") {
         predictionStatus.textContent = "Skipped";
         predictionResult.appendChild(createElement("p", "", "Skipped because this may be an emergency. Getting help comes first."));
+
+        const bypass = createDebugBlock("Decision Tree trace");
+        bypass.appendChild(createElement("p", "", "The tree was never run: the triage rules found an emergency first."));
+        predictionResult.appendChild(bypass);
         return;
     }
 
@@ -348,6 +354,10 @@ function renderPrediction(prediction) {
 
     predictionResult.appendChild(list);
     predictionResult.appendChild(createElement("p", "result-note", "Possible conditions only, not a diagnosis. Percentages are model confidence, not medical certainty."));
+
+    if (prediction.decisionPath) {
+        predictionResult.appendChild(createTreeTrace(prediction.decisionPath));
+    }
 }
 
 function renderRoute(route) {
@@ -391,9 +401,181 @@ function renderRoute(route) {
     }
 
     routeResult.appendChild(createElement("p", "result-note", "Demo map: hospitals are fictional, and travel times are estimates."));
+    routeResult.appendChild(createSearchTrace(route));
 
     showRouteMap(route);
 }
+
+// ===================================
+// ACADEMIC DEBUG MODE
+// Each trace sits in the card it explains, shown only while the toggle is on.
+// ===================================
+
+function createDebugBlock(title) {
+    const block = createElement("div", "debug-only");
+    block.appendChild(createElement("p", "debug-title", title));
+    return block;
+}
+
+function createFactList(facts) {
+    const list = createElement("span", "debug-facts");
+
+    facts.forEach(fact => {
+        list.appendChild(createElement("code", "", fact));
+    });
+
+    return list;
+}
+
+function createFactLine(label, facts) {
+    const line = createElement("p", "debug-line", `${label}: `);
+    line.appendChild(createFactList(facts));
+    return line;
+}
+
+function createRuleTrace(triage) {
+    const block = createDebugBlock("Forward chaining trace");
+
+    block.appendChild(createFactLine("Starting facts", triage.initialFacts));
+
+    if (triage.rulesFired.length > 0) {
+        const list = createElement("ol", "debug-rules");
+
+        triage.rulesFired.forEach(step => {
+            const item = createElement("li");
+
+            item.appendChild(createElement("p", "debug-rule-name", `${step.rule}: ${step.description}`));
+            item.appendChild(createFactLine("IF", step.because));
+
+            if (step.required_absent.length > 0) {
+                item.appendChild(createFactLine("AND NOT", step.required_absent));
+            }
+
+            item.appendChild(createFactLine("THEN", step.concluded));
+            list.appendChild(item);
+        });
+
+        block.appendChild(list);
+    }
+
+    block.appendChild(createElement("p", "result-note",
+        `${triage.rulesFired.length} of ${triage.rulesTotal} rules fired, in this order. Chaining stops when no rule can add a new fact.`));
+
+    return block;
+}
+
+// Most checks answer "no", so runs of them collapse and the "yes" splits stand out
+function createTreeTrace(path) {
+    const block = createDebugBlock("Decision Tree trace");
+    const list = createElement("ol", "debug-tree");
+    let absentRun = [];
+
+    function flushAbsentRun() {
+        if (absentRun.length === 0) {
+            return;
+        }
+
+        const item = createElement("li", "debug-tree-absent");
+        const details = createElement("details");
+        const count = absentRun.length;
+
+        details.appendChild(createElement("summary", "", `${count} ${count === 1 ? "check" : "checks"}: symptom not present`));
+        details.appendChild(createElement("p", "debug-absent-names", absentRun.map(step => readableName(step.symptom)).join(", ")));
+        item.appendChild(details);
+        list.appendChild(item);
+        absentRun = [];
+    }
+
+    path.steps.forEach(step => {
+        if (!step.present) {
+            absentRun.push(step);
+            return;
+        }
+
+        flushAbsentRun();
+        list.appendChild(createElement("li", "debug-tree-present",
+            `${readableName(step.symptom)}? Yes (${step.samples.toLocaleString("en-IN")} training rows reach this split)`));
+    });
+
+    flushAbsentRun();
+
+    block.appendChild(list);
+    block.appendChild(createElement("p", "result-note",
+        `${path.steps.length} splits to reach a leaf with ${path.leaf_samples.toLocaleString("en-IN")} training rows, ` +
+        `in a tree of ${path.tree_nodes.toLocaleString("en-IN")} nodes. Percentages come from the diseases in that leaf. ` +
+        "Training rows include copies with symptoms removed, which teach the tree to handle short descriptions."));
+
+    return block;
+}
+
+function createSearchTrace(route) {
+    const block = createDebugBlock("A* search trace");
+    const wrapper = createElement("div", "debug-table-wrapper");
+    const table = createElement("table", "debug-table");
+    const headerRow = createElement("tr");
+    const routeIds = new Set(route.path.map(stop => stop.id));
+    const names = new Map((mapData ? mapData.locations : []).map(location => [location.id, location.name]));
+
+    ["Step", "Expanded", "g", "h", "f", "Frontier"].forEach(heading => {
+        const cell = createElement("th", "", heading);
+        cell.scope = "col";
+        headerRow.appendChild(cell);
+    });
+
+    const head = createElement("thead");
+    const body = createElement("tbody");
+    head.appendChild(headerRow);
+
+    route.search.expansion_steps.forEach((step, index) => {
+        const row = createElement("tr", routeIds.has(step.node) ? "is-on-route" : "");
+
+        [
+            index + 1,
+            names.get(step.node) || readableName(step.node),
+            step.g_minutes,
+            step.h_minutes,
+            step.f_minutes,
+            step.frontier_size
+        ].forEach(value => row.appendChild(createElement("td", "", String(value))));
+
+        body.appendChild(row);
+    });
+
+    table.append(head, body);
+    wrapper.appendChild(table);
+    block.appendChild(wrapper);
+
+    block.appendChild(createElement("p", "result-note",
+        "g = minutes travelled so far. h = straight-line estimate of the minutes left. A* always expands the lowest f = g + h. " +
+        `Bold rows are on the final route. A* expanded ${route.search.nodes_expanded} locations; Dijkstra would expand ${route.search.dijkstra_nodes_expanded}.`));
+
+    return block;
+}
+
+const debugToggle = document.getElementById("debugToggle");
+
+function setDebugMode(enabled) {
+    resultsDashboard.classList.toggle("debug-on", enabled);
+    debugToggle.checked = enabled;
+}
+
+debugToggle.addEventListener("change", () => {
+    setDebugMode(debugToggle.checked);
+
+    // Only a convenience: the page works the same if storage is blocked
+    try {
+        localStorage.setItem("sanjeevaniDebugMode", String(debugToggle.checked));
+    } catch (error) {
+        console.warn("Could not remember Debug Mode:", error);
+    }
+});
+
+try {
+    setDebugMode(localStorage.getItem("sanjeevaniDebugMode") === "true");
+} catch (error) {
+    setDebugMode(false);
+}
+
 
 function clearRouteMap() {
     if (activeRouteMap) {

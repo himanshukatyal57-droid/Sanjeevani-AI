@@ -30,6 +30,7 @@
 }
 
 .result-card {
+    min-width: 0; /* Lets wide content scroll inside the card instead of stretching it */
     background: #ffffff;
     padding: 24px;
     border-radius: 14px;
@@ -203,6 +204,147 @@
 
 .route-stats + p + .result-list {
     margin-top: 10px;
+}
+
+/* ===================================
+   ACADEMIC DEBUG MODE
+=================================== */
+
+.debug-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    margin-top: 16px;
+    padding: 9px 15px;
+    border: 1px solid #b8cbd9;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #102a43;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.debug-toggle input {
+    width: 17px;
+    height: 17px;
+    accent-color: #0f766e;
+    cursor: pointer;
+}
+
+.debug-only {
+    display: none;
+    margin-top: 18px;
+    padding-top: 14px;
+    border-top: 2px dashed #b8cbd9;
+}
+
+.results-section.debug-on .debug-only {
+    display: block;
+}
+
+.debug-title {
+    margin-bottom: 8px;
+    color: #0b5f58 !important;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.debug-line {
+    margin-top: 3px;
+    font-size: 0.85rem;
+}
+
+.debug-facts {
+    display: inline;
+}
+
+.debug-facts code {
+    display: inline-block;
+    margin: 1px 4px 1px 0;
+    padding: 0 5px;
+    border-radius: 4px;
+    background: #eef2f6;
+    color: #243b53;
+    font-size: 0.8rem;
+    overflow-wrap: anywhere;
+}
+
+.debug-rules,
+.debug-tree {
+    margin-top: 10px;
+    padding-left: 22px;
+    color: #486581;
+    font-size: 0.85rem;
+}
+
+.debug-rules li + li {
+    margin-top: 10px;
+}
+
+.debug-rule-name {
+    color: #102a43 !important;
+    font-weight: 700;
+}
+
+.debug-tree {
+    padding-left: 0;
+    list-style: none;
+}
+
+.debug-tree li {
+    padding: 6px 0 6px 12px;
+    border-left: 3px solid #d7e2ea;
+}
+
+.debug-tree-present {
+    border-left-color: #0f766e !important;
+    color: #102a43;
+    font-weight: 700;
+}
+
+.debug-tree summary {
+    cursor: pointer;
+}
+
+.debug-absent-names {
+    margin-top: 6px;
+    font-size: 0.8rem;
+}
+
+.debug-table-wrapper {
+    overflow-x: auto;
+}
+
+.debug-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #486581;
+    font-size: 0.82rem;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.debug-table th,
+.debug-table td {
+    padding: 5px 8px;
+    border-bottom: 1px solid #e4edf0;
+}
+
+.debug-table th {
+    color: #102a43;
+}
+
+.debug-table th:nth-child(2),
+.debug-table td:nth-child(2) {
+    text-align: left;
+}
+
+.debug-table tr.is-on-route td {
+    color: #102a43;
+    font-weight: 700;
 }
 
 /* ===================================

@@ -96,14 +96,14 @@ RULES = [
          all_of=("mental_health_emergency",)),
 
     # Not immediately life-threatening on their own, but should not wait
-    Rule("U1", "Chest pain without other warning signs", ("urgent", "needs_cardiac_care"),
+    Rule("U1", "Chest pain is at least urgent", ("urgent", "needs_cardiac_care"),
          all_of=("chest_pain_present",)),
     Rule("U2", "Shortness of breath", ("urgent", "needs_respiratory_care"), all_of=("shortness_of_breath",)),
     Rule("U3", "Fainting", ("urgent", "needs_neuro_care"), all_of=("fainting",)),
     Rule("U4", "Bleeding that needs prompt review", ("urgent", "needs_general_care"),
          all_of=("moderate_bleeding",)),
     Rule("U5", "Low blood sugar", ("urgent", "needs_general_care"), all_of=("low_blood_sugar",)),
-    Rule("U6", "Headache with a stiff or painful neck, no fever reported", ("urgent", "needs_neuro_care"),
+    Rule("U6", "Headache with a stiff or painful neck", ("urgent", "needs_neuro_care"),
          all_of=("headache",), any_of=("neck_stiffness_or_tightness", "neck_pain")),
     Rule("U7", "Speech problem or one-sided weakness reported as long-standing", ("urgent", "needs_neuro_care"),
          all_of=("stroke_sign", LONG_STANDING_FACT)),
@@ -157,5 +157,7 @@ def triage(symptoms: Iterable[str], clinical_flags: Iterable[str] = (), duration
         "emergency": level == EMERGENCY,
         "primary_care": care_needed[0] if care_needed else None,
         "care_needed": care_needed,
+        "initial_facts": sorted(initial_facts),
         "rules_fired": trace,
+        "rules_total": len(RULES),
     }
