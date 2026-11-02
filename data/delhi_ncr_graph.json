@@ -87,19 +87,19 @@
     {"from": "ghaziabad", "to": "greater_noida", "km": 30, "type": "highway", "congestion": 1.1}
   ],
   "hospitals": [
-    {"id": "h_saket", "name": "Sanjeevani Heart Institute", "location": "saket", "specialties": ["cardiac", "general"]},
-    {"id": "h_karol_bagh", "name": "Sanjeevani Neuro Centre", "location": "karol_bagh", "specialties": ["neuro", "general"]},
-    {"id": "h_dhaula_kuan", "name": "Sanjeevani Trauma Centre", "location": "dhaula_kuan", "specialties": ["trauma", "toxicology", "general"]},
-    {"id": "h_civil_lines", "name": "Sanjeevani Chest Hospital", "location": "civil_lines", "specialties": ["respiratory", "general"]},
-    {"id": "h_lajpat_nagar", "name": "Sanjeevani Community Clinic Lajpat Nagar", "location": "lajpat_nagar", "specialties": ["general"]},
-    {"id": "h_connaught_place", "name": "Sanjeevani Community Clinic Connaught Place", "location": "connaught_place", "specialties": ["general"]},
-    {"id": "h_laxmi_nagar", "name": "Sanjeevani Community Clinic Laxmi Nagar", "location": "laxmi_nagar", "specialties": ["general"]},
-    {"id": "h_rohini", "name": "Sanjeevani Mind and Wellness Hospital", "location": "rohini", "specialties": ["mental_health", "general"]},
-    {"id": "h_cyber_city", "name": "Sanjeevani Multi-Speciality Gurugram", "location": "cyber_city", "specialties": ["cardiac", "neuro", "respiratory", "trauma", "general"]},
-    {"id": "h_noida", "name": "Sanjeevani Multi-Speciality Noida", "location": "noida_city_centre", "specialties": ["cardiac", "neuro", "respiratory", "toxicology", "mental_health", "general"]},
-    {"id": "h_faridabad", "name": "Sanjeevani Heart and Trauma Faridabad", "location": "faridabad", "specialties": ["cardiac", "trauma", "general"]},
-    {"id": "h_ghaziabad", "name": "Sanjeevani City Hospital Ghaziabad", "location": "ghaziabad", "specialties": ["respiratory", "trauma", "general"]},
-    {"id": "h_dwarka", "name": "Sanjeevani Neuro and Mind Dwarka", "location": "dwarka", "specialties": ["neuro", "mental_health", "general"]},
-    {"id": "h_greater_noida", "name": "Sanjeevani Trauma Greater Noida", "location": "greater_noida", "specialties": ["trauma", "general"]}
+    {"id": "h_saket", "name": "Hridaya Heart Institute, Saket", "location": "saket", "specialties": ["cardiac", "general"]},
+    {"id": "h_karol_bagh", "name": "Medhavi Neuro Centre, Karol Bagh", "location": "karol_bagh", "specialties": ["neuro", "general"]},
+    {"id": "h_dhaula_kuan", "name": "Ridge Trauma Centre, Dhaula Kuan", "location": "dhaula_kuan", "specialties": ["trauma", "toxicology", "general"]},
+    {"id": "h_civil_lines", "name": "Pranvayu Chest Hospital, Civil Lines", "location": "civil_lines", "specialties": ["respiratory", "general"]},
+    {"id": "h_lajpat_nagar", "name": "Central Market Community Clinic, Lajpat Nagar", "location": "lajpat_nagar", "specialties": ["general"]},
+    {"id": "h_connaught_place", "name": "Barakhamba Community Clinic, Connaught Place", "location": "connaught_place", "specialties": ["general"]},
+    {"id": "h_laxmi_nagar", "name": "Yamuna Community Clinic, Laxmi Nagar", "location": "laxmi_nagar", "specialties": ["general"]},
+    {"id": "h_rohini", "name": "Manas Mind and Wellness Hospital, Rohini", "location": "rohini", "specialties": ["mental_health", "general"]},
+    {"id": "h_cyber_city", "name": "Aravali Multi-Speciality Hospital, Gurugram", "location": "cyber_city", "specialties": ["cardiac", "neuro", "respiratory", "trauma", "general"]},
+    {"id": "h_noida", "name": "Gateway Multi-Speciality Hospital, Noida", "location": "noida_city_centre", "specialties": ["cardiac", "neuro", "respiratory", "toxicology", "mental_health", "general"]},
+    {"id": "h_faridabad", "name": "Surajkund Heart and Trauma Hospital, Faridabad", "location": "faridabad", "specialties": ["cardiac", "trauma", "general"]},
+    {"id": "h_ghaziabad", "name": "Hindon City Hospital, Ghaziabad", "location": "ghaziabad", "specialties": ["respiratory", "trauma", "general"]},
+    {"id": "h_dwarka", "name": "Sarthak Neuro and Mind Hospital, Dwarka", "location": "dwarka", "specialties": ["neuro", "mental_health", "general"]},
+    {"id": "h_greater_noida", "name": "Pari Chowk Trauma Centre, Greater Noida", "location": "greater_noida", "specialties": ["trauma", "general"]}
   ]
 }
