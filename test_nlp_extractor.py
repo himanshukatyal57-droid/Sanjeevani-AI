@@ -45,6 +45,14 @@ class TestLexicon(ExtractorTestCase):
             readable = feature.replace("_", " ").replace(",", "").replace("(s)", "").replace(".1", "")
             self.assertIn(feature, self.symptoms(readable), readable)
 
+    def test_every_follow_up_answer_is_understood(self):
+        # The website adds the answer to the text as ", <name>" or ", no <name>"
+        for feature in self.features:
+            name = feature.replace("(s)", "").replace(",", "").replace("_", " ")
+            name = re.sub(r"\.\d+$", "", name)
+            self.assertIn(feature, self.extractor.extract(f"hello there, {name}")["symptoms"], name)
+            self.assertIn(feature, self.extractor.extract(f"hello there, no {name}")["negated_symptoms"], name)
+
     def test_target_column_is_not_a_symptom(self):
         self.assertEqual(self.symptoms("I have read about many diseases"), set())
 

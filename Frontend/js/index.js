@@ -316,6 +316,34 @@ function renderTriage(triage) {
     triageResult.appendChild(createRuleTrace(triage));
 }
 
+// The answer goes into the symptom text and the form is sent again, so a "yes" also
+// goes through the emergency rules, and the text always shows what was said
+function answerFollowUp(answer) {
+    symptomsInput.value = `${symptomsInput.value.trim()}, ${answer}`;
+    updateSymptomInterface();
+    symptomForm.requestSubmit();
+}
+
+function createFollowUp(symptom) {
+    const name = readableName(symptom);
+    const box = createElement("div", "follow-up");
+    const buttons = createElement("div", "follow-up-buttons");
+    const yes = createElement("button", "primary-button", "Yes");
+    const no = createElement("button", "secondary-button", "No");
+
+    yes.type = "button";
+    no.type = "button";
+    yes.addEventListener("click", () => answerFollowUp(name));
+    no.addEventListener("click", () => answerFollowUp(`no ${name}`));
+    buttons.append(yes, no);
+
+    box.appendChild(createElement("p", "follow-up-question", `Do you also have ${name.toLowerCase()}?`));
+    box.appendChild(buttons);
+    box.appendChild(createElement("p", "result-note", "The Decision Tree chose this as its next most useful question."));
+
+    return box;
+}
+
 function renderPrediction(prediction) {
     if (prediction.status === "skipped_emergency") {
         predictionStatus.textContent = "Skipped";
@@ -340,6 +368,18 @@ function renderPrediction(prediction) {
     }
 
     predictionStatus.textContent = "Complete";
+
+    if (prediction.lowConfidence) {
+        predictionResult.appendChild(createElement("p", "weak-notice", "Not enough information yet. Please add more symptoms, or answer the question below."));
+    }
+
+    if (prediction.followUp) {
+        predictionResult.appendChild(createFollowUp(prediction.followUp));
+    }
+
+    if (prediction.lowConfidence) {
+        predictionResult.appendChild(createElement("p", "result-label", "Possible conditions so far"));
+    }
 
     const list = createElement("div", "prediction-list");
 

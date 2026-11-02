@@ -118,6 +118,13 @@ test("debug data reaches the dashboard", async () => {
     assert.strictEqual(pipeline.triage.rulesTotal, 31);
 });
 
+test("low confidence and the follow-up question reach the dashboard", async () => {
+    pythonHandler = (req, res) => res.json(pythonResponse({ low_confidence: true, follow_up: "ear_pain" }));
+    const { pipeline } = (await (await post(VALID)).json()).data;
+    assert.strictEqual(pipeline.prediction.lowConfidence, true);
+    assert.strictEqual(pipeline.prediction.followUp, "ear_pain");
+});
+
 test("short input like 'help' reaches the rules", async () => {
     const response = await post({ symptoms: "help", duration: "1–3 days" });
     assert.strictEqual(response.status, 200);

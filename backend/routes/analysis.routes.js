@@ -40,6 +40,8 @@ function buildPrediction(result) {
     return {
         status: "complete",
         predictions: result.predictions,
+        lowConfidence: result.low_confidence,
+        followUp: result.follow_up,
         decisionPath: result.decision_path
     };
 }

@@ -74,6 +74,10 @@ From `models/sanjeevani_model_metadata.json`, measured on a held-out test set. T
 
 Macro-F1 is 0.79 and accuracy is 79% with all symptoms given. People often describe fewer symptoms than the dataset rows contain, so the tree is also trained on copies of rows with symptoms removed.
 
+When the result is uncertain, the site asks a follow-up question chosen by the tree: the first unanswered split after the last confirmed symptom. In a simulation on 3,000 held-out test rows starting from 2 symptoms, 3 such questions raised correct-first accuracy from 37% to 47% and top-3 from 63% to 71%, against about 41% correct first for random questions. Simulated patients answer truthfully from the data, so real users may differ. Sex-specific and intimate symptoms are never asked, because the form doesn't ask the patient's sex, but people can still type them.
+
+Below a 25% top score, the site says there isn't enough information, because the top answer was right at most 14% of the time at those scores.
+
 Across every starting point and care type on the map (210 combinations), A* matched an independent Dijkstra check every time, and explored about 18% fewer locations than Dijkstra.
 
 ## Known limitations

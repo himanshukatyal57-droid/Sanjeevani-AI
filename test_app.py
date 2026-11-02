@@ -38,6 +38,11 @@ class TestPredict(unittest.TestCase):
         service.extractor = SymptomExtractor(FEATURES)
         self.client = TestClient(service.app)
 
+    @staticmethod
+    def cough_tree():
+        X = pd.DataFrame([[0, 1, 0]] * 8 + [[0, 1, 1]] * 2, columns=FEATURES, dtype=np.uint8)
+        return DecisionTreeClassifier(random_state=0).fit(X, [str(i) for i in range(8)] + ["x", "x"])
+
     def post(self, text):
         return self.client.post("/predict", json={"user_text": text})
 
@@ -134,6 +139,30 @@ class TestPredict(unittest.TestCase):
         self.assertTrue(body["decision_path"]["steps"])
         fever_steps = [s for s in body["decision_path"]["steps"] if s["symptom"] == "fever"]
         self.assertTrue(all(s["present"] for s in fever_steps))
+
+    def test_low_scores_are_flagged_and_ask_a_question(self):
+        # Cough alone is shared by 8 diseases, and only "fever" separates them from a ninth
+        service.model = self.cough_tree()
+        body = self.post("I have a cough").json()
+        self.assertTrue(body["low_confidence"])
+        self.assertEqual(body["follow_up"], "fever")
+
+    def test_confident_result_asks_nothing(self):
+        X = pd.DataFrame([[0, 1, 0]] * 5 + [[0, 0, 1]] * 5, columns=FEATURES, dtype=np.uint8)
+        service.model = DecisionTreeClassifier(random_state=0).fit(X, ["a"] * 5 + ["b"] * 5)
+        body = self.post("I have a cough").json()
+        self.assertFalse(body["low_confidence"])
+        self.assertIsNone(body["follow_up"])
+
+    def test_denied_symptoms_are_not_asked_again(self):
+        service.model = self.cough_tree()
+        self.assertEqual(self.post("I have a cough").json()["follow_up"], "fever")
+        self.assertIsNone(self.post("I have a cough, no fever").json()["follow_up"])
+
+    def test_emergency_asks_nothing(self):
+        body = self.post("I am bleeding heavily").json()
+        self.assertIsNone(body["follow_up"])
+        self.assertFalse(body["low_confidence"])
 
     def test_no_path_when_the_model_is_skipped(self):
         self.assertIsNone(self.post("I am bleeding heavily").json()["decision_path"])

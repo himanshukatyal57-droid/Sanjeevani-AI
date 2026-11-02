@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.tree import DecisionTreeClassifier
 
-from tree_explainer import explain_tree_prediction
+from tree_explainer import choose_follow_up, explain_tree_prediction
 
 FEATURES = ["fever", "cough", "rash", "headache", "nausea"]
 
@@ -52,6 +52,38 @@ class TestExplainer(unittest.TestCase):
 
     def test_other_model_types_have_no_path(self):
         self.assertIsNone(explain_tree_prediction(object(), FEATURES, [0, 0, 0, 0, 0]))
+
+
+def path_of(*steps):
+    return {"steps": [{"symptom": name, "present": present, "samples": 1} for name, present in steps]}
+
+
+class TestFollowUp(unittest.TestCase):
+    def test_asks_the_first_split_after_the_last_yes(self):
+        path = path_of(("rash", False), ("cough", True), ("fever", False), ("nausea", False))
+        self.assertEqual(choose_follow_up(path, set()), "fever")
+
+    def test_skips_what_was_already_answered(self):
+        path = path_of(("cough", True), ("fever", False), ("nausea", False))
+        self.assertEqual(choose_follow_up(path, {"fever"}), "nausea")
+
+    def test_path_ending_on_yes_uses_the_nearest_earlier_split(self):
+        path = path_of(("rash", False), ("fever", False), ("cough", True))
+        self.assertEqual(choose_follow_up(path, set()), "fever")
+
+    def test_no_yes_on_the_path_starts_at_the_top(self):
+        path = path_of(("rash", False), ("fever", False))
+        self.assertEqual(choose_follow_up(path, set()), "rash")
+
+    def test_never_asks_unsuitable_symptoms(self):
+        path = path_of(("cough", True), ("regurgitation.1", False), ("symptoms_of_eye", False),
+                       ("problems_with_orgasm", False), ("irritable_infant", False), ("vaginal_discharge", False),
+                       ("penis_pain", False), ("painful_menstruation", False), ("fever", False))
+        self.assertEqual(choose_follow_up(path, set()), "fever")
+
+    def test_nothing_left_to_ask(self):
+        self.assertIsNone(choose_follow_up(path_of(("cough", True), ("fever", False)), {"fever"}))
+        self.assertIsNone(choose_follow_up(path_of(("cough", True)), set()))
 
 
 if __name__ == "__main__":

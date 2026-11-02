@@ -159,6 +159,40 @@
     color: #334e68;
 }
 
+.weak-notice {
+    margin-bottom: 12px;
+    color: #7a4709 !important;
+    font-weight: 700;
+}
+
+.follow-up {
+    margin-bottom: 16px;
+    padding: 14px;
+    border: 1px solid #b8d9d1;
+    border-radius: 10px;
+    background: #f0f8f8;
+}
+
+.follow-up-question {
+    color: #102a43 !important;
+    font-weight: 700;
+}
+
+.follow-up-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.follow-up-buttons button {
+    min-width: 76px;
+    padding: 9px 18px;
+}
+
+.follow-up .result-note {
+    margin-top: 10px;
+}
+
 .prediction-list {
     display: grid;
     gap: 12px;
