@@ -318,6 +318,12 @@ button {
     font-weight: 700;
 }
 
+.status-down,
+.live-indicator.is-offline {
+    color: #b42318;
+    font-weight: 700;
+}
+
 .floating-tag {
     position: absolute;
     z-index: 2;

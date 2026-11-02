@@ -5,7 +5,9 @@
   "main": "node.js",
   "scripts": {
   "start": "node backend/server.js",
-  "dev": "nodemon backend/server.js"
+  "start:ai": "python -m uvicorn app:app --port 8000",
+  "dev": "nodemon backend/server.js",
+  "test": "node --test \"backend/**/*.test.js\""
   },
   "keywords": [],
   "author": "",

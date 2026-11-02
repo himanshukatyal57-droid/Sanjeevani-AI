@@ -57,6 +57,154 @@
     margin-bottom: 12px;
 }
 
+.result-status:empty {
+    display: none;
+}
+
+.result-label {
+    margin-top: 14px;
+    margin-bottom: 6px;
+    color: #102a43 !important;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.result-card > div > .result-label:first-child {
+    margin-top: 0;
+}
+
+.result-note {
+    margin-top: 12px;
+    font-size: 0.82rem;
+}
+
+.result-list {
+    padding-left: 18px;
+    color: #486581;
+    line-height: 1.6;
+}
+
+.result-list li + li {
+    margin-top: 4px;
+}
+
+.result-disclaimer {
+    max-width: 760px;
+    margin: 28px auto 0;
+    color: #486581;
+    font-size: 0.85rem;
+    text-align: center;
+}
+
+.result-disclaimer:empty {
+    display: none;
+}
+
+.tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.tag {
+    padding: 5px 11px;
+    border-radius: 16px;
+    font-size: 0.85rem;
+}
+
+.tag-found {
+    background: #d8f3ed;
+    color: #075e50;
+}
+
+.tag-negated {
+    background: #eef2f6;
+    color: #486581;
+    text-decoration: line-through;
+}
+
+.tag-flag {
+    background: #fff8ed;
+    color: #7a4709;
+}
+
+.level-badge {
+    display: inline-block;
+    margin-bottom: 10px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.level-emergency {
+    background: #b42318;
+    color: #ffffff;
+}
+
+.level-urgent {
+    background: #fff1d6;
+    color: #7a4709;
+}
+
+.level-routine {
+    background: #d8f3ed;
+    color: #075e50;
+}
+
+.level-unknown {
+    background: #e8f1f8;
+    color: #334e68;
+}
+
+.prediction-list {
+    display: grid;
+    gap: 12px;
+}
+
+.prediction-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 5px;
+    color: #102a43;
+    font-size: 0.92rem;
+}
+
+.prediction-score {
+    font-weight: 700;
+}
+
+.prediction-track {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: #e8f1f8;
+}
+
+.prediction-bar {
+    height: 100%;
+    border-radius: 4px;
+    background: #0f766e;
+}
+
+.route-hospital {
+    color: #102a43 !important;
+    font-size: 1.05rem;
+    font-weight: 700;
+}
+
+.route-stats {
+    margin-bottom: 8px;
+    color: #075e50 !important;
+    font-weight: 700;
+}
+
+.route-stats + p + .result-list {
+    margin-top: 10px;
+}
+
 .emergency-notice {
     background: #fff1f0;
     border: 1px solid #f5b7b1;

@@ -64,6 +64,11 @@ const nlpResult = document.getElementById("nlpResult");
 const triageResult = document.getElementById("triageResult");
 const predictionResult = document.getElementById("predictionResult");
 const routeResult = document.getElementById("routeResult");
+const nlpStatus = document.getElementById("nlpStatus");
+const triageStatus = document.getElementById("triageStatus");
+const predictionStatus = document.getElementById("predictionStatus");
+const routeStatus = document.getElementById("routeStatus");
+const resultDisclaimer = document.getElementById("resultDisclaimer");
 const emergencyNotice = document.getElementById("emergencyNotice");
 const emergencyMessage = document.getElementById("emergencyMessage");
 
@@ -75,6 +80,7 @@ function clearPreviousResults() {
     resultsDashboard.hidden = true;
     emergencyNotice.hidden = true;
     emergencyMessage.textContent = "";
+    [nlpResult, triageResult, predictionResult, routeResult].forEach(card => card.replaceChildren());
     resultContainer.classList.remove("is-error");
     resultTitle.textContent = "Analysis Result";
 }
@@ -104,6 +110,7 @@ symptomForm.addEventListener("submit", async (event) => {
     // Collect form information
     const symptoms = document.getElementById("symptoms").value.trim();
     const duration = document.getElementById("duration").value;
+    const location = document.getElementById("location").value;
 
     // Show loading state
     const submitButton = symptomForm.querySelector(".submit-button");
@@ -124,7 +131,8 @@ symptomForm.addEventListener("submit", async (event) => {
             },
             body: JSON.stringify({
                 symptoms: symptoms,
-                duration: duration
+                duration: duration,
+                location: location
             }),
             signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
         });
@@ -152,24 +160,17 @@ symptomForm.addEventListener("submit", async (event) => {
         // Display the results dashboard
         resultsDashboard.hidden = false;
 
-        // Update NLP result
-        nlpResult.textContent = pipeline.nlp.message;
-
-        // Update emergency triage result
-        triageResult.textContent = pipeline.triage.message;
-
-        // Update disease prediction result
-        predictionResult.textContent = pipeline.prediction.message;
-
-        // Update hospital route result
-        routeResult.textContent = pipeline.route.message;
+        renderSymptoms(pipeline.nlp);
+        renderTriage(pipeline.triage);
+        renderPrediction(pipeline.prediction);
+        renderRoute(pipeline.route);
+        resultDisclaimer.textContent = analysisData.disclaimer;
 
         // Display emergency notice only if emergency is confirmed.
         // Text is set after revealing it, so screen readers announce the alert.
         if (pipeline.triage.emergency === true) {
             emergencyNotice.hidden = false;
-            emergencyMessage.textContent =
-                "This may be a medical emergency. Call 112 or get to a hospital now.";
+            emergencyMessage.textContent = buildEmergencyMessage(pipeline.route);
         }
 
         // Bring dashboard into view
@@ -195,7 +196,268 @@ symptomForm.addEventListener("submit", async (event) => {
 
 
 // ===================================
-// 5. SMART SYMPTOM SUGGESTIONS
+// 5. RESULTS RENDERING
+// ===================================
+
+const LEVEL_ADVICE = {
+    EMERGENCY: "Call 112 or get to a hospital now.",
+    URGENT: "This should not wait. Please see a doctor today.",
+    ROUTINE: "No emergency signs were found in what you described.",
+    UNKNOWN: "We could not recognize any symptoms, so this is not an all-clear. Try describing them differently."
+};
+
+const CARE_NAMES = {
+    cardiac: "cardiac care",
+    neuro: "neurological care",
+    respiratory: "respiratory care",
+    trauma: "trauma care",
+    toxicology: "poison care",
+    mental_health: "mental health care",
+    general: "general care"
+};
+
+// All text goes through textContent, so user input can never become HTML
+function createElement(tag, className, text) {
+    const element = document.createElement(tag);
+
+    if (className) {
+        element.className = className;
+    }
+
+    if (text !== undefined) {
+        element.textContent = text;
+    }
+
+    return element;
+}
+
+// "low_back_pain" -> "Low back pain"
+function readableName(name) {
+    const words = name.replace(/\(s\)|\.\d+$/g, "").replace(/,/g, "").replace(/_/g, " ");
+    return words.charAt(0).toUpperCase() + words.slice(1);
+}
+
+function createTagList(names, className) {
+    const list = createElement("div", "tag-list");
+
+    // Duplicate dataset columns such as "regurgitation.1" read the same
+    [...new Set(names.map(readableName))].forEach(name => {
+        list.appendChild(createElement("span", `tag ${className}`, name));
+    });
+
+    return list;
+}
+
+function renderSymptoms(nlp) {
+    nlpStatus.textContent = "Complete";
+
+    if (nlp.symptoms.length > 0) {
+        nlpResult.appendChild(createElement("p", "result-label", "Symptoms found"));
+        nlpResult.appendChild(createTagList(nlp.symptoms, "tag-found"));
+    } else {
+        nlpResult.appendChild(createElement("p", "", "No symptoms the model knows were found."));
+    }
+
+    if (nlp.negatedSymptoms.length > 0) {
+        nlpResult.appendChild(createElement("p", "result-label", "You said you do not have"));
+        nlpResult.appendChild(createTagList(nlp.negatedSymptoms, "tag-negated"));
+    }
+
+    if (nlp.flags.length > 0) {
+        nlpResult.appendChild(createElement("p", "result-label", "Also noted"));
+        nlpResult.appendChild(createTagList(nlp.flags, "tag-flag"));
+    }
+}
+
+// The reasons for the level given. Rule names show the stage: E for emergency, U for urgent.
+function triageReasons(triage) {
+    const prefix = { EMERGENCY: "E", URGENT: "U" }[triage.level];
+
+    if (!prefix) {
+        return [];
+    }
+
+    return [...new Set(triage.rulesFired
+        .filter(step => step.rule.startsWith(prefix))
+        .map(step => step.description))];
+}
+
+function renderTriage(triage) {
+    triageStatus.textContent = "Complete";
+
+    triageResult.appendChild(createElement("span", `level-badge level-${triage.level.toLowerCase()}`, triage.level));
+    triageResult.appendChild(createElement("p", "", LEVEL_ADVICE[triage.level]));
+
+    const reasons = triageReasons(triage);
+
+    if (reasons.length > 0) {
+        triageResult.appendChild(createElement("p", "result-label", "Why"));
+
+        const list = createElement("ul", "result-list");
+        reasons.forEach(reason => list.appendChild(createElement("li", "", reason)));
+        triageResult.appendChild(list);
+    }
+
+    if (triage.primaryCare) {
+        triageResult.appendChild(createElement("p", "result-label", "Care needed"));
+        triageResult.appendChild(createElement("p", "", readableName(CARE_NAMES[triage.primaryCare])));
+    }
+}
+
+function renderPrediction(prediction) {
+    if (prediction.status === "skipped_emergency") {
+        predictionStatus.textContent = "Skipped";
+        predictionResult.appendChild(createElement("p", "", "Skipped because this may be an emergency. Getting help comes first."));
+        return;
+    }
+
+    if (prediction.status === "not_run") {
+        predictionStatus.textContent = "Not run";
+        predictionResult.appendChild(createElement("p", "", "No prediction was made, because the model needs at least one symptom it knows."));
+        return;
+    }
+
+    predictionStatus.textContent = "Complete";
+
+    const list = createElement("div", "prediction-list");
+
+    prediction.predictions.forEach(item => {
+        const percent = Math.round(item.confidence * 100);
+        const row = createElement("div", "prediction-row");
+        const heading = createElement("div", "prediction-heading");
+        const track = createElement("div", "prediction-track");
+        const bar = createElement("div", "prediction-bar");
+
+        heading.appendChild(createElement("span", "", readableName(item.disease)));
+        heading.appendChild(createElement("span", "prediction-score", `${percent}%`));
+        bar.style.width = `${percent}%`;
+        track.appendChild(bar);
+        row.append(heading, track);
+        list.appendChild(row);
+    });
+
+    predictionResult.appendChild(list);
+    predictionResult.appendChild(createElement("p", "result-note", "Possible conditions only, not a diagnosis. Percentages are model confidence, not medical certainty."));
+}
+
+function renderRoute(route) {
+    if (route.status === "no_location") {
+        routeStatus.textContent = "Not run";
+        routeResult.appendChild(createElement("p", "", "Select your area in the form above to find the fastest suitable hospital."));
+        return;
+    }
+
+    if (route.status === "unavailable") {
+        routeStatus.textContent = "Unavailable";
+        routeResult.appendChild(createElement("p", "", `We could not find a route. ${route.message}`));
+        return;
+    }
+
+    routeStatus.textContent = "Complete";
+
+    routeResult.appendChild(createElement("p", "route-hospital", route.hospital.name));
+
+    if (route.path.length > 1) {
+        routeResult.appendChild(createElement("p", "route-stats", `${route.minutes} min · ${route.km} km`));
+        routeResult.appendChild(createElement("p", "", route.path.map(stop => stop.name).join(" → ")));
+    } else {
+        routeResult.appendChild(createElement("p", "route-stats", "In your area"));
+    }
+
+    const comparison = route.comparison;
+    const notes = createElement("ul", "result-list");
+    const careName = CARE_NAMES[route.care];
+
+    if (!comparison.closest_hospital.can_treat) {
+        notes.appendChild(createElement("li", "", `The closest hospital, ${comparison.closest_hospital.name}, does not offer ${careName}.`));
+    }
+
+    if (comparison.minutes_saved > 0) {
+        notes.appendChild(createElement("li", "", `${comparison.minutes_saved} min faster than ${comparison.closest_suitable_hospital.name}, which is closer by distance.`));
+    }
+
+    if (notes.children.length > 0) {
+        routeResult.appendChild(notes);
+    }
+
+    routeResult.appendChild(createElement("p", "result-note", "Demo map: hospitals are fictional, and travel times are estimates."));
+}
+
+function buildEmergencyMessage(route) {
+    const advice = `This may be a medical emergency. ${LEVEL_ADVICE.EMERGENCY}`;
+
+    if (route.status !== "complete") {
+        return advice;
+    }
+
+    return `${advice} Fastest suitable hospital on the demo map: ${route.hospital.name}.`;
+}
+
+
+// ===================================
+// 6. LIVE SYSTEM STATUS AND LOCATIONS
+// ===================================
+
+function showServiceStatus(id, ready) {
+    const element = document.getElementById(id);
+
+    element.textContent = ready ? "Ready" : "Unavailable";
+    element.className = ready ? "status-active" : "status-down";
+}
+
+function showSystemStatus(status) {
+    const indicator = document.getElementById("systemStatus");
+
+    indicator.textContent = status.online ? "● SYSTEM ONLINE" : "● SYSTEM OFFLINE";
+    indicator.classList.toggle("is-offline", !status.online);
+
+    showServiceStatus("statusTriage", status.triage);
+    showServiceStatus("statusPrediction", status.prediction);
+    showServiceStatus("statusRouting", status.routing);
+}
+
+async function loadSystemStatus() {
+    try {
+        const response = await fetch("/api/analysis/status");
+        showSystemStatus(await response.json());
+    } catch (error) {
+        console.error("Status check failed:", error);
+        showSystemStatus({ online: false });
+    }
+}
+
+async function loadLocations() {
+    const select = document.getElementById("location");
+
+    try {
+        const response = await fetch("/api/analysis/locations");
+        const data = await response.json();
+
+        if (!data.success) {
+            throw new Error(data.message);
+        }
+
+        data.locations
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .forEach(location => {
+                const option = createElement("option", "", location.name);
+                option.value = location.id;
+                select.appendChild(option);
+            });
+
+    } catch (error) {
+        console.error("Could not load locations:", error);
+        document.getElementById("locationHint").textContent =
+            "Areas could not be loaded, so hospital routes are unavailable. You can still submit your symptoms.";
+    }
+}
+
+loadSystemStatus();
+loadLocations();
+
+
+// ===================================
+// 7. SMART SYMPTOM SUGGESTIONS
 // ===================================
 
 const symptomChips = document.getElementById("symptomChips");

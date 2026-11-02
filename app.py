@@ -61,7 +61,13 @@ def load_artifacts():
 
 @app.get("/")
 def health_check():
-    return {"status": "running", "service": "Sanjeevani AI ML & NLP Microservice"}
+    return {
+        "status": "running",
+        "service": "Sanjeevani AI ML & NLP Microservice",
+        "triage_ready": extractor is not None,
+        "model_loaded": model is not None,
+        "map_loaded": router is not None
+    }
 
 @app.get("/locations")
 def list_locations():

@@ -3,10 +3,83 @@ const express = require("express");
 
 const router = express.Router();
 
+const PYTHON_TIMEOUT_MS = 15000;
+const DISCLAIMER = "This is an academic demonstration, not a medical assessment. Do not use it to make healthcare decisions.";
+
+// Read on each call, so a value from .env or a test is always picked up
+function pythonUrl(path) {
+    return (process.env.PYTHON_API_URL || "http://127.0.0.1:8000") + path;
+}
+
+async function callPython(path, options = {}) {
+    const response = await fetch(pythonUrl(path), {
+        ...options,
+        signal: AbortSignal.timeout(PYTHON_TIMEOUT_MS)
+    });
+
+    if (!response.ok) {
+        throw new Error(`Python API responded with status ${response.status}`);
+    }
+
+    return response.json();
+}
+
+function buildPrediction(result) {
+    if (result.triage.emergency) {
+        return { status: "skipped_emergency", predictions: [] };
+    }
+
+    if (result.predictions.length === 0) {
+        return { status: "not_run", predictions: [] };
+    }
+
+    return { status: "complete", predictions: result.predictions };
+}
+
+function buildRoute(result, location) {
+    if (!location) {
+        return { status: "no_location" };
+    }
+
+    if (!result.route) {
+        return {
+            status: "unavailable",
+            message: result.route_error || "No route could be found."
+        };
+    }
+
+    return { status: "complete", ...result.route };
+}
+
+// Translates the Python response into the shape the dashboard displays
+function buildPipeline(result, location) {
+    return {
+        nlp: {
+            status: "complete",
+            symptoms: result.extracted_symptoms,
+            negatedSymptoms: result.negated_symptoms,
+            flags: result.clinical_flags
+        },
+
+        triage: {
+            status: "complete",
+            level: result.triage.level,
+            emergency: result.triage.emergency,
+            primaryCare: result.triage.primary_care,
+            careNeeded: result.triage.care_needed,
+            rulesFired: result.triage.rules_fired
+        },
+
+        prediction: buildPrediction(result),
+
+        route: buildRoute(result, location)
+    };
+}
+
 // POST /api/analysis
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
     try {
-        const { symptoms, duration } = req.body;
+        const { symptoms, duration, location } = req.body;
 
         // Validate input
         if (!symptoms || !duration) {
@@ -32,54 +105,94 @@ router.post("/", (req, res) => {
             });
         }
 
-        // Temporary structured demonstration response
+        // Location is optional, so choosing one can never delay an emergency result
+        if (location && typeof location !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid location."
+            });
+        }
+
+        const result = await callPython("/predict", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                user_text: symptoms.trim(),
+                duration: duration,
+                location: location || null
+            })
+        });
+
         res.status(200).json({
             success: true,
-            message: "Analysis request processed successfully!",
+            message: "Analysis complete.",
 
             data: {
                 patientInput: {
                     symptoms: symptoms.trim(),
-                    duration: duration
+                    duration: duration,
+                    location: location || null
                 },
 
-                pipeline: {
-                    nlp: {
-                        status: "not_connected",
-                        message: "Python NLP service is not connected yet."
-                    },
+                pipeline: buildPipeline(result, location),
 
-                    triage: {
-                        status: "not_connected",
-                        message: "Java emergency triage service is not connected yet.",
-                        emergency: null
-                    },
-
-                    prediction: {
-                        status: "not_connected",
-                        message: "Python Decision Tree service is not connected yet.",
-                        disease: null,
-                        confidence: null
-                    },
-
-                    route: {
-                        status: "not_connected",
-                        message: "Java hospital routing service is not connected yet.",
-                        hospital: null,
-                        distance: null
-                    }
-                },
-
-                disclaimer: "This is a demonstration response, not a medical assessment. Do not use it to make healthcare decisions."
+                disclaimer: DISCLAIMER
             }
         });
 
     } catch (error) {
         console.error("Analysis API error:", error);
 
-        res.status(500).json({
+        res.status(503).json({
             success: false,
-            message: "Internal server error."
+            message: "The AI service is not available right now."
+        });
+    }
+});
+
+// GET /api/analysis/locations
+router.get("/locations", async (req, res) => {
+    try {
+        const locations = await callPython("/locations");
+
+        res.status(200).json({
+            success: true,
+            locations: locations
+        });
+
+    } catch (error) {
+        console.error("Locations API error:", error);
+
+        res.status(503).json({
+            success: false,
+            message: "Locations are not available right now."
+        });
+    }
+});
+
+// GET /api/analysis/status
+router.get("/status", async (req, res) => {
+    try {
+        const health = await callPython("/");
+
+        res.status(200).json({
+            success: true,
+            online: true,
+            triage: health.triage_ready,
+            prediction: health.model_loaded,
+            routing: health.map_loaded
+        });
+
+    } catch (error) {
+        // Not an error for the caller: "offline" is a valid answer to this question
+        res.status(200).json({
+            success: true,
+            online: false,
+            triage: false,
+            prediction: false,
+            routing: false
         });
     }
 });

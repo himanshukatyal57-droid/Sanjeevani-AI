@@ -122,6 +122,13 @@ class TestPredict(unittest.TestCase):
         names = [loc["name"] for loc in self.client.get("/locations").json()]
         self.assertIn("Saket", names)
 
+    def test_health_reports_what_is_loaded(self):
+        service.router = None
+        body = self.client.get("/").json()
+        self.assertTrue(body["triage_ready"])
+        self.assertTrue(body["model_loaded"])
+        self.assertFalse(body["map_loaded"])
+
     def test_missing_model_is_an_error(self):
         service.model = None
         self.assertEqual(self.post("fever").status_code, 500)
