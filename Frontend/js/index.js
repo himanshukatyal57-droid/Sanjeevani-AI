@@ -31,7 +31,8 @@ navigationLinks.forEach((link) => {
     link.addEventListener("click", (event) => {
         const targetId = link.getAttribute("href");
 
-        if (targetId && targetId.startsWith("#")) {
+        // A bare "#" is not a valid selector
+        if (targetId && targetId.length > 1 && targetId.startsWith("#")) {
             const target = document.querySelector(targetId);
 
             if (target) {
@@ -54,6 +55,7 @@ navigationLinks.forEach((link) => {
 const symptomForm = document.getElementById("symptomForm");
 const resultContainer = document.getElementById("resultContainer");
 const resultMessage = document.getElementById("resultMessage");
+const resultTitle = document.getElementById("resultTitle");
 
 
 // Dashboard elements
@@ -64,6 +66,36 @@ const predictionResult = document.getElementById("predictionResult");
 const routeResult = document.getElementById("routeResult");
 const emergencyNotice = document.getElementById("emergencyNotice");
 const emergencyMessage = document.getElementById("emergencyMessage");
+
+const REQUEST_TIMEOUT_MS = 20000;
+const SAFETY_ADVICE = "If this could be an emergency, call 112 now. Do not wait for this tool.";
+
+// Results from an earlier request must never be mistaken for this one
+function clearPreviousResults() {
+    resultsDashboard.hidden = true;
+    emergencyNotice.hidden = true;
+    emergencyMessage.textContent = "";
+    resultContainer.classList.remove("is-error");
+    resultTitle.textContent = "Analysis Result";
+}
+
+function showFailure(message) {
+    resultContainer.classList.add("is-error");
+    resultTitle.textContent = "Analysis unavailable";
+    resultMessage.textContent = message;
+}
+
+function describeFailure(error) {
+    if (error.name === "TimeoutError") {
+        return `The analysis is taking too long, so it was stopped. Please try again. ${SAFETY_ADVICE}`;
+    }
+
+    if (error.name === "TypeError") {
+        return `We could not reach the Sanjeevani AI server. Please check your connection and try again. ${SAFETY_ADVICE}`;
+    }
+
+    return `The server could not complete the analysis. Please try again. ${SAFETY_ADVICE}`;
+}
 
 
 symptomForm.addEventListener("submit", async (event) => {
@@ -79,6 +111,7 @@ symptomForm.addEventListener("submit", async (event) => {
     submitButton.disabled = true;
     submitButton.textContent = "Sending...";
 
+    clearPreviousResults();
     resultContainer.hidden = false;
     resultMessage.textContent = "Submitting your information to the server...";
 
@@ -92,13 +125,21 @@ symptomForm.addEventListener("submit", async (event) => {
             body: JSON.stringify({
                 symptoms: symptoms,
                 duration: duration
-            })
+            }),
+            signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
         });
 
-        const data = await response.json();
+        // Error pages from a proxy or a crash may not be JSON
+        const data = await response.json().catch(() => null);
 
-        if (!response.ok || !data.success) {
-            throw new Error(data.message || "Something went wrong.");
+        // The backend writes its 400 messages for users, so they can be shown as they are
+        if (response.status === 400 && data && data.message) {
+            showFailure(data.message);
+            return;
+        }
+
+        if (!response.ok || !data || !data.success) {
+            throw new Error(`Analysis API responded with status ${response.status}`);
         }
 
         // Display backend response
@@ -123,13 +164,12 @@ symptomForm.addEventListener("submit", async (event) => {
         // Update hospital route result
         routeResult.textContent = pipeline.route.message;
 
-        // Display emergency notice only if emergency is confirmed
+        // Display emergency notice only if emergency is confirmed.
+        // Text is set after revealing it, so screen readers announce the alert.
         if (pipeline.triage.emergency === true) {
             emergencyNotice.hidden = false;
             emergencyMessage.textContent =
-                "An emergency warning has been returned. Seek immediate medical assistance.";
-        } else {
-            emergencyNotice.hidden = true;
+                "This may be a medical emergency. Call 112 or get to a hospital now.";
         }
 
         // Bring dashboard into view
@@ -144,8 +184,7 @@ symptomForm.addEventListener("submit", async (event) => {
     } catch (error) {
         console.error("Analysis request failed:", error);
 
-        resultMessage.textContent =
-            error.message || "Unable to connect to the server.";
+        showFailure(describeFailure(error));
 
     } finally {
         // Restore button
@@ -168,7 +207,7 @@ const symptomSuggestions = {
     headache: [
         "Throbbing pain",
         "Dizziness",
-        "Sensitivity to light",
+        "Neck pain",
         "Nausea",
         "Pain around forehead"
     ],
@@ -190,7 +229,7 @@ const symptomSuggestions = {
         "Low energy",
         "Feeling exhausted",
         "Muscle weakness",
-        "Difficulty concentrating"
+        "Sleepiness"
     ],
     nausea: [
         "Feeling like vomiting",
@@ -246,6 +285,10 @@ function toggleSymptom(symptom) {
     updateSymptomInterface();
 }
 
+function chipLabel(symptom, selected) {
+    return `${selected ? "✓" : "+"} ${symptom}`;
+}
+
 // Update common symptom button appearance
 function updateCommonChips() {
     const entries = getSymptomEntries().map(
@@ -257,6 +300,7 @@ function updateCommonChips() {
             button.dataset.symptom.toLowerCase()
         );
 
+        button.textContent = chipLabel(button.dataset.symptom, selected);
         button.classList.toggle("selected", selected);
         button.setAttribute("aria-pressed", String(selected));
     });
@@ -294,12 +338,12 @@ function updateRelatedSuggestions() {
 
         button.type = "button";
         button.className = "related-chip";
-        button.textContent = "+ " + suggestion;
 
         const selected = existingEntries.includes(
             suggestion.toLowerCase()
         );
 
+        button.textContent = chipLabel(suggestion, selected);
         button.classList.toggle("selected", selected);
         button.setAttribute("aria-pressed", String(selected));
 

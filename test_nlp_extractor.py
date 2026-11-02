@@ -1,5 +1,6 @@
 """Run with: python -m unittest -v"""
 import csv
+import re
 import unittest
 from pathlib import Path
 
@@ -212,6 +213,16 @@ class TestMatching(ExtractorTestCase):
         for chip, feature in chips.items():
             self.assertIn(feature, self.symptoms(chip), chip)
         self.assertLessEqual({"fever", "headache", "cough"}, self.symptoms("Fever, Headache, Cough"))
+
+    def test_every_chip_in_the_frontend_files_is_recognized(self):
+        # Reads the real files, so a new chip the AI can't understand fails here
+        html = (ROOT / "Frontend" / "index.html").read_text(encoding="utf-8")
+        script = (ROOT / "Frontend" / "js" / "index.js").read_text(encoding="utf-8")
+        suggestions = re.search(r"const symptomSuggestions = \{(.*?)\n\};", script, re.DOTALL).group(1)
+        chips = re.findall(r'data-symptom="([^"]+)"', html) + re.findall(r'"([^"]+)"', suggestions)
+        self.assertGreater(len(chips), 30)
+        for chip in chips:
+            self.assertTrue(self.symptoms(chip), f"The AI does not recognize the chip '{chip}'")
 
 
 if __name__ == "__main__":

@@ -8,12 +8,13 @@
 :root {
     --navy: #102a43;
     --navy-dark: #091d32;
-    --teal: #16b8a6;
+    --teal: #0f766e;
+    --teal-dark: #0b5f58;
     --teal-light: #e4f8f5;
     --white: #ffffff;
     --background: #f6fafb;
     --text: #243b53;
-    --muted: #627d98;
+    --muted: #486581;
     --border: #e4edf0;
 }
 
@@ -23,8 +24,14 @@
     box-sizing: border-box;
 }
 
+/* Author display rules would otherwise override the hidden attribute */
+[hidden] {
+    display: none !important;
+}
+
 html {
     scroll-behavior: smooth;
+    scroll-padding-top: 95px; /* Keeps scroll targets clear of the sticky navbar */
 }
 
 body {
@@ -130,7 +137,7 @@ button {
     align-items: center;
     gap: 9px;
     color: var(--teal);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.5px;
 }
@@ -188,7 +195,7 @@ button {
 }
 
 .primary-button:hover:not(:disabled) {
-    background: #0e9c8d;
+    background: var(--teal-dark);
     transform: translateY(-2px);
 }
 
@@ -210,7 +217,7 @@ button {
 .hero-note {
     margin-top: 35px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .hero-note span {
@@ -252,9 +259,9 @@ button {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 9px;
+    font-size: 12px;
     font-weight: 700;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .card-label {
@@ -263,7 +270,7 @@ button {
 
 .live-indicator {
     color: var(--teal);
-    font-size: 8px;
+    font-size: 12px;
 }
 
 .medical-symbol {
@@ -289,7 +296,7 @@ button {
     margin-top: 7px;
     text-align: center;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .card-divider {
@@ -302,7 +309,7 @@ button {
     display: flex;
     justify-content: space-between;
     margin-top: 13px;
-    font-size: 11px;
+    font-size: 13px;
     color: var(--muted);
 }
 
@@ -323,13 +330,14 @@ button {
     font-weight: 700;
 }
 
+/* Both tags sit on the card's corners, where they can't cover any of its text */
 .tag-one {
-    top: 60px;
+    top: -18px;
     right: -10px;
 }
 
 .tag-two {
-    bottom: 55px;
+    bottom: -18px;
     left: -15px;
 }
 
@@ -408,7 +416,7 @@ button {
 .feature-card p {
     margin-top: 11px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.8;
 }
 
@@ -447,7 +455,7 @@ button {
 .process-step p {
     margin-top: 7px;
     color: var(--muted);
-    font-size: 12px;
+    font-size: 14px;
 }
 
 /* ==============================
@@ -487,9 +495,13 @@ button {
     color: white;
 }
 
+.footer .logo-highlight {
+    color: #2dd4bf; /* The main teal is too dark to read on this background */
+}
+
 .footer > p {
     margin-top: 13px;
-    font-size: 12px;
+    font-size: 13px;
 }
 
 .footer .disclaimer {
@@ -529,6 +541,10 @@ button {
 }
 
 @media (max-width: 700px) {
+    html {
+        scroll-padding-top: 115px; /* The navbar wraps onto two rows here */
+    }
+
     .navbar {
         height: auto;
         min-height: 75px;
@@ -542,12 +558,12 @@ button {
         width: 100%;
         justify-content: center;
         gap: 22px;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .nav-button {
         padding: 9px 13px;
-        font-size: 12px;
+        font-size: 13px;
     }
 
     .hero {
@@ -574,7 +590,7 @@ button {
     }
 
     .floating-tag {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .section {
@@ -642,7 +658,7 @@ button {
 
 .form-label {
     color: var(--teal);
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 800;
     letter-spacing: 1px;
 }
@@ -687,7 +703,7 @@ button {
     background: #fbfdfe;
     color: var(--text);
     font-family: inherit;
-    font-size: 13px;
+    font-size: 16px;
     transition: 0.2s;
 }
 
@@ -705,10 +721,11 @@ button {
 .input-hint {
     margin-top: 8px;
     color: var(--muted);
-    font-size: 11px;
+    font-size: 12px;
 }
 
-.emergency-notice {
+/* Permanent advice on the form. Live alerts use .emergency-notice in results.css */
+.safety-notice {
     display: flex;
     gap: 13px;
     padding: 17px;
@@ -716,20 +733,20 @@ button {
     background: #fff8ed;
     border: 1px solid #f4dfbd;
     border-radius: 9px;
-    color: #9a5b13;
+    color: #7a4709;
 }
 
-.emergency-notice > span {
+.safety-notice > span {
     font-size: 22px;
 }
 
-.emergency-notice strong {
-    font-size: 13px;
+.safety-notice strong {
+    font-size: 14px;
 }
 
-.emergency-notice p {
+.safety-notice p {
     margin-top: 5px;
-    font-size: 11px;
+    font-size: 13px;
     line-height: 1.7;
 }
 
@@ -741,7 +758,7 @@ button {
     margin-top: 15px;
     text-align: center;
     color: var(--muted);
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .result-container {
@@ -759,7 +776,17 @@ button {
 .result-container p {
     margin-top: 8px;
     color: var(--muted);
-    font-size: 13px;
+    font-size: 14px;
+}
+
+.result-container.is-error {
+    background: #fff1f0;
+    border-color: #f5b7b1;
+}
+
+.result-container.is-error h3,
+.result-container.is-error p {
+    color: #7a271a;
 }
 
 @media (max-width: 700px) {
