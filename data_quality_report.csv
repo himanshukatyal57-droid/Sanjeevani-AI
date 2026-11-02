@@ -1,0 +1,660 @@
+Issue,Affected Column,Observation,Recommended Action,Priority
+Exact duplicate rows,all columns,"57,298 extra copies (23.2% of rows).","Check if legitimate repeats; if not, drop_duplicates() after approval.",High Priority
+Potential outliers (IQR),abnormal_appearing_skin,"16,425 values (6.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),back_pain,"21,809 values (8.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),burning_abdominal_pain,"12,981 values (5.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),cough,"24,296 values (9.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),depressive_or_psychotic_symptoms,"15,064 values (6.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),dizziness,"17,272 values (7.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),fever,"20,394 values (8.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),headache,"24,719 values (10.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),leg_pain,"16,189 values (6.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),lower_abdominal_pain,"14,936 values (6.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),nasal_congestion,"16,200 values (6.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),nausea,"23,687 values (9.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),sharp_abdominal_pain,"32,307 values (13.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),sharp_chest_pain,"24,016 values (9.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),shortness_of_breath,"21,346 values (8.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),skin_rash,"12,375 values (5.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),skin_swelling,"15,165 values (6.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),sore_throat,"14,005 values (5.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Potential outliers (IQR),vomiting,"27,874 values (11.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Medium Priority
+Constant / single-value column,"pus_in_sputum, underweight, arm_cramps_or_spasms, abnormal_appearing_tongue, pallor, shoulder_cramps_or_spasms, joint_stiffness_or_tightness, eye_strain (+41 more)",Only one distinct (or no) value.,Confirm it carries no information before dropping.,Low Priority
+Highly skewed distribution,abdominal_distention,Skewness = 36.69.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,abnormal_appearing_skin,Skewness = 3.48.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,abnormal_breathing_sounds,Skewness = 9.42.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,abnormal_involuntary_movements,Skewness = 4.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,abnormal_movement_of_eyelid,Skewness = 10.75.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,absence_of_menstruation,Skewness = 20.47.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,abusing_alcohol,Skewness = 5.58.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,ache_all_over,Skewness = 5.56.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,acne_or_pimples,Skewness = 5.28.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,allergic_reaction,Skewness = 6.22.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,ankle_pain,Skewness = 7.67.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,ankle_swelling,Skewness = 10.76.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,ankle_weakness,Skewness = 117.12.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,antisocial_behavior,Skewness = 10.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,anxiety_and_nervousness,Skewness = 4.75.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,apnea,Skewness = 12.20.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,arm_lump_or_mass,Skewness = 17.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,arm_pain,Skewness = 4.28.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,arm_stiffness_or_tightness,Skewness = 9.85.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,arm_swelling,Skewness = 8.71.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,arm_weakness,Skewness = 12.77.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,back_cramps_or_spasms,Skewness = 13.79.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,back_mass_or_lump,Skewness = 12.81.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,back_pain,Skewness = 2.90.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,back_stiffness_or_tightness,Skewness = 23.23.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,back_weakness,Skewness = 28.88.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bedwetting,Skewness = 38.30.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bladder_mass,Skewness = 60.24.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bleeding_from_ear,Skewness = 18.87.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bleeding_from_eye,Skewness = 20.28.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bleeding_gums,Skewness = 16.06.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bleeding_or_discharge_from_nipple,Skewness = 27.47.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,blindness,Skewness = 11.40.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,blood_clots_during_menstrual_periods,Skewness = 9.40.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,blood_in_stool,Skewness = 5.50.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,blood_in_urine,Skewness = 5.86.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bones_are_painful,Skewness = 7.76.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bowlegged_or_knock_kneed,Skewness = 63.60.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,breathing_fast,Skewness = 22.91.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,bumps_on_penis,Skewness = 26.82.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,burning_abdominal_pain,Skewness = 4.01.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,burning_chest_pain,Skewness = 18.11.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,changes_in_stool_appearance,Skewness = 10.06.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,chest_tightness,Skewness = 4.84.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,chills,Skewness = 6.03.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,cloudy_eye,Skewness = 21.22.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,congestion_in_chest,Skewness = 13.09.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,constipation,Skewness = 7.90.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,coryza,Skewness = 5.33.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,cough,Skewness = 2.70.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,coughing_up_sputum,Skewness = 9.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,cramps_and_spasms,Skewness = 6.53.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,cross_eyed,Skewness = 27.90.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,decreased_appetite,Skewness = 5.70.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,decreased_heart_rate,Skewness = 10.47.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,delusions_or_hallucinations,Skewness = 5.61.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,depression,Skewness = 4.52.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,depressive_or_psychotic_symptoms,Skewness = 3.67.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,diaper_rash,Skewness = 16.12.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,diarrhea,Skewness = 4.54.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,difficulty_breathing,Skewness = 5.24.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,difficulty_eating,Skewness = 26.74.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,difficulty_in_swallowing,Skewness = 6.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,difficulty_speaking,Skewness = 6.08.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,diminished_hearing,Skewness = 6.51.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,diminished_vision,Skewness = 5.02.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,disturbance_of_memory,Skewness = 6.61.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,dizziness,Skewness = 3.37.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,double_vision,Skewness = 7.13.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,drainage_in_throat,Skewness = 49.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,drug_abuse,Skewness = 6.57.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,dry_lips,Skewness = 25.95.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,dry_or_flaky_scalp,Skewness = 23.16.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,ear_pain,Skewness = 4.51.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,early_or_late_onset_of_menopause,Skewness = 34.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,elbow_pain,Skewness = 6.99.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,elbow_swelling,Skewness = 11.01.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,elbow_weakness,Skewness = 27.14.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,emotional_symptoms,Skewness = 19.82.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,excessive_anger,Skewness = 5.76.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,excessive_appetite,Skewness = 20.32.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,excessive_growth,Skewness = 82.80.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,excessive_urination_at_night,Skewness = 11.78.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,eye_burns_or_stings,Skewness = 8.78.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,eye_deviation,Skewness = 16.86.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,eye_moves_abnormally,Skewness = 21.28.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,eye_redness,Skewness = 6.14.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,eyelid_lesion_or_rash,Skewness = 21.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,eyelid_swelling,Skewness = 12.15.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,facial_pain,Skewness = 5.24.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,fainting,Skewness = 5.70.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,fatigue,Skewness = 6.07.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,fears_and_phobias,Skewness = 7.52.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,feeling_cold,Skewness = 49.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,feeling_hot,Skewness = 496.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,feeling_ill,Skewness = 7.35.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,fever,Skewness = 3.03.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,flatulence,Skewness = 16.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,flu_like_syndrome,Skewness = 15.27.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,fluid_in_ear,Skewness = 8.68.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,fluid_retention,Skewness = 7.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,flushing,Skewness = 51.78.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,focal_weakness,Skewness = 9.04.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,foot_or_toe_lump_or_mass,Skewness = 82.80.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,foot_or_toe_pain,Skewness = 5.65.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,foot_or_toe_stiffness_or_tightness,Skewness = 28.04.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,foot_or_toe_swelling,Skewness = 7.41.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,foot_or_toe_weakness,Skewness = 47.79.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,foreign_body_sensation_in_eye,Skewness = 6.48.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,frequent_menstruation,Skewness = 16.07.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,frequent_urination,Skewness = 5.60.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,frontal_headache,Skewness = 11.59.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,groin_mass,Skewness = 10.86.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,groin_pain,Skewness = 9.96.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,gum_pain,Skewness = 10.59.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hand_or_finger_cramps_or_spasms,Skewness = 72.47.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hand_or_finger_lump_or_mass,Skewness = 15.52.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hand_or_finger_pain,Skewness = 5.75.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hand_or_finger_stiffness_or_tightness,Skewness = 11.58.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hand_or_finger_swelling,Skewness = 6.96.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hand_or_finger_weakness,Skewness = 17.37.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,headache,Skewness = 2.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,heartburn,Skewness = 5.70.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,heavy_menstrual_flow,Skewness = 8.25.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hemoptysis,Skewness = 10.58.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hesitancy,Skewness = 17.75.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hip_pain,Skewness = 4.76.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hip_stiffness_or_tightness,Skewness = 20.01.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hoarse_voice,Skewness = 8.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hostile_behavior,Skewness = 5.29.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hot_flashes,Skewness = 11.56.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hurts_to_breath,Skewness = 9.84.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,hysterical_behavior,Skewness = 13.99.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,impotence,Skewness = 9.93.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,incontinence_of_stool,Skewness = 165.64.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,increased_heart_rate,Skewness = 8.64.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,infant_feeding_problem,Skewness = 18.35.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,infant_spitting_up,Skewness = 55.53.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,infertility,Skewness = 14.30.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,insomnia,Skewness = 4.73.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,intermenstrual_bleeding,Skewness = 5.98.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,involuntary_urination,Skewness = 6.03.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,irregular_appearing_nails,Skewness = 10.90.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,irregular_appearing_scalp,Skewness = 5.27.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,irregular_belly_button,Skewness = 32.10.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,irregular_heartbeat,Skewness = 6.07.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,irritable_infant,Skewness = 10.37.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itchiness_of_eye,Skewness = 5.73.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itching_of_scrotum,Skewness = 248.46.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itching_of_skin,Skewness = 4.57.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itching_of_the_anus,Skewness = 16.18.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itchy_ear_s,Skewness = 14.19.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itchy_eyelid,Skewness = 21.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,itchy_scalp,Skewness = 11.51.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,jaundice,Skewness = 12.37.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,jaw_swelling,Skewness = 10.14.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,joint_pain,Skewness = 7.34.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,joint_swelling,Skewness = 26.82.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,kidney_mass,Skewness = 20.25.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,knee_lump_or_mass,Skewness = 15.86.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,knee_pain,Skewness = 5.27.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,knee_stiffness_or_tightness,Skewness = 13.95.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,knee_swelling,Skewness = 7.87.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,knee_weakness,Skewness = 14.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lack_of_growth,Skewness = 8.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lacrimation,Skewness = 5.55.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,leg_cramps_or_spasms,Skewness = 11.09.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,leg_lump_or_mass,Skewness = 46.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,leg_pain,Skewness = 3.51.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,leg_stiffness_or_tightness,Skewness = 13.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,leg_swelling,Skewness = 6.19.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,leg_weakness,Skewness = 9.97.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lip_sore,Skewness = 50.17.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lip_swelling,Skewness = 6.26.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,long_menstrual_periods,Skewness = 9.74.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,loss_of_sensation,Skewness = 4.56.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,loss_of_sex_drive,Skewness = 17.69.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,low_back_cramps_or_spasms,Skewness = 48.93.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,low_back_pain,Skewness = 4.40.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,low_back_weakness,Skewness = 222.23.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,low_self_esteem,Skewness = 9.53.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,low_urine_output,Skewness = 17.16.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lower_abdominal_pain,Skewness = 3.69.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lower_body_pain,Skewness = 5.46.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lump_in_throat,Skewness = 21.72.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lump_or_mass_of_breast,Skewness = 25.64.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,lymphedema,Skewness = 9.43.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,mass_in_scrotum,Skewness = 13.71.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,mass_on_eyelid,Skewness = 14.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,mass_or_swelling_around_the_anus,Skewness = 23.11.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,melena,Skewness = 10.76.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,mouth_dryness,Skewness = 15.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,mouth_pain,Skewness = 9.77.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,mouth_ulcer,Skewness = 8.88.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,muscle_cramps_contractures_or_spasms,Skewness = 16.85.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,muscle_pain,Skewness = 11.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,muscle_stiffness_or_tightness,Skewness = 36.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,muscle_swelling,Skewness = 30.48.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,muscle_weakness,Skewness = 85.21.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,nasal_congestion,Skewness = 3.51.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,nausea,Skewness = 2.74.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,neck_cramps_or_spasms,Skewness = 42.89.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,neck_mass,Skewness = 10.93.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,neck_pain,Skewness = 4.60.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,neck_stiffness_or_tightness,Skewness = 14.80.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,neck_swelling,Skewness = 10.49.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,nightmares,Skewness = 21.87.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,nosebleed,Skewness = 12.75.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,obsessions_and_compulsions,Skewness = 11.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_during_intercourse,Skewness = 12.89.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_during_pregnancy,Skewness = 6.67.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_in_eye,Skewness = 4.81.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_in_gums,Skewness = 11.90.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_in_testicles,Skewness = 9.87.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_of_the_anus,Skewness = 8.53.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pain_or_soreness_of_breast,Skewness = 19.34.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,painful_menstruation,Skewness = 10.69.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,painful_sinuses,Skewness = 10.02.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,painful_urination,Skewness = 5.06.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,palpitations,Skewness = 6.10.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,paresthesia,Skewness = 5.88.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pelvic_pain,Skewness = 4.81.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pelvic_pressure,Skewness = 111.11.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,penile_discharge,Skewness = 28.31.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,penis_pain,Skewness = 22.69.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,penis_redness,Skewness = 31.26.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,peripheral_edema,Skewness = 5.04.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,plugged_feeling_in_ear,Skewness = 7.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,poor_circulation,Skewness = 66.38.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,postpartum_problems_of_the_breast,Skewness = 31.26.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,premature_ejaculation,Skewness = 53.25.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,premenstrual_tension_or_irritability,Skewness = 63.60.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,problems_during_pregnancy,Skewness = 7.43.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,problems_with_movement,Skewness = 4.98.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,problems_with_shape_or_size_of_breast,Skewness = 72.47.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pulling_at_ears,Skewness = 8.17.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,pus_draining_from_ear,Skewness = 17.55.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,recent_pregnancy,Skewness = 18.45.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,recent_weight_loss,Skewness = 41.09.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,rectal_bleeding,Skewness = 7.35.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,redness_in_ear,Skewness = 8.87.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,redness_in_or_around_nose,Skewness = 32.65.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,regurgitation,Skewness = 9.81.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,regurgitation_1,Skewness = 7.50.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,restlessness,Skewness = 9.84.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,retention_of_urine,Skewness = 5.16.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,rib_pain,Skewness = 10.93.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,ringing_in_ear,Skewness = 9.37.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,scanty_menstrual_flow,Skewness = 143.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,seizures,Skewness = 7.83.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sharp_abdominal_pain,Skewness = 2.19.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sharp_chest_pain,Skewness = 2.72.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,shortness_of_breath,Skewness = 2.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,shoulder_lump_or_mass,Skewness = 26.51.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,shoulder_pain,Skewness = 5.37.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,shoulder_stiffness_or_tightness,Skewness = 12.47.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,shoulder_swelling,Skewness = 41.09.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,shoulder_weakness,Skewness = 35.73.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,side_pain,Skewness = 4.53.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sinus_congestion,Skewness = 10.13.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_dryness_peeling_scaliness_or_roughness,Skewness = 5.33.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_growth,Skewness = 4.58.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_irritation,Skewness = 6.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_lesion,Skewness = 4.13.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_moles,Skewness = 5.98.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_on_arm_or_hand_looks_infected,Skewness = 22.20.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_on_leg_or_foot_looks_infected,Skewness = 12.95.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_pain,Skewness = 496.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_rash,Skewness = 4.12.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,skin_swelling,Skewness = 3.65.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sleepiness,Skewness = 9.15.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,slurring_words,Skewness = 11.77.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,smoking_problems,Skewness = 11.07.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sneezing,Skewness = 14.30.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sore_in_nose,Skewness = 26.82.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sore_throat,Skewness = 3.83.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,spots_or_clouds_in_vision,Skewness = 6.66.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,spotting_or_bleeding_during_pregnancy,Skewness = 9.43.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,stiffness_all_over,Skewness = 15.74.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,stomach_bloating,Skewness = 10.43.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,suprapubic_pain,Skewness = 5.17.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,sweating,Skewness = 7.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,swelling_of_scrotum,Skewness = 11.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,swollen_abdomen,Skewness = 19.38.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,swollen_eye,Skewness = 7.04.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,swollen_lymph_nodes,Skewness = 11.34.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,swollen_or_red_tonsils,Skewness = 18.98.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_bladder,Skewness = 9.07.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_eye,Skewness = 5.15.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_infants,Skewness = 32.23.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_prostate,Skewness = 12.72.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_the_face,Skewness = 10.25.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_the_kidneys,Skewness = 13.73.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,symptoms_of_the_scrotum_and_testes,Skewness = 10.72.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,temper_problems,Skewness = 5.80.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,thirst,Skewness = 496.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,throat_feels_tight,Skewness = 9.98.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,throat_redness,Skewness = 32.44.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,throat_swelling,Skewness = 11.56.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,tongue_lesions,Skewness = 15.63.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,too_little_hair,Skewness = 13.91.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,toothache,Skewness = 9.45.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,unpredictable_menstruation,Skewness = 10.17.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,unusual_color_or_odor_to_urine,Skewness = 16.19.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,unwanted_hair,Skewness = 105.93.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,upper_abdominal_pain,Skewness = 5.98.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,uterine_contractions,Skewness = 13.25.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vaginal_bleeding_after_menopause,Skewness = 52.06.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vaginal_discharge,Skewness = 5.82.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vaginal_dryness,Skewness = 28.04.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vaginal_itching,Skewness = 6.63.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vaginal_pain,Skewness = 9.05.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vaginal_redness,Skewness = 13.81.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vomiting,Skewness = 2.45.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vomiting_blood,Skewness = 8.46.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vulvar_irritation,Skewness = 21.26.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,vulvar_sore,Skewness = 50.43.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,warts,Skewness = 9.02.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,weakness,Skewness = 4.29.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,weight_gain,Skewness = 8.94.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wheezing,Skewness = 6.92.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,white_discharge_from_eye,Skewness = 8.58.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wrinkles_on_skin,Skewness = 34.75.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wrist_lump_or_mass,Skewness = 26.93.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wrist_pain,Skewness = 6.90.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wrist_stiffness_or_tightness,Skewness = 31.07.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wrist_swelling,Skewness = 8.21.,Consider robust statistics or transformations at modelling time.,Low Priority
+Highly skewed distribution,wrist_weakness,Skewness = 248.46.,Consider robust statistics or transformations at modelling time.,Low Priority
+Non-standard column headers,329 columns,"Headers contain capitals, spaces, symbols or padding.",Use cleaned headers from df_clean / mapping table.,Low Priority
+Potential outliers (IQR),abdominal_distention,"183 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),abnormal_breathing_sounds,"2,695 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),abnormal_involuntary_movements,"10,019 values (4.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),abnormal_movement_of_eyelid,"2,082 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),absence_of_menstruation,"585 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),abusing_alcohol,"7,230 values (2.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),ache_all_over,"7,283 values (2.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),acne_or_pimples,"8,016 values (3.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),allergic_reaction,"5,931 values (2.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),ankle_pain,"3,996 values (1.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),ankle_swelling,"2,079 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),ankle_weakness,"18 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),antisocial_behavior,"2,020 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),anxiety_and_nervousness,"9,689 values (3.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),apnea,"1,627 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),arm_lump_or_mass,"799 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),arm_pain,"11,619 values (4.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),arm_stiffness_or_tightness,"2,471 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),arm_swelling,"3,134 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),arm_weakness,"1,486 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),back_cramps_or_spasms,"1,278 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),back_mass_or_lump,"1,478 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),back_stiffness_or_tightness,"455 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),back_weakness,"295 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bedwetting,"168 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bladder_mass,"68 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bleeding_from_ear,"688 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bleeding_from_eye,"596 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bleeding_gums,"947 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bleeding_or_discharge_from_nipple,"326 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),blindness,"1,857 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),blood_clots_during_menstrual_periods,"2,703 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),blood_in_stool,"7,431 values (3.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),blood_in_urine,"6,619 values (2.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bones_are_painful,"3,905 values (1.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bowlegged_or_knock_kneed,"61 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),breathing_fast,"468 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),bumps_on_penis,"342 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),burning_chest_pain,"746 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),changes_in_stool_appearance,"2,371 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),chest_tightness,"9,352 values (3.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),chills,"6,274 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),cloudy_eye,"545 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),congestion_in_chest,"1,417 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),constipation,"3,772 values (1.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),coryza,"7,869 values (3.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),coughing_up_sputum,"2,683 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),cramps_and_spasms,"5,417 values (2.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),cross_eyed,"316 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),decreased_appetite,"6,971 values (2.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),decreased_heart_rate,"2,191 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),delusions_or_hallucinations,"7,165 values (2.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),depression,"10,556 values (4.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),diaper_rash,"939 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),diarrhea,"10,472 values (4.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),difficulty_breathing,"8,128 values (3.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),difficulty_eating,"344 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),difficulty_in_swallowing,"5,563 values (2.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),difficulty_speaking,"6,190 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),diminished_hearing,"5,447 values (2.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),diminished_vision,"8,767 values (3.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),disturbance_of_memory,"5,287 values (2.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),double_vision,"4,583 values (1.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),drainage_in_throat,"100 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),drug_abuse,"5,348 values (2.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),dry_lips,"365 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),dry_or_flaky_scalp,"458 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),ear_pain,"10,584 values (4.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),early_or_late_onset_of_menopause,"205 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),elbow_pain,"4,768 values (1.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),elbow_swelling,"1,988 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),elbow_weakness,"334 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),emotional_symptoms,"624 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),excessive_anger,"6,832 values (2.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),excessive_appetite,"594 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),excessive_growth,"36 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),excessive_urination_at_night,"1,743 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),eye_burns_or_stings,"3,081 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),eye_deviation,"860 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),eye_moves_abnormally,"542 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),eye_redness,"6,077 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),eyelid_lesion_or_rash,"510 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),eyelid_swelling,"1,639 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),facial_pain,"8,111 values (3.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),fainting,"6,972 values (2.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),fatigue,"6,199 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),fears_and_phobias,"4,152 values (1.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),feeling_cold,"100 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),feeling_hot,"1 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),feeling_ill,"4,336 values (1.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),flatulence,"880 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),flu_like_syndrome,"1,046 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),fluid_in_ear,"3,153 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),fluid_retention,"4,233 values (1.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),flushing,"92 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),focal_weakness,"2,918 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),foot_or_toe_lump_or_mass,"36 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),foot_or_toe_pain,"7,087 values (2.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),foot_or_toe_stiffness_or_tightness,"313 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),foot_or_toe_swelling,"4,264 values (1.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),foot_or_toe_weakness,"108 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),foreign_body_sensation_in_eye,"5,497 values (2.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),frequent_menstruation,"945 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),frequent_urination,"7,189 values (2.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),frontal_headache,"1,797 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),groin_mass,"2,043 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),groin_pain,"2,415 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),gum_pain,"2,144 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hand_or_finger_cramps_or_spasms,"47 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hand_or_finger_lump_or_mass,"1,013 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hand_or_finger_pain,"6,856 values (2.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hand_or_finger_stiffness_or_tightness,"1,801 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hand_or_finger_swelling,"4,800 values (1.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hand_or_finger_weakness,"810 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),heartburn,"6,953 values (2.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),heavy_menstrual_flow,"3,478 values (1.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hemoptysis,"2,149 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hesitancy,"776 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hip_pain,"9,623 values (3.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hip_stiffness_or_tightness,"612 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hoarse_voice,"3,324 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hostile_behavior,"7,981 values (3.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hot_flashes,"1,806 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hurts_to_breath,"2,476 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),hysterical_behavior,"1,243 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),impotence,"2,430 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),incontinence_of_stool,"9 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),increased_heart_rate,"3,180 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),infant_feeding_problem,"727 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),infant_spitting_up,"80 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),infertility,"1,191 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),insomnia,"9,732 values (3.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),intermenstrual_bleeding,"6,370 values (2.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),involuntary_urination,"6,277 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),irregular_appearing_nails,"2,026 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),irregular_appearing_scalp,"8,022 values (3.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),irregular_belly_button,"239 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),irregular_heartbeat,"6,201 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),irritable_infant,"2,235 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itchiness_of_eye,"6,900 values (2.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itching_of_scrotum,"4 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itching_of_skin,"10,363 values (4.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itching_of_the_anus,"933 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itchy_ear_s,"1,209 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itchy_eyelid,"510 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),itchy_scalp,"1,824 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),jaundice,"1,584 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),jaw_swelling,"2,335 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),joint_pain,"4,345 values (1.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),joint_swelling,"342 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),kidney_mass,"598 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),knee_lump_or_mass,"970 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),knee_pain,"8,021 values (3.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),knee_stiffness_or_tightness,"1,250 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),knee_swelling,"3,808 values (1.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),knee_weakness,"1,159 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lack_of_growth,"3,291 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lacrimation,"7,324 values (3.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),leg_cramps_or_spasms,"1,960 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),leg_lump_or_mass,"112 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),leg_stiffness_or_tightness,"1,336 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),leg_swelling,"5,987 values (2.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),leg_weakness,"2,411 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lip_sore,"98 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lip_swelling,"5,855 values (2.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),long_menstrual_periods,"2,522 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),loss_of_sensation,"10,399 values (4.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),loss_of_sex_drive,"782 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),low_back_cramps_or_spasms,"103 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),low_back_pain,"11,053 values (4.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),low_back_weakness,"5 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),low_self_esteem,"2,635 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),low_urine_output,"830 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lower_body_pain,"7,530 values (3.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lump_in_throat,"520 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lump_or_mass_of_breast,"374 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),lymphedema,"2,685 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),mass_in_scrotum,"1,294 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),mass_on_eyelid,"1,160 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),mass_or_swelling_around_the_anus,"460 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),melena,"2,080 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),mouth_dryness,"963 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),mouth_pain,"2,508 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),mouth_ulcer,"3,020 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),muscle_cramps_contractures_or_spasms,"861 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),muscle_pain,"1,845 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),muscle_stiffness_or_tightness,"185 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),muscle_swelling,"265 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),muscle_weakness,"34 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),neck_cramps_or_spasms,"134 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),neck_mass,"2,015 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),neck_pain,"10,238 values (4.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),neck_stiffness_or_tightness,"1,112 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),neck_swelling,"2,186 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),nightmares,"513 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),nosebleed,"1,491 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),obsessions_and_compulsions,"1,703 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_during_intercourse,"1,460 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_during_pregnancy,"5,198 values (2.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_in_eye,"9,453 values (3.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_in_gums,"1,709 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_in_testicles,"2,458 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_of_the_anus,"3,260 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pain_or_soreness_of_breast,"655 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),painful_menstruation,"2,107 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),painful_sinuses,"2,389 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),painful_urination,"8,634 values (3.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),palpitations,"6,143 values (2.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),paresthesia,"6,568 values (2.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pelvic_pain,"9,467 values (3.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pelvic_pressure,"20 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),penile_discharge,"307 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),penis_pain,"477 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),penis_redness,"252 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),peripheral_edema,"8,696 values (3.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),plugged_feeling_in_ear,"4,234 values (1.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),poor_circulation,"56 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),postpartum_problems_of_the_breast,"252 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),premature_ejaculation,"87 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),premenstrual_tension_or_irritability,"61 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),problems_during_pregnancy,"4,245 values (1.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),problems_with_movement,"8,898 values (3.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),problems_with_shape_or_size_of_breast,"47 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pulling_at_ears,"3,542 values (1.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),pus_draining_from_ear,"794 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),recent_pregnancy,"719 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),recent_weight_loss,"146 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),rectal_bleeding,"4,333 values (1.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),redness_in_ear,"3,022 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),redness_in_or_around_nose,"231 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),regurgitation,"2,490 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),regurgitation_1,"4,170 values (1.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),restlessness,"2,475 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),retention_of_urine,"8,332 values (3.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),rib_pain,"2,018 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),ringing_in_ear,"2,722 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),scanty_menstrual_flow,"12 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),seizures,"3,842 values (1.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),shoulder_lump_or_mass,"350 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),shoulder_pain,"7,769 values (3.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),shoulder_stiffness_or_tightness,"1,559 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),shoulder_swelling,"146 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),shoulder_weakness,"193 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),side_pain,"10,506 values (4.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),sinus_congestion,"2,338 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_dryness_peeling_scaliness_or_roughness,"7,867 values (3.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_growth,"10,311 values (4.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_irritation,"4,852 values (2.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_lesion,"12,340 values (5.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_moles,"6,367 values (2.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_on_arm_or_hand_looks_infected,"498 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_on_leg_or_foot_looks_infected,"1,447 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),skin_pain,"1 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),sleepiness,"2,847 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),slurring_words,"1,744 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),smoking_problems,"1,966 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),sneezing,"1,190 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),sore_in_nose,"342 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),spots_or_clouds_in_vision,"5,221 values (2.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),spotting_or_bleeding_during_pregnancy,"2,686 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),stiffness_all_over,"985 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),stomach_bloating,"2,210 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),suprapubic_pain,"8,325 values (3.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),sweating,"3,756 values (1.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),swelling_of_scrotum,"1,844 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),swollen_abdomen,"652 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),swollen_eye,"4,698 values (1.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),swollen_lymph_nodes,"1,876 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),swollen_or_red_tonsils,"680 values (0.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_bladder,"2,898 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_eye,"8,373 values (3.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_infants,"237 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_prostate,"1,498 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_the_face,"2,284 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_the_kidneys,"1,289 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),symptoms_of_the_scrotum_and_testes,"2,096 values (0.8%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),temper_problems,"6,741 values (2.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),thirst,"1 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),throat_feels_tight,"2,408 values (1.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),throat_redness,"234 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),throat_swelling,"1,809 values (0.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),tongue_lesions,"998 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),too_little_hair,"1,257 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),toothache,"2,673 values (1.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),unpredictable_menstruation,"2,319 values (0.9%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),unusual_color_or_odor_to_urine,"931 values (0.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),unwanted_hair,"22 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),upper_abdominal_pain,"6,382 values (2.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),uterine_contractions,"1,382 values (0.6%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vaginal_bleeding_after_menopause,"91 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vaginal_discharge,"6,713 values (2.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vaginal_dryness,"313 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vaginal_itching,"5,260 values (2.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vaginal_pain,"2,910 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vaginal_redness,"1,275 values (0.5%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vomiting_blood,"3,313 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vulvar_irritation,"543 values (0.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),vulvar_sore,"97 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),warts,"2,930 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),weakness,"11,551 values (4.7%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),weight_gain,"2,978 values (1.2%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wheezing,"4,859 values (2.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),white_discharge_from_eye,"3,224 values (1.3%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wrinkles_on_skin,"204 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wrist_lump_or_mass,"339 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wrist_pain,"4,879 values (2.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wrist_stiffness_or_tightness,"255 values (0.1%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wrist_swelling,"3,512 values (1.4%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority
+Potential outliers (IQR),wrist_weakness,"4 values (0.0%) outside [0, 0].",Review against clinical/domain ranges; keep unless proven erroneous.,Low Priority

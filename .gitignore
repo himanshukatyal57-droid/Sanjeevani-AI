@@ -1,2 +1,14 @@
 node_modules/
 .env
+
+# Datasets are ~190 MB each, over GitHub's 100 MB file limit
+data/*.csv
+sanjeevani_cleaned_dataset.csv
+
+# Trained models are regenerated with train_model.py
+*.pkl
+models/sanjeevani_model_metadata.json
+
+# Python
+__pycache__/
+.venv/

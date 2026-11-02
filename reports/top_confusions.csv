@@ -1,0 +1,501 @@
+true,pred,count
+noninfectious gastroenteritis,infectious gastroenteritis,75
+infectious gastroenteritis,noninfectious gastroenteritis,66
+gallstone,cholecystitis,48
+cholecystitis,gallstone,39
+temporary or benign blood in urine,cystitis,39
+skin pigmentation disorder,seborrheic keratosis,39
+schizophrenia,psychotic disorder,38
+tooth disorder,gum disease,38
+pyelonephritis,kidney stone,37
+schizophrenia,personality disorder,37
+chronic obstructive pulmonary disease (copd),acute bronchitis,35
+dry eye of unknown cause,corneal disorder,35
+pneumonia,acute bronchospasm,33
+spinal stenosis,degenerative disc disease,32
+skin polyp,seborrheic keratosis,32
+vaginal cyst,spontaneous abortion,32
+spondylosis,degenerative disc disease,30
+nose disorder,acute sinusitis,29
+marijuana abuse,personality disorder,29
+post-traumatic stress disorder (ptsd),depression,28
+temporary or benign blood in urine,bladder disorder,28
+diverticulitis,appendicitis,27
+personality disorder,marijuana abuse,27
+cholecystitis,acute pancreatitis,26
+skin polyp,skin disorder,26
+kidney stone,pyelonephritis,26
+fungal infection of the skin,fungal infection of the hair,25
+acute bronchitis,chronic obstructive pulmonary disease (copd),25
+gum disease,tooth disorder,25
+skin polyp,skin pigmentation disorder,25
+vaginal cyst,threatened pregnancy,24
+personality disorder,schizophrenia,24
+psychotic disorder,schizophrenia,23
+cornea infection,blepharitis,23
+vulvodynia,pelvic inflammatory disease,23
+degenerative disc disease,spinal stenosis,22
+herniated disk,degenerative disc disease,22
+cystitis,temporary or benign blood in urine,22
+chronic obstructive pulmonary disease (copd),asthma,22
+conjunctivitis due to virus,conjunctivitis,21
+urinary tract infection,kidney stone,21
+pelvic inflammatory disease,ovarian cyst,21
+degenerative disc disease,spondylosis,21
+tooth abscess,dental caries,21
+otitis media,acute otitis media,21
+depression,post-traumatic stress disorder (ptsd),19
+threatened pregnancy,vaginal cyst,19
+spontaneous abortion,threatened pregnancy,19
+threatened pregnancy,spontaneous abortion,19
+acute bronchospasm,chronic obstructive pulmonary disease (copd),19
+retinal detachment,cataract,19
+cystitis,bladder disorder,19
+conjunctivitis,conjunctivitis due to virus,19
+fungal infection of the hair,fungal infection of the skin,18
+spontaneous abortion,vaginal cyst,18
+chronic sinusitis,acute sinusitis,18
+dental caries,tooth abscess,18
+skin cancer,hemangioma,18
+psoriasis,fungal infection of the hair,18
+idiopathic irregular menstrual cycle,idiopathic excessive menstruation,18
+acute pancreatitis,cholecystitis,18
+skin pigmentation disorder,skin polyp,18
+urinary tract infection,pyelonephritis,17
+seborrheic keratosis,skin pigmentation disorder,17
+macular degeneration,cataract,17
+spondylosis,ankylosing spondylitis,17
+acute sinusitis,nose disorder,17
+psychotic disorder,bipolar disorder,16
+acute bronchitis,asthma,16
+acute sinusitis,chronic sinusitis,16
+dry eye of unknown cause,diabetic retinopathy,16
+hemorrhoids,rectal disorder,16
+sinus bradycardia,paroxysmal ventricular tachycardia,16
+blepharitis,cornea infection,16
+infectious gastroenteritis,diverticulitis,16
+asthma,acute bronchitis,16
+pelvic inflammatory disease,vulvodynia,15
+corneal disorder,dry eye of unknown cause,15
+chronic constipation,ischemia of the bowel,15
+skin disorder,seborrheic keratosis,15
+erectile dysfunction,benign prostatic hyperplasia (bph),15
+appendicitis,diverticulitis,15
+bladder disorder,temporary or benign blood in urine,15
+seborrheic keratosis,skin polyp,15
+peripheral nerve disorder,complex regional pain syndrome,15
+uterine fibroids,idiopathic irregular menstrual cycle,14
+acute stress reaction,anxiety,14
+asthma,acute bronchospasm,14
+contact dermatitis,eczema,14
+acute pancreatitis,gallstone,14
+hyperemesis gravidarum,gastrointestinal hemorrhage,14
+conjunctivitis due to virus,conjunctivitis due to allergy,14
+bipolar disorder,psychotic disorder,13
+acute bronchiolitis,croup,13
+complex regional pain syndrome,peripheral nerve disorder,13
+interstitial lung disease,acute bronchitis,13
+spondylosis,neuralgia,13
+skin pigmentation disorder,acne,13
+panic disorder,anxiety,13
+skin disorder,actinic keratosis,13
+pyelonephritis,urinary tract infection,13
+gallstone,acute pancreatitis,13
+macular degeneration,diabetic retinopathy,13
+asthma,chronic obstructive pulmonary disease (copd),13
+vaginal yeast infection,benign vaginal discharge (leukorrhea),13
+chronic knee pain,osteoarthritis,12
+cataract,macular degeneration,12
+diabetic retinopathy,macular degeneration,12
+idiopathic painful menstruation,idiopathic irregular menstrual cycle,12
+seborrheic keratosis,skin disorder,12
+acute glaucoma,vitreous degeneration,12
+croup,acute bronchiolitis,12
+idiopathic painful menstruation,idiopathic excessive menstruation,12
+spinal stenosis,neuralgia,12
+neuralgia,fibromyalgia,12
+nose disorder,chronic sinusitis,12
+fungal infection of the hair,actinic keratosis,12
+acute bronchospasm,pneumonia,12
+skin disorder,skin polyp,12
+skin polyp,skin cancer,12
+anxiety,panic disorder,11
+pyogenic skin infection,insect bite,11
+strep throat,flu,11
+kidney stone,urinary tract infection,11
+herniated disk,spondylolisthesis,11
+spinal stenosis,herniated disk,11
+spinal stenosis,complex regional pain syndrome,11
+eczema,contact dermatitis,11
+acute otitis media,otitis media,11
+post-traumatic stress disorder (ptsd),marijuana abuse,11
+chronic glaucoma,blepharitis,11
+actinic keratosis,seborrheic keratosis,11
+post-traumatic stress disorder (ptsd),personality disorder,11
+retinal detachment,macular degeneration,11
+psychotic disorder,personality disorder,11
+seborrheic dermatitis,fungal infection of the skin,11
+vaginitis,vaginal yeast infection,11
+corneal disorder,corneal abrasion,11
+seborrheic keratosis,eczema,11
+acute bronchiolitis,acute bronchospasm,10
+psoriasis,fungal infection of the skin,10
+hemangioma,skin cancer,10
+chronic glaucoma,corneal disorder,10
+chronic back pain,spondylitis,10
+idiopathic excessive menstruation,idiopathic irregular menstrual cycle,10
+corneal disorder,vitreous degeneration,10
+ileus,diverticulitis,10
+viral warts,skin cancer,10
+degenerative disc disease,herniated disk,10
+croup,interstitial lung disease,10
+pneumonia,chronic obstructive pulmonary disease (copd),10
+idiopathic irregular menstrual cycle,uterine fibroids,10
+bladder disorder,cystitis,10
+otitis externa (swimmer's ear),acute otitis media,10
+diabetic retinopathy,dry eye of unknown cause,10
+callus,athlete's foot,10
+skin cancer,seborrheic keratosis,10
+skin polyp,eczema,10
+neuralgia,degenerative disc disease,10
+gastrointestinal hemorrhage,gastroduodenal ulcer,10
+spondylosis,herniated disk,10
+eczema,skin pigmentation disorder,10
+eczema,seborrheic keratosis,10
+spondylolisthesis,herniated disk,10
+neuralgia,spondylosis,10
+anxiety,acute stress reaction,10
+kidney stone,cystitis,10
+hiatal hernia,gastroesophageal reflux disease (gerd),10
+vitreous degeneration,corneal disorder,9
+psychotic disorder,post-traumatic stress disorder (ptsd),9
+pulmonary embolism,heart failure,9
+chronic pain disorder,neuralgia,9
+actinic keratosis,contact dermatitis,9
+hyperemesis gravidarum,gastritis,9
+schizophrenia,adjustment reaction,9
+schizophrenia,bipolar disorder,9
+fungal infection of the hair,skin disorder,9
+conjunctivitis due to allergy,blepharitis,9
+stroke,delirium,9
+angina,mitral valve disease,9
+sciatica,spondylolisthesis,9
+foreign body in the eye,chronic glaucoma,9
+common cold,strep throat,9
+marijuana abuse,alcohol abuse,9
+esophagitis,gastroesophageal reflux disease (gerd),9
+neuralgia,herniated disk,9
+myopia,acute glaucoma,9
+sinus bradycardia,arrhythmia,9
+skin cancer,skin polyp,9
+skin disorder,rosacea,9
+eczema,molluscum contagiosum,9
+sick sinus syndrome,sinus bradycardia,9
+sepsis,pneumonia,9
+spondylosis,spinal stenosis,9
+personality disorder,depression,9
+gastroesophageal reflux disease (gerd),esophagitis,9
+acute bronchospasm,acute bronchiolitis,9
+croup,tracheitis,9
+seborrheic keratosis,fungal infection of the hair,9
+skin polyp,actinic keratosis,9
+spinal stenosis,spondylosis,9
+psoriasis,skin pigmentation disorder,9
+bipolar disorder,social phobia,9
+gastrointestinal hemorrhage,hyperemesis gravidarum,9
+gastrointestinal hemorrhage,hypovolemia,9
+social phobia,impulse control disorder,9
+dry eye of unknown cause,corneal abrasion,9
+skin pigmentation disorder,psoriasis,9
+benign prostatic hyperplasia (bph),erectile dysfunction,9
+drug abuse (opioids),depression,9
+schizophrenia,marijuana abuse,8
+sinus bradycardia,heart block,8
+peripheral nerve disorder,herniated disk,8
+mucositis,oral thrush (yeast infection),8
+chronic glaucoma,cornea infection,8
+fibromyalgia,neuralgia,8
+fracture of the arm,bursitis,8
+common cold,flu,8
+hyponatremia,hypokalemia,8
+spondylosis,complex regional pain syndrome,8
+sprain or strain,tendinitis,8
+mitral valve disease,angina,8
+seborrheic keratosis,contact dermatitis,8
+skin disorder,atrophic skin condition,8
+peripheral nerve disorder,multiple sclerosis,8
+paroxysmal ventricular tachycardia,mitral valve disease,8
+noninfectious gastroenteritis,diverticulitis,8
+acute otitis media,otitis externa (swimmer's ear),8
+urinary tract obstruction,prostatitis,8
+social phobia,bipolar disorder,8
+diverticulitis,infectious gastroenteritis,8
+acute bronchospasm,acute bronchitis,8
+fungal infection of the hair,skin pigmentation disorder,8
+sinus bradycardia,sick sinus syndrome,8
+skin disorder,fungal infection of the hair,8
+pneumonia,acute bronchitis,8
+vaginal yeast infection,vaginitis,8
+corneal abrasion,foreign body in the eye,8
+crohn disease,chronic constipation,8
+tendinitis,mononeuritis,8
+common cold,pneumonia,8
+rectal disorder,hemorrhoids,8
+fungal infection of the hair,seborrheic keratosis,8
+alcohol abuse,drug abuse,8
+acute stress reaction,panic disorder,8
+herniated disk,spinal stenosis,8
+marijuana abuse,bipolar disorder,8
+chronic otitis media,ear wax impaction,8
+hiatal hernia,gallstone,8
+chronic constipation,diverticulitis,8
+viral exanthem,impetigo,8
+tinnitus of unknown cause,conductive hearing loss,8
+eustachian tube dysfunction (ear disorder),acute otitis media,7
+lipoma,sebaceous cyst,7
+contact dermatitis,actinic keratosis,7
+ischemia of the bowel,chronic constipation,7
+hydrocephalus,intracranial hemorrhage,7
+threatened pregnancy,problem during pregnancy,7
+conduct disorder,psychotic disorder,7
+strep throat,common cold,7
+esophagitis,gastroduodenal ulcer,7
+ischemic heart disease,chronic rheumatic fever,7
+vaginitis,cervicitis,7
+vulvodynia,pyelonephritis,7
+vulvodynia,vaginal cyst,7
+viral warts,scar,7
+hiatal hernia,gastroparesis,7
+ear drum damage,chronic otitis media,7
+drug abuse (opioids),attention deficit hyperactivity disorder (adhd),7
+oral mucosal lesion,aphthous ulcer,7
+bipolar disorder,drug abuse (opioids),7
+drug abuse (opioids),marijuana abuse,7
+glaucoma,dry eye of unknown cause,7
+vitreous degeneration,dry eye of unknown cause,7
+spondylitis,ankylosing spondylitis,7
+interstitial lung disease,croup,7
+deviated nasal septum,nose disorder,7
+vaginal cyst,idiopathic painful menstruation,7
+diabetic retinopathy,cataract,7
+noninfectious gastroenteritis,gastritis,7
+neuralgia,muscle spasm,7
+skin pigmentation disorder,eczema,7
+bladder disorder,urinary tract infection,7
+onychomycosis,athlete's foot,7
+gastrointestinal hemorrhage,diverticulosis,7
+arthritis of the hip,ankylosing spondylitis,7
+multiple sclerosis,transient ischemic attack,7
+pneumonia,acute respiratory distress syndrome (ards),7
+croup,otitis media,7
+skin polyp,rosacea,7
+atrophic skin condition,viral warts,7
+sensorineural hearing loss,conductive hearing loss,7
+personality disorder,psychotic disorder,7
+arthritis of the hip,chronic pain disorder,7
+cystitis,kidney stone,7
+viral warts,atrophic skin condition,7
+problem during pregnancy,threatened pregnancy,7
+chronic glaucoma,corneal abrasion,7
+seborrheic dermatitis,actinic keratosis,7
+macular degeneration,acute glaucoma,7
+idiopathic excessive menstruation,uterine fibroids,7
+foreign body in the eye,blepharitis,7
+foreign body in the eye,corneal abrasion,7
+sebaceous cyst,lipoma,7
+pneumothorax,fracture of the rib,7
+anal fissure,hemorrhoids,7
+esophagitis,hiatal hernia,7
+cornea infection,iridocyclitis,7
+cornea infection,glaucoma,7
+subconjunctival hemorrhage,iridocyclitis,7
+macular degeneration,corneal disorder,7
+uterine fibroids,idiopathic excessive menstruation,7
+paroxysmal ventricular tachycardia,heart block,7
+vaginitis,chlamydia,7
+ear wax impaction,ear drum damage,7
+fungal infection of the hair,psoriasis,6
+prostate cancer,erectile dysfunction,6
+flu,meningitis,6
+fracture of the hand,injury to the arm,6
+marijuana abuse,post-traumatic stress disorder (ptsd),6
+appendicitis,cholecystitis,6
+flu,common cold,6
+hiatal hernia,esophagitis,6
+tonsillitis,eustachian tube dysfunction (ear disorder),6
+tinnitus of unknown cause,sensorineural hearing loss,6
+chronic obstructive pulmonary disease (copd),acute bronchospasm,6
+psoriasis,actinic keratosis,6
+flu,strep throat,6
+corneal abrasion,chronic glaucoma,6
+appendicitis,choledocholithiasis,6
+cornea infection,chronic glaucoma,6
+corneal abrasion,glaucoma,6
+corneal abrasion,corneal disorder,6
+liver cancer,ovarian cancer,6
+corneal abrasion,blepharitis,6
+prostatitis,urinary tract infection,6
+conjunctivitis due to virus,corneal abrasion,6
+chronic back pain,sciatica,6
+seborrheic keratosis,actinic keratosis,6
+seasonal allergies (hay fever),acute sinusitis,6
+stroke,transient ischemic attack,6
+ileus,chronic constipation,6
+macular degeneration,retinal detachment,6
+conjunctivitis due to allergy,conjunctivitis due to virus,6
+chronic constipation,ileus,6
+idiopathic irregular menstrual cycle,idiopathic painful menstruation,6
+fibromyalgia,sickle cell crisis,6
+contact dermatitis,fungal infection of the hair,6
+cataract,dry eye of unknown cause,6
+croup,pneumonia,6
+heart block,arrhythmia,6
+vaginitis,vaginismus,6
+gastroduodenal ulcer,ischemia of the bowel,6
+gallstone,esophagitis,6
+sickle cell crisis,chronic pain disorder,6
+pneumonia,interstitial lung disease,6
+intracerebral hemorrhage,intracranial hemorrhage,6
+personality disorder,adjustment reaction,6
+spondylosis,chronic pain disorder,6
+brachial neuritis,spinal stenosis,6
+ectropion,foreign body in the eye,6
+dementia,delirium,6
+panic disorder,acute stress reaction,6
+skin disorder,contact dermatitis,6
+paroxysmal ventricular tachycardia,sinus bradycardia,6
+spondylolisthesis,sciatica,6
+sickle cell crisis,fibromyalgia,6
+heart failure,heart block,6
+head injury,concussion,6
+cataract,retinal detachment,6
+brachial neuritis,complex regional pain syndrome,6
+spinal stenosis,brachial neuritis,6
+urinary tract infection,cystitis,6
+skin polyp,fungal infection of the hair,6
+blepharitis,chronic glaucoma,6
+injury of the ankle,gout,6
+inguinal hernia,abdominal hernia,6
+ingrown toe nail,onychomycosis,6
+vaginal cyst,ectopic pregnancy,6
+nose disorder,acute bronchitis,6
+urinary tract obstruction,cystitis,6
+oral thrush (yeast infection),mucositis,6
+oppositional disorder,developmental disability,6
+neuralgia,spinal stenosis,6
+acute bronchiolitis,sepsis,6
+hiatal hernia,acute pancreatitis,6
+psychotic disorder,marijuana abuse,6
+complex regional pain syndrome,muscle spasm,6
+hypokalemia,gastritis,6
+actinic keratosis,psoriasis,6
+psychotic disorder,adjustment reaction,6
+vitreous degeneration,astigmatism,5
+vulvodynia,vaginitis,5
+fungal infection of the skin,psoriasis,5
+itching of unknown cause,allergy,5
+chronic sinusitis,nose disorder,5
+problem during pregnancy,ileus,5
+complex regional pain syndrome,brachial neuritis,5
+complex regional pain syndrome,mononeuritis,5
+dry eye of unknown cause,macular degeneration,5
+noninfectious gastroenteritis,chronic constipation,5
+inguinal hernia,hydrocele of the testicle,5
+gout,injury to the leg,5
+drug abuse (opioids),bipolar disorder,5
+skin pigmentation disorder,skin cancer,5
+benign vaginal discharge (leukorrhea),cervicitis,5
+drug abuse (cocaine),marijuana abuse,5
+acute bronchitis,interstitial lung disease,5
+acute bronchitis,poisoning due to gas,5
+actinic keratosis,skin disorder,5
+psoriasis,scar,5
+contact dermatitis,dermatitis due to sun exposure,5
+fracture of the pelvis,arthritis of the hip,5
+blepharitis,conjunctivitis due to allergy,5
+bipolar disorder,personality disorder,5
+urinary tract obstruction,kidney stone,5
+intestinal disease,hypokalemia,5
+idiopathic excessive menstruation,idiopathic painful menstruation,5
+idiopathic irregular menstrual cycle,endometriosis,5
+aphthous ulcer,oral mucosal lesion,5
+seasonal allergies (hay fever),conjunctivitis due to allergy,5
+contact dermatitis,seborrheic keratosis,5
+premature atrial contractions (pacs),arrhythmia,5
+post-traumatic stress disorder (ptsd),substance-related mental disorder,5
+acute bronchitis,acute bronchospasm,5
+sprain or strain,mononeuritis,5
+ear wax impaction,otitis externa (swimmer's ear),5
+social phobia,adjustment reaction,5
+ear drum damage,acute otitis media,5
+skin pigmentation disorder,actinic keratosis,5
+skin pigmentation disorder,contact dermatitis,5
+skin pigmentation disorder,fungal infection of the hair,5
+ovarian cyst,pelvic inflammatory disease,5
+gout,joint effusion,5
+stye,blepharitis,5
+cholecystitis,indigestion,5
+polycystic kidney disease,kidney stone,5
+missed abortion,spontaneous abortion,5
+fibromyalgia,muscle spasm,5
+post-traumatic stress disorder (ptsd),psychotic disorder,5
+seborrheic dermatitis,fungal infection of the hair,5
+seborrheic dermatitis,skin pigmentation disorder,5
+acute bronchospasm,asthma,5
+acute bronchospasm,croup,5
+cystitis,pyelonephritis,5
+infectious gastroenteritis,gastritis,5
+indigestion,appendicitis,5
+glaucoma,cornea infection,5
+diverticulitis,acute pancreatitis,5
+developmental disability,attention deficit hyperactivity disorder (adhd),5
+pain after an operation,hydronephrosis,5
+developmental disability,marijuana abuse,5
+otitis media,abscess of nose,5
+insect bite,allergy,5
+gastroduodenal ulcer,esophagitis,5
+pneumonia,common cold,5
+crohn disease,diverticulosis,5
+acute glaucoma,myopia,5
+intestinal disease,gastroparesis,5
+gastritis,hyperemesis gravidarum,5
+injury to the leg,gout,5
+injury to the arm,rheumatoid arthritis,5
+multiple sclerosis,stroke,5
+skin cancer,actinic keratosis,5
+paroxysmal ventricular tachycardia,cardiomyopathy,5
+developmental disability,autism,5
+depression,dysthymic disorder,5
+depression,marijuana abuse,5
+marijuana abuse,depression,5
+marijuana abuse,drug abuse (opioids),5
+acute bronchitis,pneumonia,5
+acute kidney injury,heat exhaustion,5
+acute bronchospasm,acute respiratory distress syndrome (ards),5
+cataract,diabetic retinopathy,5
+skin cancer,atrophic skin condition,5
+intestinal obstruction,chronic constipation,5
+sprain or strain,brachial neuritis,5
+dementia,lewy body dementia,5
+impetigo,viral exanthem,5
+pain after an operation,pyelonephritis,5
+attention deficit hyperactivity disorder (adhd),asperger syndrome,5
+atelectasis,poisoning due to gas,5
+eczema,fungal infection of the hair,5
+personality disorder,post-traumatic stress disorder (ptsd),5
+pneumonia,acute bronchiolitis,5
+sick sinus syndrome,paroxysmal ventricular tachycardia,5
+cystitis,urinary tract infection,5
+atrial fibrillation,paroxysmal ventricular tachycardia,5
+asthma,acute respiratory distress syndrome (ards),5
+eczema,skin disorder,5
+eczema,skin polyp,5
+acute otitis media,ear wax impaction,5
+heart attack,angina,5
+depression,bipolar disorder,5
+depression,drug abuse (opioids),5
+sinus bradycardia,angina,5
+acne,skin pigmentation disorder,5
+herpangina,strep throat,5
+transient ischemic attack,stroke,5
+fracture of the rib,pneumothorax,5
