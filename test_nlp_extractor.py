@@ -1,6 +1,7 @@
 """Run with: python -m unittest -v"""
 import json
 import re
+import time
 import unittest
 from pathlib import Path
 
@@ -143,6 +144,15 @@ class TestNegation(ExtractorTestCase):
     def test_or_continues_the_scope(self):
         result = self.extractor.extract("no fever or cough")
         self.assertEqual(set(result["negated_symptoms"]), {"fever", "cough"})
+
+    def test_long_denied_lists_stay_denied(self):
+        result = self.extractor.extract("no fever or cough or headache or nausea or chest pain")
+        self.assertEqual(result["symptoms"], [])
+
+    def test_very_long_input_stays_fast(self):
+        start = time.perf_counter()
+        self.extractor.extract("cough " * 20000)
+        self.assertLess(time.perf_counter() - start, 2.0)
 
     def test_ambiguous_lists_keep_the_symptom(self):
         self.assertIn("sharp_chest_pain", self.symptoms("no fever, chest pain"))

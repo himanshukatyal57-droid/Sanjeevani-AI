@@ -166,6 +166,10 @@ class TestDuration(unittest.TestCase):
         self.assertEqual(triage([], duration=self.LONG)["level"], UNKNOWN)
         self.assertEqual(triage(["cough"], duration=self.LONG)["level"], ROUTINE)
 
+    def test_long_standing_trace_never_says_sudden(self):
+        for step in triage(["slurring_words"], duration=self.LONG)["rules_fired"]:
+            self.assertNotIn("sudden", step["description"].lower(), step["rule"])
+
     def test_result_lists_the_starting_facts(self):
         result = triage(["slurring_words"], ["sudden_onset"], self.LONG)
         self.assertEqual(result["initial_facts"], sorted(["slurring_words", "sudden_onset", LONG_STANDING_FACT]))
@@ -215,7 +219,8 @@ class TestFromPlainEnglish(unittest.TestCase):
             "one side of my body feels numb and I cant speak properly": "neuro",
             "I had a seizure this morning": "neuro",
             "I am bleeding heavily": "trauma",
-            "I am coughing up blood": "trauma",
+            "I am coughing up blood": "respiratory",
+            "I am vomiting blood": "trauma",
             "I got hit by a car and my leg is broken": "trauma",
             "she took an overdose": "toxicology",
             "I want to kill myself": "mental_health",
@@ -236,6 +241,49 @@ class TestFromPlainEnglish(unittest.TestCase):
         }
         for text, level in cases.items():
             self.assertEqual(self.run_text(text)["level"], level, text)
+
+    def test_everyday_emergency_phrasing(self):
+        for text in [
+            "he isn't breathing", "she is not breathing", "my baby stopped breathing", "I can't breathe properly",
+            "I am choking", "someone is choking", "my lips are turning blue", "my heart is paining and I am sweating",
+            "severe pain in my chest and left arm", "sharp pain in chest spreading to my left arm",
+            "I am having a stroke", "my face is drooping and my arm is weak", "I can't move my arm suddenly",
+            "worst headache of my life", "sudden severe headache", "he collapsed",
+            "she has fainted and won't wake up", "having fits", "I am having convulsions", "bleeding won't stop",
+            "there is blood everywhere", "I was stabbed", "I got shot", "severe burns all over my body",
+            "bitten by a snake", "snake bite", "electric shock", "he is drowning", "fell from the roof",
+            "bad road accident", "I am vomiting blood", "coughing up blood", "pregnant and bleeding heavily",
+            "my baby is not moving", "I swallowed poison", "I took too many pills", "I feel like ending it all",
+            "I want to commit suicide", "I am going to die", "throat is swelling after a bee sting",
+            "severe allergic reaction",
+            # Still reported, on purpose: a worried person may really be having one
+            "worried about a heart attack but no chest pain",
+            # Without a past time it could be happening now
+            "my father had a stroke", "my father had a stroke this morning", "he isn't breathing since 2 minutes",
+        ]:
+            self.assertEqual(self.run_text(text)["level"], EMERGENCY, text)
+
+    def test_not_emergencies_despite_alarming_words(self):
+        for text in [
+            "food poisoning", "I think I have food poisoning from last night",
+            "I had an accident last year but I am fine now", "my father had a heart attack in 2010",
+            "I have a family history of stroke", "no history of chest pain or seizures",
+            "I had a seizure two years ago", "I am fit and healthy", "I got a flu shot",
+            "I don't have chest pain or shortness of breath", "no chest pain, no fever, no cough",
+            "I do not have any difficulty breathing", "this shirt fits well",
+        ]:
+            self.assertNotEqual(self.run_text(text)["level"], EMERGENCY, text)
+
+    def test_past_cue_needs_the_same_clause(self):
+        self.assertEqual(self.run_text("I had a stroke last year and now I am slurring")["level"], EMERGENCY)
+        self.assertEqual(self.run_text("chest pain for the last year")["level"], URGENT)
+        self.assertEqual(self.run_text("chest pain since last year")["level"], URGENT)
+        self.assertEqual(self.run_text("chest pain two years ago")["level"], UNKNOWN)
+
+    def test_a_year_number_is_not_a_clause_break(self):
+        found = self.extractor.extract("heart attack in 2010")
+        self.assertEqual(found["clinical_flags"], [])
+        self.assertEqual(found["negated_flags"], ["suspected_heart_attack"])
 
     def test_denied_emergency_does_not_fire(self):
         self.assertNotEqual(self.run_text("no heart attack, I have a cough")["level"], EMERGENCY)

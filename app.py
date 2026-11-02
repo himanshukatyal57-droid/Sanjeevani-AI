@@ -24,6 +24,9 @@ feature_names = []
 extractor = None
 router = None
 
+# Not the working directory, so the service loads its files wherever it's started from
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Request Schema
 class SymptomRequest(BaseModel):
     user_text: str
@@ -35,7 +38,7 @@ def load_artifacts():
     global model, feature_names, extractor, router
 
     # Load the Delhi NCR map for hospital routing
-    graph_path = os.path.join("data", "delhi_ncr_graph.json")
+    graph_path = os.path.join(BASE_DIR, "data", "delhi_ncr_graph.json")
     if os.path.exists(graph_path):
         router = RoutingEngine.from_file(graph_path)
         print(f"Loaded map with {len(router.locations)} locations.")
@@ -43,7 +46,7 @@ def load_artifacts():
         print("Warning: delhi_ncr_graph.json not found! Hospital routing is unavailable.")
 
     # Load the exact feature order the model was trained with
-    metadata_path = os.path.join("models", "sanjeevani_model_metadata.json")
+    metadata_path = os.path.join(BASE_DIR, "models", "sanjeevani_model_metadata.json")
     if os.path.exists(metadata_path):
         with open(metadata_path, "r", encoding="utf-8") as f:
             feature_names = json.load(f)["feature_names"]
@@ -53,7 +56,7 @@ def load_artifacts():
         print("Warning: sanjeevani_model_metadata.json not found! Run train_model.py first.")
 
     # Load trained Decision Tree model
-    model_path = os.path.join("models", "sanjeevani_model.pkl")
+    model_path = os.path.join(BASE_DIR, "models", "sanjeevani_model.pkl")
     if os.path.exists(model_path):
         model = joblib.load(model_path)
         print("Successfully loaded trained Decision Tree model.")
@@ -95,8 +98,9 @@ def find_route(location, care):
 
 @app.post("/predict")
 def predict_disease(request: SymptomRequest):
-    if model is None or extractor is None:
-        raise HTTPException(status_code=500, detail="Model or metadata not initialized. Run train_model.py first.")
+    # The model is checked later: emergency rules must work without it
+    if extractor is None:
+        raise HTTPException(status_code=500, detail="Model metadata not initialized. Run train_model.py first.")
 
     # 1. NLP Symptom Extraction
     extraction = extractor.extract(request.user_text)
@@ -127,6 +131,10 @@ def predict_disease(request: SymptomRequest):
     # An all-zero input would still yield a confident-looking disease, so don't predict
     if not extracted:
         response["status"] = "no_symptoms_recognized"
+        return response
+
+    if model is None:
+        response["status"] = "model_unavailable"
         return response
 
     # 4. Build Binary Feature Vector (named columns, in training order)

@@ -5,7 +5,7 @@
   "main": "node.js",
   "scripts": {
   "start": "node backend/server.js",
-  "start:ai": "python -m uvicorn app:app --port 8000",
+  "start:ai": "node backend/start-ai.js",
   "dev": "nodemon backend/server.js",
   "test": "node --test \"backend/**/*.test.js\""
   },

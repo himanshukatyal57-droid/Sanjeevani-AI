@@ -27,11 +27,38 @@ app.get("/api/health", (req, res) => {
     });
 });
 
+// Unknown API routes
+app.use("/api", (req, res) => {
+    res.status(404).json({
+        success: false,
+        message: "API route not found."
+    });
+});
+
+// Replaces Express's default error page, which shows a stack trace with file paths.
+// The four arguments are how Express recognizes an error handler.
+app.use((error, req, res, next) => {
+    const status = error.status || 500;
+
+    if (status >= 500) {
+        console.error("Server error:", error);
+    }
+
+    res.status(status).json({
+        success: false,
+        message: status === 413 ? "That request is too large." : "The request could not be processed."
+    });
+});
+
 // Server configuration
 const PORT = process.env.PORT || 5000;
 
-// Start server
-app.listen(PORT, () => {
-    console.log(`Sanjeevani AI server running on port ${PORT}`);
-});
+// Start server, unless a test is importing the app
+if (require.main === module) {
+    app.listen(PORT, () => {
+        console.log(`Sanjeevani AI server running on port ${PORT}`);
+    });
+}
+
+module.exports = app;
 

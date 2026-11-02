@@ -29,6 +29,10 @@ function buildPrediction(result) {
         return { status: "skipped_emergency", predictions: [], decisionPath: null };
     }
 
+    if (result.status === "model_unavailable") {
+        return { status: "unavailable", predictions: [], decisionPath: null };
+    }
+
     if (result.predictions.length === 0) {
         return { status: "not_run", predictions: [], decisionPath: null };
     }
@@ -85,7 +89,8 @@ function buildPipeline(result, location) {
 // POST /api/analysis
 router.post("/", async (req, res) => {
     try {
-        const { symptoms, duration, location } = req.body;
+        // Express leaves req.body undefined when the request isn't JSON
+        const { symptoms, duration, location } = req.body || {};
 
         // Validate input
         if (!symptoms || !duration) {
@@ -96,11 +101,11 @@ router.post("/", async (req, res) => {
         }
 
         if (typeof symptoms !== "string" ||
-            symptoms.trim().length < 5 ||
+            symptoms.trim().length < 3 ||
             symptoms.trim().length > 1000) {
             return res.status(400).json({
                 success: false,
-                message: "Symptoms must contain between 5 and 1000 characters."
+                message: "Symptoms must contain between 3 and 1000 characters."
             });
         }
 

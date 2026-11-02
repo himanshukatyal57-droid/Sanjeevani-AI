@@ -1,6 +1,8 @@
 """Tests the /predict contract with a stand-in model, so no training is needed."""
 import os
+import tempfile
 import unittest
+from unittest.mock import patch
 
 import numpy as np
 import pandas as pd
@@ -155,9 +157,39 @@ class TestPredict(unittest.TestCase):
         self.assertTrue(body["model_loaded"])
         self.assertFalse(body["map_loaded"])
 
-    def test_missing_model_is_an_error(self):
+    def test_emergency_rules_work_without_the_model(self):
         service.model = None
+        body = self.post("I am bleeding heavily").json()
+        self.assertEqual(body["status"], "emergency")
+        self.assertEqual(body["triage"]["level"], "EMERGENCY")
+
+    def test_missing_model_only_stops_the_prediction(self):
+        service.model = None
+        response = self.post("I have a fever")
+        body = response.json()
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(body["status"], "model_unavailable")
+        self.assertEqual(body["triage"]["level"], "ROUTINE")
+        self.assertEqual(body["predictions"], [])
+
+    def test_missing_metadata_is_an_error(self):
+        service.extractor = None
         self.assertEqual(self.post("fever").status_code, 500)
+
+    def test_files_load_from_any_working_directory(self):
+        service.router = service.extractor = None
+        previous = os.getcwd()
+        with tempfile.TemporaryDirectory() as elsewhere:
+            os.chdir(elsewhere)
+            try:
+                # The real model takes 1 GB, and this only checks the paths
+                with patch.object(service.joblib, "load", return_value=self.model) as load:
+                    service.load_artifacts()
+            finally:
+                os.chdir(previous)
+        self.assertIsNotNone(service.router)
+        self.assertIsNotNone(service.extractor)
+        load.assert_called_once()
 
 
 if __name__ == "__main__":

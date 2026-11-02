@@ -26,11 +26,14 @@ You need **Python 3.10–3.13** (tested on 3.12) and **Node.js 22 or newer** (te
 **1. Install, once:**
 
 ```
-python -m pip install -r requirements.txt
+py -3.12 -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
 npm install
 ```
 
-Using a virtual environment is recommended, because `requirements.txt` pins exact versions of scikit-learn and NumPy.
+On macOS or Linux, use `python3.12 -m venv .venv` and `.venv/bin/python -m pip install -r requirements.txt`.
+
+`npm run start:ai` always uses this `.venv`, so a newer Python on your computer can't break it. `requirements.txt` pins the exact versions the saved model needs, which don't support Python 3.14 or newer.
 
 **2. Start both servers, each in its own terminal:**
 
@@ -76,7 +79,7 @@ Across every starting point and care type on the map (210 combinations), A* matc
 ## Known limitations
 
 - **Triage rules** are illustrative and not clinically validated. They lean towards false alarms over missed emergencies, but they can still miss some.
-- **Symptom extraction** uses a fixed vocabulary, so unusual wording can be missed. It also can't tell who has a symptom or when it started, so "my father had a stroke" still flags a stroke.
+- **Symptom extraction** uses a fixed English vocabulary, so unusual wording, Hindi and Hinglish can be missed. It can't tell who has a symptom, so "my father had a stroke" still flags a stroke, which could be happening now. A stated past time, like "in 2010" or "last year", does rule a symptom out.
 - **Choosing "More than a week"** lowers speech and one-sided weakness signs from `EMERGENCY` to `URGENT`, unless the text says something like "suddenly". A real stroke reported that way would be `URGENT`.
 - **Predictions** with only a few symptoms are often uncertain. Scores are model confidence, not medical certainty. Some diseases have very little data, and 19 have only one row.
 - **The map** uses real Delhi NCR area names with approximate coordinates, but road distances and traffic are estimates, and all hospitals are fictional. Lines show connections, not road shapes.
@@ -84,7 +87,7 @@ Across every starting point and care type on the map (210 combinations), A* matc
 ## Tests
 
 ```
-python -m unittest
+.venv\Scripts\python -m unittest
 npm test
 ```
 

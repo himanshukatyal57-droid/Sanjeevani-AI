@@ -55,10 +55,11 @@ RULES = [
     Rule("S2", "Symptom that commonly accompanies a cardiac event", ("cardiac_warning_sign",),
          any_of=("shortness_of_breath", "difficulty_breathing", "sweating", "nausea", "fainting",
                  "dizziness", "arm_pain", "jaw_pain", "shoulder_pain", "palpitations")),
-    Rule("S3", "Sudden speech or one-sided weakness problem (FAST signs)", ("stroke_sign",),
+    Rule("S3", "Speech problem or one-sided weakness (FAST signs)", ("stroke_sign",),
          any_of=("suspected_stroke", "slurring_words", "difficulty_speaking", "focal_weakness")),
+    # The map has no gastro specialty, so vomiting blood goes to the major-bleeding care
     Rule("S4", "Major blood loss", ("major_bleeding",),
-         any_of=("severe_bleeding", "vomiting_blood", "hemoptysis")),
+         any_of=("severe_bleeding", "vomiting_blood")),
     Rule("S5", "Bleeding that needs prompt review", ("moderate_bleeding",),
          any_of=("blood_in_stool", "melena", "rectal_bleeding", "blood_in_urine",
                  "spotting_or_bleeding_during_pregnancy")),
@@ -68,8 +69,9 @@ RULES = [
          any_of=("crushing_chest_pain", "suspected_heart_attack")),
     Rule("E2", "Chest pain with a cardiac warning sign", ("cardiac_emergency",),
          all_of=("chest_pain_present", "cardiac_warning_sign")),
-    Rule("E3", "Not breathing, struggling to breathe, or anaphylaxis", ("respiratory_emergency",),
-         any_of=("not_breathing", "difficulty_breathing", "anaphylaxis")),
+    Rule("E3", "Not breathing, struggling to breathe, blocked airway or anaphylaxis", ("respiratory_emergency",),
+         any_of=("not_breathing", "difficulty_breathing", "airway_emergency", "anaphylaxis")),
+    Rule("E14", "Coughing up blood", ("respiratory_emergency",), all_of=("hemoptysis",)),
     Rule("E4", "Allergic reaction affecting the throat", ("respiratory_emergency",),
          all_of=("allergic_reaction",), any_of=("throat_feels_tight", "throat_swelling", "swollen_tongue")),
     Rule("E5", "Possible stroke, not reported as long-standing", ("neuro_emergency",),
@@ -77,13 +79,15 @@ RULES = [
     Rule("E12", "Stroke explicitly reported", ("neuro_emergency",), all_of=("suspected_stroke",)),
     Rule("E13", "Stroke sign described as sudden or recent", ("neuro_emergency",),
          all_of=("stroke_sign", "sudden_onset")),
-    Rule("E6", "Unconscious or having a seizure", ("neuro_emergency",), any_of=("unconscious", "seizures")),
+    Rule("E6", "Unconscious, having a seizure, or a sudden severe headache", ("neuro_emergency",),
+         any_of=("unconscious", "seizures", "thunderclap_headache")),
     Rule("E7", "Fever with a stiff or painful neck (possible meningitis)", ("neuro_emergency",),
          all_of=("fever",), any_of=("neck_stiffness_or_tightness", "neck_pain")),
     Rule("E8", "Major blood loss", ("bleeding_emergency",), all_of=("major_bleeding",)),
     Rule("E9", "Major trauma", ("trauma_emergency",), all_of=("major_trauma",)),
-    Rule("E10", "Overdose or poisoning", ("poisoning_emergency",), all_of=("overdose_or_poisoning",)),
+    Rule("E10", "Overdose, poisoning or venomous bite", ("poisoning_emergency",), all_of=("overdose_or_poisoning",)),
     Rule("E11", "Risk of self-harm", ("mental_health_emergency",), all_of=("self_harm_risk",)),
+    Rule("E15", "Says their life is in danger", ("life_threat_emergency",), all_of=("life_threat",)),
 
     # Stage 3: emergency conditions -> level and required care
     Rule("L1", "Cardiac emergency", ("emergency", "needs_cardiac_care"), all_of=("cardiac_emergency",)),
@@ -94,6 +98,9 @@ RULES = [
     Rule("L6", "Poisoning emergency", ("emergency", "needs_toxicology_care"), all_of=("poisoning_emergency",)),
     Rule("L7", "Mental health emergency", ("emergency", "needs_mental_health_care"),
          all_of=("mental_health_emergency",)),
+    # Trauma centres take undiagnosed emergencies; "general" could mean a small clinic
+    Rule("L8", "Life-threatening, cause unclear", ("emergency", "needs_trauma_care"),
+         all_of=("life_threat_emergency",)),
 
     # Not immediately life-threatening on their own, but should not wait
     Rule("U1", "Chest pain is at least urgent", ("urgent", "needs_cardiac_care"),
@@ -107,6 +114,7 @@ RULES = [
          all_of=("headache",), any_of=("neck_stiffness_or_tightness", "neck_pain")),
     Rule("U7", "Speech problem or one-sided weakness reported as long-standing", ("urgent", "needs_neuro_care"),
          all_of=("stroke_sign", LONG_STANDING_FACT)),
+    Rule("U8", "Food poisoning", ("urgent", "needs_general_care"), all_of=("food_poisoning",)),
 ]
 
 

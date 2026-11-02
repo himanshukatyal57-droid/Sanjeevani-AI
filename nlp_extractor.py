@@ -10,8 +10,8 @@ Results come in two groups:
                      onset), for the triage rules only
 
 Known limits: it does not tell who has the symptom ("my father had a stroke" still
-flags stroke) or when ("my fever is gone" still reports fever). Both err towards
-reporting a symptom, which is the safer mistake for triage.
+flags stroke), and only a stated past time rules a symptom out ("my fever is gone" still
+reports fever). Both err towards reporting a symptom, the safer mistake for triage.
 """
 import re
 from functools import lru_cache
@@ -25,21 +25,25 @@ _stemmer = PorterStemmer()
 # Lexicon phrases go through the same filter, so both sides stay consistent.
 FILLER_WORDS = {
     "a", "an", "the", "my", "me", "mine", "i", "im", "ive", "am", "is", "are", "was",
-    "were", "be", "been", "being", "have", "has", "had", "having", "some", "this",
+    "were", "be", "been", "being", "have", "has", "had", "some", "this",
     "that", "it", "its", "any", "really", "very", "so", "quite", "too", "extremely", "pretty",
     "super", "left", "right", "both",
 }
 
 # Feature -> extra ways people describe it. The feature's own name is always matched.
 SYMPTOM_PHRASES = {
-    "sharp_chest_pain": ["chest pain", "pain in chest", "chest hurts", "chest ache", "chest sore"],
+    "sharp_chest_pain": ["chest pain", "pain in chest", "chest hurts", "chest ache", "chest sore",
+                         "heart pain", "heart hurts", "pain in heart", "pain in chest and arm"],
+    "arm_pain": ["pain in chest and arm", "spreading to arm", "radiating to arm", "going to arm"],
+    "allergic_reaction": ["bee sting", "wasp sting", "insect sting", "stung by"],
+    "spotting_or_bleeding_during_pregnancy": ["pregnant and bleeding", "bleeding while pregnant", "bleeding during pregnancy"],
     "burning_chest_pain": ["burning in chest"],
     "chest_tightness": ["tight chest", "chest tight", "chest feels tight", "chest pressure",
                         "pressure in chest", "pressure on chest", "tightness in chest", "heavy chest",
                         "chest heaviness", "heaviness in chest", "chest discomfort"],
     "congestion_in_chest": ["chest congestion"],
     "difficulty_breathing": ["cant breathe", "cannot breathe", "can not breathe", "not breathing",
-                             "stopped breathing", "trouble breathing", "trouble in breathing",
+                             "isnt breathing", "wasnt breathing", "stopped breathing", "trouble breathing", "trouble in breathing",
                              "difficulty in breathing", "problem in breathing", "hard to breathe",
                              "barely breathe", "struggling to breathe", "unable to breathe",
                              "not able to breathe", "wasnt able to breathe", "gasping for air",
@@ -70,10 +74,12 @@ SYMPTOM_PHRASES = {
                   "room spinning", "head spinning", "vertigo", "loss of balance", "losing balance",
                   "off balance"],
     "fainting": ["pass out", "passed out", "passing out", "blacked out", "black out", "collapsed"],
-    "seizures": ["seizure", "convulsion", "convulsing"],
+    # "having" is not a filler word, because "I am fit" alone must not read as a seizure
+    "seizures": ["seizure", "convulsion", "convulsing", "having fits", "having a fit", "getting fits", "epileptic fit"],
     "slurring_words": ["slurred speech", "slurring", "slurred"],
     "difficulty_speaking": ["cant speak", "cannot speak", "cant talk", "trouble speaking"],
-    "focal_weakness": ["weak on one side", "weakness on one side", "one side weak", "one side of body feels weak"],
+    "focal_weakness": ["weak on one side", "weakness on one side", "one side weak", "one side of body feels weak",
+                       "cant move arm", "cant move leg", "cannot move arm", "cannot move leg"],
     "cough": ["dry cough"],
     "coughing_up_sputum": ["coughing up phlegm", "coughing up mucus", "phlegm", "mucus", "sputum",
                            "wet cough", "productive cough", "mucus while coughing"],
@@ -131,22 +137,33 @@ CLINICAL_FLAG_PHRASES = {
     "sudden_onset": ["sudden", "suddenly", "abruptly", "just now", "just started", "this morning", "today",
                      "tonight", "last night", "yesterday", "minutes ago", "hours ago"],
     "unconscious": ["unconscious", "lost consciousness", "loss of consciousness", "unresponsive",
-                    "not responding", "wont wake up", "not waking up"],
-    "not_breathing": ["not breathing", "stopped breathing"],
+                    "not responding", "wont wake up", "not waking up", "collapsed", "collapse",
+                    "baby not moving", "baby isnt moving"],
+    "not_breathing": ["not breathing", "isnt breathing", "wasnt breathing", "stopped breathing"],
+    "airway_emergency": ["choking", "choked", "blue lips", "lips blue", "lips turning blue", "turning blue",
+                         "drowning", "drowned"],
     "severe_bleeding": ["bleeding heavily", "heavy bleeding", "severe bleeding", "bleeding badly",
                         "bleeding a lot", "lot of blood", "losing blood", "wont stop bleeding",
-                        "bleeding wont stop", "internal bleeding"],
+                        "bleeding wont stop", "internal bleeding", "blood everywhere"],
+    "thunderclap_headache": ["worst headache", "sudden headache", "sudden severe headache", "severe sudden headache"],
+    "life_threat": ["going to die", "dying"],
+    "food_poisoning": ["food poisoning"],
     "crushing_chest_pain": ["crushing chest pain", "crushing pain in chest", "chest feels crushed"],
     "suspected_heart_attack": ["heart attack", "myocardial infarction"],
     "suspected_stroke": ["stroke", "face drooping", "drooping face", "face droop", "facial droop",
                          "one side of body feels numb", "one side of body feels weak", "numb on one side"],
     "major_trauma": ["hit by car", "hit by bike", "car accident", "road accident", "accident", "fracture",
                      "fractured", "broken bone", "broken leg", "leg broken", "broken arm", "arm broken",
-                     "head injury"],
+                     "head injury", "stabbed", "stab wound", "knife wound", "got shot", "gunshot", "bullet wound",
+                     "severe burn", "badly burned", "burned badly", "burnt badly", "burns all over",
+                     "electric shock", "electrocuted", "fell from roof", "fell from terrace", "fell from building",
+                     "fell from height", "fell down stairs"],
     "low_blood_sugar": ["low blood sugar", "low sugar", "sugar low", "hypoglycemia"],
-    "anaphylaxis": ["anaphylaxis", "anaphylactic", "throat closing"],
-    "overdose_or_poisoning": ["overdose", "overdosed", "poisoned", "poisoning"],
-    "self_harm_risk": ["suicidal", "kill myself", "want to die", "hurt myself", "end my life"],
+    "anaphylaxis": ["anaphylaxis", "anaphylactic", "throat closing", "severe allergic reaction"],
+    "overdose_or_poisoning": ["overdose", "overdosed", "poisoned", "poisoning", "too many pills", "too many tablets",
+                              "snake bite", "snakebite", "bitten by snake", "scorpion sting"],
+    "self_harm_risk": ["suicidal", "suicide", "kill myself", "want to die", "hurt myself", "end my life",
+                       "end it all", "ending it all"],
 }
 
 # Body-part features follow a pattern, so their phrases are generated instead of listed.
@@ -172,13 +189,22 @@ BODY_PART_TEMPLATES = {
 # "and" and commas end the scope on purpose: in "no fever, chest pain" it is safer to
 # keep the chest pain than to assume it was denied. "or" continues it ("no fever or cough").
 NEGATION_WINDOW = 4
+NEGATION_LOOKBACK = 40
 NEGATORS = ["no", "not", "without", "never", "deny", "denies", "denied", "dont", "doesnt", "didnt",
-            "havent", "hasnt", "hadnt", "isnt", "arent", "wasnt", "werent", "nor", "neither", "none"]
+            "havent", "hasnt", "hadnt", "isnt", "arent", "wasnt", "werent", "nor", "neither", "none",
+            "history"]  # "family history of stroke" reports no current stroke
 SCOPE_ENDERS = ["but", "however", "although", "though", "except", "yet", "and", "because", "since"]
 # "not sure if this is chest pain" and "no relief from chest pain" do not deny anything.
 PSEUDO_NEGATION_FOLLOWERS = ["sure", "certain", "know", "only", "just", "relief", "better", "improving", "doubt"]
 
-TOKEN_PATTERN = re.compile(r"[a-z]+|[,.;:!?\n]")
+# A time cue after a symptom puts it in the past: "heart attack in 2010", "accident last year".
+# "for" and "since" (scope enders) mean it is still going on: "chest pain for the last year".
+# "Yesterday" and "last week" are not cues, because they may still need urgent care.
+PAST_WINDOW = 5
+PAST_CUES = {("last", "year"), ("last", "month"), ("year", "ago"), ("month", "ago"), ("long", "ago")}
+YEAR_TOKEN = "#year"
+
+TOKEN_PATTERN = re.compile(r"[a-z]+|\b(?:19|20)\d\d\b|[,.;:!?\n]")
 Phrase = Tuple[Optional[str], ...]
 
 
@@ -192,7 +218,9 @@ def _tokenize(text: str) -> List[Optional[str]]:
     text = text.lower().replace("'", "").replace("’", "")
     tokens: List[Optional[str]] = []
     for raw in TOKEN_PATTERN.findall(text):
-        if not raw.isalpha():
+        if raw.isdigit():
+            tokens.append(YEAR_TOKEN)
+        elif not raw.isalpha():
             tokens.append(None)
         elif raw not in FILLER_WORDS:
             tokens.append(_stem(raw))
@@ -202,6 +230,7 @@ def _tokenize(text: str) -> List[Optional[str]]:
 _NEGATOR_STEMS = {_stem(w) for w in NEGATORS}
 _SCOPE_ENDER_STEMS = {_stem(w) for w in SCOPE_ENDERS}
 _PSEUDO_STEMS = {_stem(w) for w in PSEUDO_NEGATION_FOLLOWERS}
+_PAST_CUE_STEMS = {tuple(_stem(w) for w in cue) for cue in PAST_CUES}
 
 
 def _feature_to_phrase(feature: str) -> str:
@@ -250,13 +279,31 @@ def _find_matches(tokens: List[Optional[str]], index: Dict[Phrase, Set[str]]) ->
     return matches
 
 
+def _is_past(tokens: List[Optional[str]], end: int) -> bool:
+    for j in range(end, min(end + PAST_WINDOW, len(tokens))):
+        token = tokens[j]
+        if token is None or token == "for" or token in _SCOPE_ENDER_STEMS:
+            return False
+        if token == YEAR_TOKEN or tuple(tokens[j:j + 2]) in _PAST_CUE_STEMS:
+            return True
+    return False
+
+
 def _is_negated(tokens: List[Optional[str]], start: int, matched_positions: Set[int]) -> bool:
-    for j in range(start - 1, max(start - 1 - NEGATION_WINDOW, -1), -1):
+    other_words = 0
+    # The hard stop keeps very long input fast
+    for j in range(start - 1, max(start - 1 - NEGATION_LOOKBACK, -1), -1):
         token = tokens[j]
         if token is None or token in _SCOPE_ENDER_STEMS:
             return False
-        # A negator inside another matched phrase ("no energy") belongs to that phrase
-        if j in matched_positions or token not in _NEGATOR_STEMS:
+        # A negator inside another matched phrase ("no energy") belongs to that phrase.
+        # Matched symptoms and "or" don't use up the window, so long denied lists stay denied.
+        if j in matched_positions or token == "or":
+            continue
+        other_words += 1
+        if other_words > NEGATION_WINDOW:
+            return False
+        if token not in _NEGATOR_STEMS:
             continue
         follower = tokens[j + 1] if j + 1 < len(tokens) else None
         if follower not in _PSEUDO_STEMS:
@@ -295,7 +342,8 @@ class SymptomExtractor:
     def _split_by_negation(tokens, matches, matched_positions) -> Tuple[Set[str], Set[str]]:
         present: Set[str] = set()
         negated: Set[str] = set()
-        for start, _, targets in matches:
-            (negated if _is_negated(tokens, start, matched_positions) else present).update(targets)
+        for start, length, targets in matches:
+            not_current = _is_negated(tokens, start, matched_positions) or _is_past(tokens, start + length)
+            (negated if not_current else present).update(targets)
         # "no fever yesterday, but I have a fever now" counts as present
         return present, negated - present

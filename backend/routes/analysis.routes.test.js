@@ -118,6 +118,17 @@ test("debug data reaches the dashboard", async () => {
     assert.strictEqual(pipeline.triage.rulesTotal, 31);
 });
 
+test("short input like 'help' reaches the rules", async () => {
+    const response = await post({ symptoms: "help", duration: "1–3 days" });
+    assert.strictEqual(response.status, 200);
+});
+
+test("a missing model is reported separately from no symptoms", async () => {
+    pythonHandler = (req, res) => res.json(pythonResponse({ status: "model_unavailable", predictions: [] }));
+    const { pipeline } = (await (await post(VALID)).json()).data;
+    assert.strictEqual(pipeline.prediction.status, "unavailable");
+});
+
 test("an emergency is marked as skipping the prediction", async () => {
     pythonHandler = (req, res) => res.json(pythonResponse({
         status: "emergency",
@@ -162,7 +173,7 @@ test("invalid input is rejected without calling Python", async () => {
         {},
         { symptoms: "I have a cough" },
         { duration: "1–3 days" },
-        { symptoms: "abc", duration: "1–3 days" },
+        { symptoms: "ab", duration: "1–3 days" },
         { symptoms: "x".repeat(1001), duration: "1–3 days" },
         { symptoms: 12345, duration: "1–3 days" },
         { symptoms: "I have a cough", duration: 3 },

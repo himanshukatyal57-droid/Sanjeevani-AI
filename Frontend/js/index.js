@@ -269,7 +269,7 @@ function renderSymptoms(nlp) {
     }
 
     if (nlp.negatedSymptoms.length > 0) {
-        nlpResult.appendChild(createElement("p", "result-label", "You said you do not have"));
+        nlpResult.appendChild(createElement("p", "result-label", "Not counted (denied or in the past)"));
         nlpResult.appendChild(createTagList(nlp.negatedSymptoms, "tag-negated"));
     }
 
@@ -324,6 +324,12 @@ function renderPrediction(prediction) {
         const bypass = createDebugBlock("Decision Tree trace");
         bypass.appendChild(createElement("p", "", "The tree was never run: the triage rules found an emergency first."));
         predictionResult.appendChild(bypass);
+        return;
+    }
+
+    if (prediction.status === "unavailable") {
+        predictionStatus.textContent = "Unavailable";
+        predictionResult.appendChild(createElement("p", "", "The prediction model is not available right now. The emergency rules above still ran."));
         return;
     }
 
