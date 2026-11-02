@@ -6,8 +6,8 @@ against a lexicon -> negation scoping.
 
 Results come in two groups:
   * symptoms       - model features, used to build the Decision Tree input
-  * clinical_flags - emergencies the dataset has no column for (e.g. heavy bleeding),
-                     for the triage rules only
+  * clinical_flags - facts the dataset has no column for (e.g. heavy bleeding, sudden
+                     onset), for the triage rules only
 
 Known limits: it does not tell who has the symptom ("my father had a stroke" still
 flags stroke) or when ("my fever is gone" still reports fever). Both err towards
@@ -125,8 +125,11 @@ SYMPTOM_PHRASES = {
     "loss_of_sensation": ["numb", "numbness"],
 }
 
-# Emergencies the dataset has no column for. Never fed to the model.
+# Triage facts the dataset has no column for. Never fed to the model.
 CLINICAL_FLAG_PHRASES = {
+    # Timing in the user's own words outranks the single duration answer on the form
+    "sudden_onset": ["sudden", "suddenly", "abruptly", "just now", "just started", "this morning", "today",
+                     "tonight", "last night", "yesterday", "minutes ago", "hours ago"],
     "unconscious": ["unconscious", "lost consciousness", "loss of consciousness", "unresponsive",
                     "not responding", "wont wake up", "not waking up"],
     "not_breathing": ["not breathing", "stopped breathing"],

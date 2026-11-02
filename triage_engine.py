@@ -10,7 +10,7 @@ The rules are illustrative, written for an academic demonstration, and have not 
 clinically validated. They lean towards false alarms over missed emergencies.
 """
 from dataclasses import dataclass
-from typing import Iterable, List, Set, Tuple
+from typing import Iterable, List, Optional, Set, Tuple
 
 EMERGENCY = "EMERGENCY"
 URGENT = "URGENT"
@@ -21,6 +21,11 @@ UNKNOWN = "UNKNOWN"
 # Highest priority first; the first one needed is the primary destination for routing
 CARE_PRIORITY = ["cardiac", "neuro", "respiratory", "trauma", "toxicology", "mental_health", "general"]
 
+# The longest option on the symptom form. Anything else, including no answer, is treated
+# as possibly recent, so an unclear duration can never lower a triage level.
+LONG_STANDING_DURATION = "more than a week"
+LONG_STANDING_FACT = "reported_long_standing"
+
 
 @dataclass(frozen=True)
 class Rule:
@@ -29,12 +34,15 @@ class Rule:
     then: Tuple[str, ...]
     all_of: Tuple[str, ...] = ()
     any_of: Tuple[str, ...] = ()
+    # Input facts only, never concluded by a rule, so the firing order can't change the result
+    none_of: Tuple[str, ...] = ()
 
     def matches(self, facts: Set[str]) -> bool:
         if not self.all_of and not self.any_of:
             return False
         return (all(f in facts for f in self.all_of)
-                and (not self.any_of or any(f in facts for f in self.any_of)))
+                and (not self.any_of or any(f in facts for f in self.any_of))
+                and not any(f in facts for f in self.none_of))
 
     def matched_facts(self, facts: Set[str]) -> List[str]:
         return [f for f in self.all_of + self.any_of if f in facts]
@@ -64,7 +72,11 @@ RULES = [
          any_of=("not_breathing", "difficulty_breathing", "anaphylaxis")),
     Rule("E4", "Allergic reaction affecting the throat", ("respiratory_emergency",),
          all_of=("allergic_reaction",), any_of=("throat_feels_tight", "throat_swelling", "swollen_tongue")),
-    Rule("E5", "Possible stroke", ("neuro_emergency",), all_of=("stroke_sign",)),
+    Rule("E5", "Possible stroke, not reported as long-standing", ("neuro_emergency",),
+         all_of=("stroke_sign",), none_of=(LONG_STANDING_FACT,)),
+    Rule("E12", "Stroke explicitly reported", ("neuro_emergency",), all_of=("suspected_stroke",)),
+    Rule("E13", "Stroke sign described as sudden or recent", ("neuro_emergency",),
+         all_of=("stroke_sign", "sudden_onset")),
     Rule("E6", "Unconscious or having a seizure", ("neuro_emergency",), any_of=("unconscious", "seizures")),
     Rule("E7", "Fever with a stiff or painful neck (possible meningitis)", ("neuro_emergency",),
          all_of=("fever",), any_of=("neck_stiffness_or_tightness", "neck_pain")),
@@ -93,6 +105,8 @@ RULES = [
     Rule("U5", "Low blood sugar", ("urgent", "needs_general_care"), all_of=("low_blood_sugar",)),
     Rule("U6", "Headache with a stiff or painful neck, no fever reported", ("urgent", "needs_neuro_care"),
          all_of=("headache",), any_of=("neck_stiffness_or_tightness", "neck_pain")),
+    Rule("U7", "Speech problem or one-sided weakness reported as long-standing", ("urgent", "needs_neuro_care"),
+         all_of=("stroke_sign", LONG_STANDING_FACT)),
 ]
 
 
@@ -114,15 +128,19 @@ def forward_chain(initial_facts: Iterable[str]) -> Tuple[Set[str], List[dict]]:
                     "rule": rule.name,
                     "description": rule.description,
                     "because": rule.matched_facts(facts),
+                    "required_absent": list(rule.none_of),
                     "concluded": list(rule.then),
                     "new_facts": added,
                 })
     return facts, trace
 
 
-def triage(symptoms: Iterable[str], clinical_flags: Iterable[str] = ()) -> dict:
+def triage(symptoms: Iterable[str], clinical_flags: Iterable[str] = (), duration: Optional[str] = None) -> dict:
     observed = set(symptoms) | set(clinical_flags)
-    facts, trace = forward_chain(observed)
+    initial_facts = set(observed)
+    if duration and duration.strip().lower() == LONG_STANDING_DURATION:
+        initial_facts.add(LONG_STANDING_FACT)
+    facts, trace = forward_chain(initial_facts)
 
     if "emergency" in facts:
         level = EMERGENCY

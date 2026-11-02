@@ -86,6 +86,18 @@ class TestPredict(unittest.TestCase):
         self.assertIn("trauma", body["route"]["hospital"]["specialties"])
         self.assertEqual(body["route"]["path"][0]["id"], "lajpat_nagar")
 
+    def test_duration_reaches_triage(self):
+        features = FEATURES + ["slurring_words"]
+        service.feature_names = features
+        service.extractor = SymptomExtractor(features)
+        recent = self.client.post("/predict", json={"user_text": "slurred speech", "duration": "1–3 days"}).json()
+        self.assertEqual(recent["status"], "emergency")
+        self.assertIsNone(self.model.last_input)
+        chronic = self.client.post("/predict", json={"user_text": "slurred speech",
+                                                     "duration": "More than a week"}).json()
+        self.assertEqual(chronic["triage"]["level"], "URGENT")
+        self.assertTrue(chronic["predictions"])
+
     def test_route_is_optional(self):
         self.assertIsNone(self.post("I have a fever").json()["route"])
 

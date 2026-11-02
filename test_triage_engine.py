@@ -7,6 +7,7 @@ from nlp_extractor import CLINICAL_FLAG_PHRASES, SymptomExtractor
 from triage_engine import (
     CARE_PRIORITY,
     EMERGENCY,
+    LONG_STANDING_FACT,
     ROUTINE,
     RULES,
     UNKNOWN,
@@ -28,10 +29,16 @@ class TestRuleBase(unittest.TestCase):
     def test_every_condition_can_become_true(self):
         # A misspelled condition would stop a rule firing, with no error anywhere
         derived = {fact for rule in RULES for fact in rule.then}
-        known = set(load_features()) | set(CLINICAL_FLAG_PHRASES) | derived
+        known = set(load_features()) | set(CLINICAL_FLAG_PHRASES) | derived | {LONG_STANDING_FACT}
         for rule in RULES:
-            for fact in rule.all_of + rule.any_of:
+            for fact in rule.all_of + rule.any_of + rule.none_of:
                 self.assertIn(fact, known, f"{rule.name} uses unknown fact '{fact}'")
+
+    def test_absence_conditions_only_use_input_facts(self):
+        # If a rule could conclude one of these, the result would depend on firing order
+        derived = {fact for rule in RULES for fact in rule.then}
+        for rule in RULES:
+            self.assertEqual(set(rule.none_of) & derived, set(), rule.name)
 
     def test_every_clinical_flag_is_used_by_a_rule(self):
         used = {fact for rule in RULES for fact in rule.all_of + rule.any_of}
@@ -114,6 +121,49 @@ class TestLevels(unittest.TestCase):
         self.assertEqual(triage(["neck_pain"])["level"], ROUTINE)
 
 
+class TestDuration(unittest.TestCase):
+    LONG = "More than a week"
+
+    def test_long_standing_stroke_sign_is_urgent_not_routine(self):
+        for symptom in ["slurring_words", "difficulty_speaking", "focal_weakness"]:
+            result = triage([symptom], duration=self.LONG)
+            self.assertEqual(result["level"], URGENT, symptom)
+            self.assertEqual(result["primary_care"], "neuro", symptom)
+
+    def test_every_other_answer_stays_an_emergency(self):
+        for duration in ["Less than 24 hours", "1–3 days", "4–7 days", "", None, "not sure", "a week"]:
+            self.assertEqual(triage(["slurring_words"], duration=duration)["level"], EMERGENCY, duration)
+
+    def test_answer_matching_ignores_case_and_spaces(self):
+        self.assertEqual(triage(["slurring_words"], duration="  more than a WEEK ")["level"], URGENT)
+
+    def test_sudden_onset_overrides_the_form(self):
+        result = triage(["slurring_words"], ["sudden_onset"], self.LONG)
+        self.assertEqual(result["level"], EMERGENCY)
+        self.assertIn("E13", [step["rule"] for step in result["rules_fired"]])
+
+    def test_explicit_stroke_overrides_the_form(self):
+        self.assertEqual(triage([], ["suspected_stroke"], self.LONG)["level"], EMERGENCY)
+
+    def test_other_emergencies_ignore_duration(self):
+        cases = [(["sharp_chest_pain", "sweating"], []), (["difficulty_breathing"], []), (["seizures"], []),
+                 (["vomiting_blood"], []), (["fever", "neck_pain"], []), ([], ["severe_bleeding"]),
+                 ([], ["major_trauma"]), ([], ["self_harm_risk"]), ([], ["unconscious"])]
+        for symptoms, flags in cases:
+            self.assertEqual(triage(symptoms, flags, self.LONG)["level"], EMERGENCY, symptoms + flags)
+
+    def test_a_second_emergency_still_counts(self):
+        self.assertEqual(triage(["slurring_words", "seizures"], duration=self.LONG)["level"], EMERGENCY)
+
+    def test_duration_alone_is_not_a_symptom(self):
+        self.assertEqual(triage([], duration=self.LONG)["level"], UNKNOWN)
+        self.assertEqual(triage(["cough"], duration=self.LONG)["level"], ROUTINE)
+
+    def test_trace_shows_what_had_to_be_absent(self):
+        step = next(s for s in triage(["slurring_words"])["rules_fired"] if s["rule"] == "E5")
+        self.assertEqual(step["required_absent"], [LONG_STANDING_FACT])
+
+
 class TestFromPlainEnglish(unittest.TestCase):
     """The whole path a user's sentence takes: extraction, then triage."""
 
@@ -121,9 +171,24 @@ class TestFromPlainEnglish(unittest.TestCase):
     def setUpClass(cls):
         cls.extractor = SymptomExtractor(load_features())
 
-    def run_text(self, text):
+    def run_text(self, text, duration=None):
         found = self.extractor.extract(text)
-        return triage(found["symptoms"], found["clinical_flags"])
+        return triage(found["symptoms"], found["clinical_flags"], duration)
+
+    def test_words_about_timing_outrank_the_duration_answer(self):
+        long = "More than a week"
+        cases = {
+            "my speech has been slurred": URGENT,
+            "I have trouble speaking": URGENT,
+            "my speech suddenly became slurred": EMERGENCY,
+            "I have had a cough for ages and today I am slurring": EMERGENCY,
+            "I started slurring my words two hours ago": EMERGENCY,
+            "I started slurring this morning": EMERGENCY,
+            "my speech is slurred, it was not sudden": URGENT,
+            "I think I had a stroke": EMERGENCY,
+        }
+        for text, level in cases.items():
+            self.assertEqual(self.run_text(text, long)["level"], level, text)
 
     def test_emergencies(self):
         cases = {

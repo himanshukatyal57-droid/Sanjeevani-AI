@@ -27,6 +27,7 @@ router = None
 class SymptomRequest(BaseModel):
     user_text: str
     location: Optional[str] = None  # A location id from GET /locations
+    duration: Optional[str] = None  # The form's answer, e.g. "More than a week"
 
 @app.on_event("startup")
 def load_artifacts():
@@ -99,7 +100,7 @@ def predict_disease(request: SymptomRequest):
     }
 
     # 2. Forward Chaining Triage: a detected emergency bypasses the ML model
-    triage_result = triage(extracted, extraction["clinical_flags"])
+    triage_result = triage(extracted, extraction["clinical_flags"], request.duration)
     response["triage"] = triage_result
 
     # 3. A* Search for the fastest hospital offering the required care

@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-import json
 import os
 
 # -------------------------------------------------------------------
@@ -51,7 +50,7 @@ df.columns = (
 )
 
 # Detect Target Column (commonly 'disease', 'prognosis', or the last column)
-possible_targets = ['disease', 'prognosis', 'target', 'condition']
+possible_targets = ['diseases', 'disease', 'prognosis', 'target', 'condition']
 target_col = None
 
 for col in df.columns:
@@ -88,29 +87,7 @@ unique_diseases = df[target_col].nunique()
 print(f"[✓] Unique Medical Conditions / Diseases: {unique_diseases}")
 
 # -------------------------------------------------------------------
-# 5. EXPORT SANITIZED SYMPTOM SCHEMA (symptom_schema.json)
-# -------------------------------------------------------------------
-print("\n" + "="*50)
-print(" 💾 EXPORTING SYMPTOM SCHEMA")
-print("="*50)
-
-# Sort feature names alphabetically for consistent vector ordering
-sorted_symptom_features = sorted(feature_cols)
-
-schema_payload = {
-    "total_symptoms": len(sorted_symptom_features),
-    "target_column": target_col,
-    "symptoms": sorted_symptom_features
-}
-
-schema_filename = "symptom_schema.json"
-with open(schema_filename, "w") as f:
-    json.dump(sorted_symptom_features, f, indent=2)
-
-print(f"[✓] Successfully exported {len(sorted_symptom_features)} clean symptom features to '{schema_filename}'.")
-
-# -------------------------------------------------------------------
-# 6. SAVE CLEANED DATASET
+# 5. SAVE CLEANED DATASET
 # -------------------------------------------------------------------
 cleaned_csv_path = os.path.join("data", "cleaned_disease_symptom.csv")
 df.to_csv(cleaned_csv_path, index=False)
