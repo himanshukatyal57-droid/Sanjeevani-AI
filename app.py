@@ -75,6 +75,12 @@ def list_locations():
         raise HTTPException(status_code=500, detail="Hospital routing map not initialized.")
     return [{"id": loc["id"], "name": loc["name"]} for loc in router.locations.values()]
 
+@app.get("/map")
+def get_map():
+    if router is None:
+        raise HTTPException(status_code=500, detail="Hospital routing map not initialized.")
+    return router.map_data()
+
 def find_route(location, care):
     """Returns (route, error). Never raises: a routing problem must not hide a triage result."""
     if not location:

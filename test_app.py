@@ -122,6 +122,17 @@ class TestPredict(unittest.TestCase):
         names = [loc["name"] for loc in self.client.get("/locations").json()]
         self.assertIn("Saket", names)
 
+    def test_map_endpoint(self):
+        service.router = RoutingEngine.from_file(GRAPH_PATH)
+        body = self.client.get("/map").json()
+        self.assertEqual(len(body["locations"]), 30)
+        self.assertEqual(set(body["roads"][0]), {"from", "to", "congestion"})
+        self.assertTrue(body["hospitals"])
+
+    def test_map_endpoint_without_a_map(self):
+        service.router = None
+        self.assertEqual(self.client.get("/map").status_code, 500)
+
     def test_health_reports_what_is_loaded(self):
         service.router = None
         body = self.client.get("/").json()

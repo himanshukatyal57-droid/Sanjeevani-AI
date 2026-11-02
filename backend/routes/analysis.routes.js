@@ -172,6 +172,26 @@ router.get("/locations", async (req, res) => {
     }
 });
 
+// GET /api/analysis/map
+router.get("/map", async (req, res) => {
+    try {
+        const map = await callPython("/map");
+
+        res.status(200).json({
+            success: true,
+            map: map
+        });
+
+    } catch (error) {
+        console.error("Map API error:", error);
+
+        res.status(503).json({
+            success: false,
+            message: "The map is not available right now."
+        });
+    }
+});
+
 // GET /api/analysis/status
 router.get("/status", async (req, res) => {
     try {

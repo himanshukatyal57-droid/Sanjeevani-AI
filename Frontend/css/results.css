@@ -205,6 +205,184 @@
     margin-top: 10px;
 }
 
+/* ===================================
+   ROUTE MAP
+=================================== */
+
+.route-map-card {
+    margin-top: 24px;
+}
+
+.route-map-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.route-map-header h3 {
+    margin-bottom: 0;
+}
+
+.route-map-header .secondary-button {
+    padding: 9px 15px;
+    cursor: pointer;
+}
+
+/* On a phone the map scrolls inside its card, so the place names stay readable */
+.route-map-scroll {
+    overflow-x: auto;
+}
+
+/* The maximum keeps the whole map and its legend on one projector screen */
+.route-map {
+    display: block;
+    width: 100%;
+    min-width: 760px;
+    max-width: 840px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.map-road {
+    stroke: #c3d0db;
+    stroke-width: 2;
+}
+
+.map-road.is-heavy {
+    stroke: #c2570c;
+    stroke-width: 3;
+    stroke-dasharray: 8 6;
+}
+
+/* pathLength="1" lets every segment draw with the same dash values */
+.map-route {
+    stroke: #0f766e;
+    stroke-width: 7;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 0.3s ease;
+}
+
+.map-route.is-drawn {
+    stroke-dashoffset: 0;
+}
+
+.map-dot {
+    fill: #627d98;
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.map-hospital {
+    fill: #ffffff;
+    stroke: #627d98;
+    stroke-width: 2.5;
+}
+
+.map-hospital.is-suitable {
+    fill: #0f766e;
+    stroke: #ffffff;
+    stroke-width: 2;
+}
+
+.map-explored {
+    fill: #bfe9e2;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.map-hit {
+    fill: transparent;
+}
+
+.map-node.is-explored .map-explored {
+    opacity: 1;
+}
+
+.map-node.is-start .map-dot,
+.map-node.is-start .map-hospital {
+    fill: #102a43;
+    stroke: #ffffff;
+    stroke-width: 3;
+}
+
+.map-node.is-start .map-dot {
+    r: 11px;
+}
+
+/* Always a circle, matching the legend, even if the area also has a hospital */
+.map-node.is-start .map-hospital {
+    rx: 8px;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1.4);
+}
+
+.map-node.is-destination .map-hospital {
+    rx: 3px;
+    fill: #0f766e;
+    stroke: #102a43;
+    stroke-width: 4;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1.45);
+}
+
+/* The white halo keeps a name readable where a road runs behind it */
+.map-label {
+    fill: #486581;
+    font-size: 17px;
+    paint-order: stroke;
+    stroke: #ffffff;
+    stroke-width: 4px;
+    stroke-linejoin: round;
+}
+
+.map-label.is-on-route {
+    fill: #102a43;
+    font-weight: 700;
+}
+
+.map-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    margin-top: 14px;
+    list-style: none;
+    color: #486581;
+    font-size: 0.85rem;
+}
+
+.map-legend li {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.map-legend svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.legend-start {
+    fill: #102a43;
+}
+
+.legend-destination {
+    fill: #0f766e;
+    stroke: #102a43;
+    stroke-width: 3;
+}
+
+.legend-explored {
+    fill: #bfe9e2;
+}
+
 .emergency-notice {
     background: #fff1f0;
     border: 1px solid #f5b7b1;

@@ -72,6 +72,15 @@ const resultDisclaimer = document.getElementById("resultDisclaimer");
 const emergencyNotice = document.getElementById("emergencyNotice");
 const emergencyMessage = document.getElementById("emergencyMessage");
 
+const routeMapCard = document.getElementById("routeMapCard");
+const routeMap = document.getElementById("routeMap");
+const routeMapCaption = document.getElementById("routeMapCaption");
+const replayRouteMap = document.getElementById("replayRouteMap");
+
+let mapData = null;
+let activeRouteMap = null;
+let routeMapObserver = null;
+
 const REQUEST_TIMEOUT_MS = 20000;
 const SAFETY_ADVICE = "If this could be an emergency, call 112 now. Do not wait for this tool.";
 
@@ -81,6 +90,7 @@ function clearPreviousResults() {
     emergencyNotice.hidden = true;
     emergencyMessage.textContent = "";
     [nlpResult, triageResult, predictionResult, routeResult].forEach(card => card.replaceChildren());
+    clearRouteMap();
     resultContainer.classList.remove("is-error");
     resultTitle.textContent = "Analysis Result";
 }
@@ -381,7 +391,59 @@ function renderRoute(route) {
     }
 
     routeResult.appendChild(createElement("p", "result-note", "Demo map: hospitals are fictional, and travel times are estimates."));
+
+    showRouteMap(route);
 }
+
+function clearRouteMap() {
+    if (activeRouteMap) {
+        activeRouteMap.stop();
+        activeRouteMap = null;
+    }
+
+    if (routeMapObserver) {
+        routeMapObserver.disconnect();
+        routeMapObserver = null;
+    }
+
+    routeMap.replaceChildren();
+    routeMapCard.hidden = true;
+}
+
+// The route card above still gives the full answer if the map could not be loaded
+function showRouteMap(route) {
+    if (!mapData) {
+        return;
+    }
+
+    routeMapCard.hidden = false;
+    activeRouteMap = renderRouteMap(routeMap, mapData, route);
+
+    const explored = route.search.nodes_expanded;
+    const dijkstra = route.search.dijkstra_nodes_expanded;
+    const comparison = dijkstra > explored ? ` Dijkstra's search, with no heuristic, would explore ${dijkstra}.` : "";
+
+    routeMapCaption.textContent =
+        `A* explored ${explored} of ${mapData.locations.length} locations to find this route.${comparison} ` +
+        "Lines show which areas connect, not exact road shapes. On a computer, hover over a hospital to see its specialties.";
+
+    // Start the search animation when the map scrolls into view, so it isn't missed
+    routeMapObserver = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting) {
+            routeMapObserver.disconnect();
+            routeMapObserver = null;
+            activeRouteMap.play();
+        }
+    }, { threshold: 0.3 });
+
+    routeMapObserver.observe(routeMapCard);
+}
+
+replayRouteMap.addEventListener("click", () => {
+    if (activeRouteMap) {
+        activeRouteMap.play();
+    }
+});
 
 function buildEmergencyMessage(route) {
     const advice = `This may be a medical emergency. ${LEVEL_ADVICE.EMERGENCY}`;
@@ -452,8 +514,22 @@ async function loadLocations() {
     }
 }
 
+async function loadMapData() {
+    try {
+        const response = await fetch("/api/analysis/map");
+        const data = await response.json();
+
+        if (data.success) {
+            mapData = data.map;
+        }
+    } catch (error) {
+        console.error("Could not load the map:", error);
+    }
+}
+
 loadSystemStatus();
 loadLocations();
+loadMapData();
 
 
 // ===================================

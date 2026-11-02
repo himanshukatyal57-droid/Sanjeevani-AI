@@ -350,6 +350,49 @@
 
     </div>
 
+    <!-- Route Map -->
+    <div class="result-card route-map-card" id="routeMapCard" hidden>
+        <div class="route-map-header">
+            <h3>Route Map</h3>
+            <button type="button" class="secondary-button" id="replayRouteMap">↻ Replay search</button>
+        </div>
+
+        <div class="route-map-scroll" id="routeMap"></div>
+
+        <ul class="map-legend">
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="legend-start" cx="12" cy="12" r="8"/></svg>
+                Your location
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><line class="map-route is-drawn" pathLength="1" x1="2" y1="12" x2="22" y2="12"/></svg>
+                Fastest route
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect class="legend-destination" x="4" y="4" width="16" height="16" rx="3"/></svg>
+                Destination hospital
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect class="map-hospital is-suitable" x="5" y="5" width="14" height="14" rx="3"/></svg>
+                Hospital with this care
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect class="map-hospital" x="5" y="5" width="14" height="14" rx="3"/></svg>
+                Other hospital
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle class="legend-explored" cx="12" cy="12" r="9"/></svg>
+                Explored by A*
+            </li>
+            <li>
+                <svg viewBox="0 0 24 24" aria-hidden="true"><line class="map-road is-heavy" x1="1" y1="12" x2="23" y2="12"/></svg>
+                Heavy traffic
+            </li>
+        </ul>
+
+        <p class="result-note" id="routeMapCaption"></p>
+    </div>
+
     <p class="result-disclaimer" id="resultDisclaimer"></p>
 
 </section>
@@ -370,6 +413,7 @@
         <p class="copyright">© 2026 Sanjeevani AI</p>
     </footer>
 
+    <script src="js/route-map.js"></script>
     <script src="js/index.js"></script>
 </body>
 </html>

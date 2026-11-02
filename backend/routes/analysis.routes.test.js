@@ -190,6 +190,19 @@ test("locations report a failure when Python is down", async () => {
     assert.strictEqual(response.status, 503);
 });
 
+test("the map is passed through", async () => {
+    const map = { locations: [{ id: "saket" }], roads: [], hospitals: [] };
+    pythonHandler = (req, res) => res.json(map);
+    const body = await (await fetch(`${appUrl}/api/analysis/map`)).json();
+    assert.deepStrictEqual(body.map, map);
+});
+
+test("the map reports a failure when Python is down", async () => {
+    process.env.PYTHON_API_URL = await closedPortUrl();
+    const response = await fetch(`${appUrl}/api/analysis/map`);
+    assert.strictEqual(response.status, 503);
+});
+
 test("status reports each part separately", async () => {
     pythonHandler = (req, res) => res.json({ status: "running", triage_ready: true, model_loaded: false, map_loaded: true });
     const body = await (await fetch(`${appUrl}/api/analysis/status`)).json();

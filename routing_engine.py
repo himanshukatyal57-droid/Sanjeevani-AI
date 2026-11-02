@@ -33,6 +33,7 @@ class RoutingEngine:
         self.note = graph["note"]
         self.locations = {loc["id"]: loc for loc in graph["locations"]}
         self.hospitals = graph["hospitals"]
+        self.roads = graph["roads"]
         speeds = graph["road_speeds_kmph"]
         self.max_speed_kmph = max(speeds.values())
 
@@ -47,6 +48,14 @@ class RoutingEngine:
     def from_file(cls, path: str) -> "RoutingEngine":
         with open(path, "r", encoding="utf-8") as f:
             return cls(json.load(f))
+
+    def map_data(self) -> dict:
+        """Everything needed to draw the graph."""
+        return {
+            "locations": list(self.locations.values()),
+            "roads": [{"from": r["from"], "to": r["to"], "congestion": r["congestion"]} for r in self.roads],
+            "hospitals": self.hospitals,
+        }
 
     def straight_line_km(self, a: str, b: str) -> float:
         first, second = self.locations[a], self.locations[b]
