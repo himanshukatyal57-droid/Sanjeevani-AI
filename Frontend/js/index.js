@@ -106,7 +106,7 @@ function describeFailure(error) {
         return `The analysis is taking too long, so it was stopped. Please try again. ${SAFETY_ADVICE}`;
     }
 
-    if (error.name === "TypeError") {
+    if (error.isConnectionFailure) {
         return `We could not reach the Sanjeevani AI server. Please check your connection and try again. ${SAFETY_ADVICE}`;
     }
 
@@ -145,6 +145,10 @@ symptomForm.addEventListener("submit", async (event) => {
                 location: location
             }),
             signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS)
+        }).catch(error => {
+            // Marked here because a bug while drawing the results is also a TypeError
+            error.isConnectionFailure = true;
+            throw error;
         });
 
         // Error pages from a proxy or a crash may not be JSON
