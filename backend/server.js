@@ -55,7 +55,14 @@ const PORT = process.env.PORT || 5000;
 
 // Start server, unless a test is importing the app
 if (require.main === module) {
-    app.listen(PORT, () => {
+    // Express passes a failure such as "port in use" to this callback instead of throwing
+    app.listen(PORT, (error) => {
+        if (error) {
+            console.error(`Could not start on port ${PORT}: ${error.message}`);
+            console.error("An old copy may still be running. See \"Stop the servers\" in README.md.");
+            process.exit(1);
+        }
+
         console.log(`Sanjeevani AI server running on port ${PORT}`);
     });
 }

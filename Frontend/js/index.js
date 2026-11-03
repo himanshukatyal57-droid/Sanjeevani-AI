@@ -174,18 +174,19 @@ symptomForm.addEventListener("submit", async (event) => {
         // Display the results dashboard
         resultsDashboard.hidden = false;
 
-        renderSymptoms(pipeline.nlp);
-        renderTriage(pipeline.triage);
-        renderPrediction(pipeline.prediction);
-        renderRoute(pipeline.route);
-        resultDisclaimer.textContent = analysisData.disclaimer;
-
-        // Display emergency notice only if emergency is confirmed.
+        // Display emergency notice only if emergency is confirmed. This comes first, so a
+        // problem drawing a card below can never hide it.
         // Text is set after revealing it, so screen readers announce the alert.
         if (pipeline.triage.emergency === true) {
             emergencyNotice.hidden = false;
             emergencyMessage.textContent = buildEmergencyMessage(pipeline.route);
         }
+
+        renderTriage(pipeline.triage);
+        renderSymptoms(pipeline.nlp);
+        renderPrediction(pipeline.prediction);
+        renderRoute(pipeline.route);
+        resultDisclaimer.textContent = analysisData.disclaimer;
 
         // Bring dashboard into view
         resultsDashboard.scrollIntoView({
@@ -448,7 +449,10 @@ function renderRoute(route) {
         routeResult.appendChild(createElement("p", "route-stats", "In your area"));
     }
 
-    routeResult.appendChild(createElement("p", "route-reason", describeRouteReason(route)));
+    // Only an explanation, so a server without this field still shows the route
+    if (route.basis) {
+        routeResult.appendChild(createElement("p", "route-reason", describeRouteReason(route)));
+    }
 
     const comparison = route.comparison;
     const notes = createElement("ul", "result-list");

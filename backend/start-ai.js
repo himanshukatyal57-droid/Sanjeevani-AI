@@ -19,6 +19,8 @@ const result = spawnSync(hasVenv ? venvPython : "python", ["-m", "uvicorn", "app
 
 if (result.error) {
     console.error("Could not start Python:", result.error.message);
+} else if (result.status) {
+    console.error("The AI service stopped. An old copy may still be running. See \"Stop the servers\" in README.md.");
 }
 
 process.exit(result.status ?? 1);

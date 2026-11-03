@@ -49,6 +49,12 @@ npm start
 
 The model needs about 1 GB of free RAM and takes a few seconds to load. The card at the top of the home page shows whether each service is ready.
 
+**Stop the servers:** press Ctrl+C in each terminal, and restart both after any code change or `git pull`. If a server says its port is already in use, an old copy is still running. On Windows, this PowerShell command stops only this project's servers:
+
+```
+Get-CimInstance Win32_Process -Filter "Name='node.exe' OR Name='python.exe'" | Where-Object { $_.CommandLine -match 'backend/server\.js|backend/start-ai\.js|uvicorn app:app' } | ForEach-Object { Stop-Process -Id $_.ProcessId -Force -ErrorAction SilentlyContinue }
+```
+
 ## Try it
 
 Choose a duration for each one. Turn on **Academic Debug Mode** at the top of the dashboard to see the reasoning.

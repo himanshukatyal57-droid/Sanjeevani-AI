@@ -1,5 +1,7 @@
 const { test, before, after } = require("node:test");
 const assert = require("node:assert");
+const { spawnSync } = require("node:child_process");
+const path = require("node:path");
 const app = require("./server");
 
 let server;
@@ -45,6 +47,22 @@ test("a body that isn't JSON is a 400, not 'AI unavailable'", async () => {
 
 test("unknown API routes are JSON", async () => {
     await assertCleanJsonError(await fetch(`${url}/api/nope`), 404);
+});
+
+test("a port already in use is reported as a failure, not as running", async () => {
+    // Bound to every address, like the real server, so the port is truly taken
+    const blocker = await new Promise(resolve => {
+        const listening = app.listen(0, () => resolve(listening));
+    });
+    const result = spawnSync(process.execPath, [path.join(__dirname, "server.js")], {
+        env: { ...process.env, PORT: String(blocker.address().port) },
+        encoding: "utf-8",
+        timeout: 10000
+    });
+    blocker.close();
+    assert.strictEqual(result.status, 1);
+    assert.match(result.stderr, /Could not start on port/);
+    assert.doesNotMatch(result.stdout, /running on port/);
 });
 
 test("the health route and the website still work", async () => {
